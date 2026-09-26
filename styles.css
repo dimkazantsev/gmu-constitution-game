@@ -468,3 +468,103 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .caseReasoning{grid-template-columns:1fr}
   .caseFooter{align-items:stretch;flex-direction:column}
 }
+
+
+/* ===== CAROUSEL HOME + FOUR-MODE COURSE ===== */
+.homeShell{height:100%;display:grid;grid-template-rows:110px minmax(0,1fr) 34px;gap:12px}
+.homeIntro{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 4px}
+.homeIntro h1{font-size:42px;letter-spacing:-.05em;line-height:.96;margin-top:5px}
+.homeIntro p{font-size:13px;line-height:1.45;color:var(--muted);max-width:760px;margin-top:8px}
+.trainerShortcut{
+  min-width:300px;min-height:74px;border:1px solid var(--line);border-radius:20px;background:
+  radial-gradient(circle at 85% 18%,rgba(255,79,163,.12),transparent 30%),
+  linear-gradient(135deg,#fff,#f8faff);
+  padding:12px 14px;display:grid;grid-template-columns:52px 1fr auto;gap:11px;align-items:center;text-align:left;
+  box-shadow:var(--shadow)
+}
+.trainerShortcutIcon{width:52px;height:52px;border-radius:17px;background:linear-gradient(135deg,var(--blue),var(--pink));display:grid;place-items:center;color:#fff;font-size:18px;font-weight:1000}
+.trainerShortcut b{display:block;font-size:14px}.trainerShortcut small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
+.trainerShortcut strong{font-size:22px;color:var(--blue)}
+.carouselShell{min-height:0;display:grid;grid-template-columns:56px minmax(0,1fr) 56px;gap:10px;align-items:center}
+.carouselArrow{
+  width:56px;height:56px;border-radius:18px;border:1px solid var(--line);background:#fff;font-size:24px;font-weight:1000;
+  box-shadow:0 10px 24px rgba(42,69,135,.08);transition:.16s
+}
+.carouselArrow:hover{transform:scale(1.04);background:linear-gradient(135deg,var(--soft),var(--softpink))}
+.carouselArrow:disabled{opacity:.25;cursor:default;transform:none}
+.carouselViewport{min-width:0;height:100%;overflow:hidden;border-radius:24px}
+.carouselTrack{
+  height:100%;display:flex;gap:18px;align-items:center;transition:transform .42s cubic-bezier(.2,.8,.2,1);will-change:transform
+}
+.chapterSlide{
+  flex:0 0 calc(72% - 18px);height:92%;border:1px solid var(--line);border-radius:28px;background:#fff;
+  box-shadow:0 20px 60px rgba(42,69,135,.11);position:relative;overflow:hidden;display:grid;grid-template-columns:1.05fr .95fr;
+  opacity:.62;transform:scale(.93);transition:.35s
+}
+.chapterSlide.active{opacity:1;transform:scale(1)}
+.chapterSlideText{padding:28px 30px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.chapterSlideText .slideNo{font-size:11px;font-weight:1000;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.chapterSlideText h2{font-size:clamp(30px,3vw,46px);line-height:1.02;letter-spacing:-.045em;margin-top:9px}
+.chapterSlideText p{font-size:14px;line-height:1.5;color:var(--muted);margin-top:10px;max-width:630px}
+.slideMeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.slideMeta span{padding:7px 9px;border-radius:999px;border:1px solid var(--line);background:#f8faff;font-size:10px;font-weight:900;color:#5a6b95}
+.slideActions{display:flex;gap:9px;margin-top:20px}
+.slideProgress{display:flex;align-items:center;gap:10px;margin-top:17px}
+.slideProgress .bar{flex:1}.slideProgress b{font-size:12px}
+.chapterSlideArt{position:relative;overflow:hidden;background:
+  linear-gradient(145deg,rgba(36,107,253,.07),rgba(255,79,163,.07))}
+.chapterSlideArt svg{position:absolute;inset:0;width:100%;height:100%}
+.chapterSlideArt:after{content:"";position:absolute;inset:auto -80px -100px auto;width:260px;height:260px;border-radius:50%;border:28px solid rgba(255,255,255,.34)}
+.carouselFooter{display:flex;justify-content:center;align-items:center;gap:18px}
+.carouselDots{display:flex;gap:7px;align-items:center}
+.carouselDot{width:8px;height:8px;border-radius:99px;background:#ccd6ea;transition:.2s}
+.carouselDot.active{width:26px;background:linear-gradient(90deg,var(--blue),var(--pink))}
+.carouselHint{font-size:10px;color:var(--muted)}
+
+/* course now has more height because only 4 tabs */
+.courseWorkspace{grid-template-rows:52px 70px 42px minmax(0,1fr)}
+
+/* learn: 2-column readable layout */
+.lessonBoard{grid-template-rows:58px minmax(0,1fr) 42px}
+.lessonColumns{grid-template-columns:.88fr 1.12fr;gap:12px}
+.lessonCard.quote{display:grid}
+.lessonCard.meaning{display:none}
+.lessonCard.official{grid-column:auto}
+.lessonCard.quote,.lessonCard.official{padding:18px 19px}
+.lessonCard.official .lessonScroll{display:block}
+.lessonCard.official .lessonText{font-size:14px;line-height:1.58}
+.lessonCard.quote .constQuote{font-size:24px;line-height:1.42}
+.lessonCard.quote .sourceRow{align-items:flex-end}
+.lessonCard.official .officialCase{font-size:12.5px;line-height:1.5}
+.lessonActions .right .btn:first-child{display:none}
+
+/* cases visual differentiation */
+.caseReasoning{grid-template-columns:1fr 1fr}
+.caseStep{background:linear-gradient(145deg,#fff,#f8faff)}
+.caseStep:first-child{background:linear-gradient(145deg,#fff,#fff8fb)}
+.caseTask .tag{justify-self:start}
+.caseTask .story{font-size:23px}
+.caseQuestion{font-size:19px}
+
+/* coach clean and spacious */
+.coachMain{grid-template-rows:52px auto minmax(180px,1fr) auto}
+.scenarioCard{padding:16px 18px}
+.scenarioText{font-size:23px}
+.freeAnswer{min-height:150px}
+
+/* mobile carousel */
+@media(max-width:1200px){
+  .chapterSlide{flex-basis:82%}
+  .chapterSlideText{padding:24px}
+  .chapterSlideText h2{font-size:34px}
+}
+@media(max-width:820px){
+  .homeShell{grid-template-rows:100px minmax(0,1fr) 30px}
+  .homeIntro p{display:none}.homeIntro h1{font-size:31px}.trainerShortcut{min-width:0;width:220px}
+  .trainerShortcut small{display:none}
+  .carouselShell{grid-template-columns:44px minmax(0,1fr) 44px}.carouselArrow{width:44px;height:44px;border-radius:14px}
+  .chapterSlide{flex-basis:90%;grid-template-columns:1fr}
+  .chapterSlideArt{display:none}
+  .chapterSlideText{padding:22px}
+  .lessonColumns{grid-template-columns:1fr}.lessonCard.quote{display:none}.lessonCard.official{display:grid}
+}
