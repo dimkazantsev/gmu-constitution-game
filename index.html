@@ -12,7 +12,19 @@
     <div class="logo">§</div>
     <div><b>ГМУ · Конституция РФ</b><small>Понять устройство, а не запоминать номера</small></div>
   </div>
-  <div class="crumb" id="crumb">Карта курса</div>
+  <div class="topCenter">
+    <div class="crumb" id="crumb">Карта курса</div>
+    <div class="topChapterNav" id="topChapterNav">
+      <button class="chapterArrow" id="prevChapterBtn">←</button>
+      <button class="chapterPicker" id="chapterPicker">
+        <span class="chapterPickerLabel" id="chapterPickerLabel"></span>
+        <span class="chapterPickerHint">Сменить главу ▾</span>
+      </button>
+      <button class="chapterArrow" id="nextChapterBtn">→</button>
+      <button class="allChaptersBtn" onclick="showHome()">Все главы</button>
+      <div class="chapterMenu" id="chapterMenu"></div>
+    </div>
+  </div>
   <div class="topActions">
     <button class="topBtn active" id="soundBtn" onclick="toggleSound()">🔊 Звук</button>
     <a class="topBtn sourceBtn" href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальный текст ↗</a>
@@ -52,26 +64,15 @@
 
   <section class="page course" id="course">
     <div class="courseWorkspace">
-      <div class="chapterNavigator">
-        <button class="chapterArrow" id="prevChapterBtn">←</button>
-        <button class="chapterPicker" id="chapterPicker">
-          <span class="chapterPickerLabel" id="chapterPickerLabel"></span>
-          <span class="chapterPickerHint">Сменить главу ▾</span>
-        </button>
-        <button class="chapterArrow" id="nextChapterBtn">→</button>
-        <button class="allChaptersBtn" onclick="showHome()">Все главы</button>
-        <div class="courseProgress">
-          <div class="pTop"><span>Освоение главы</span><b id="coursePct">0%</b></div>
-          <div class="bar"><span id="courseBar"></span></div>
-        </div>
-        <div class="chapterMenu" id="chapterMenu"></div>
-      </div>
-
       <div class="courseHead">
         <div class="courseTitle">
           <div class="eyebrow" id="courseKicker"></div>
           <h2 id="courseTitle"></h2>
           <p id="courseDesc"></p>
+        </div>
+        <div class="courseProgress">
+          <div class="pTop"><span>Освоение главы</span><b id="coursePct">0%</b></div>
+          <div class="bar"><span id="courseBar"></span></div>
         </div>
       </div>
 
