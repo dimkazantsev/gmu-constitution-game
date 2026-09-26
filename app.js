@@ -271,16 +271,24 @@ function newCoachScenario(){
  const bank=coachTemplates[currentModule]||coachTemplates[1],seen=new Set(state.coachSeen?.[currentModule]||[]);let t,c,h,tries=0;
  do{t=bank[Math.floor(Math.random()*bank.length)];c=coachContext();h=coachHash(currentModule,t,c);tries++}while(seen.has(h)&&tries<60);
  if(!state.coachSeen)state.coachSeen={};const arr=state.coachSeen[currentModule]||[];arr.push(h);state.coachSeen[currentModule]=arr.slice(-30);save();
- coachState={scenario:{...t,text:capRu(coachFill(t.text,c)),actors:t.actors.map(a=>[a[0],capRu(coachFill(a[1],c))]),question:coachQuestions[Math.floor(Math.random()*coachQuestions.length)]},number:coachState.number+1,answered:false,score:0};renderCoach()
+ mobileCoachStep="situation";coachState={scenario:{...t,text:capRu(coachFill(t.text,c)),actors:t.actors.map(a=>[a[0],capRu(coachFill(a[1],c))]),question:coachQuestions[Math.floor(Math.random()*coachQuestions.length)]},number:coachState.number+1,answered:false,score:0};renderCoach()
 }
 function normalizeAnswer(v){return v.toLowerCase().replace(/ё/g,'е').replace(/[.,!?;:()«»"]/g,' ').replace(/\s+/g,' ').trim()}
 function evaluateCoach(text,scenario){const n=normalizeAnswer(text),hits=scenario.keys.map(group=>group.some(k=>n.includes(normalizeAnswer(k))));return{score:Math.round(hits.filter(Boolean).length/hits.length*100),hits}}
 function coachLevelText(score){if(score>=90)return'Отлично: вы увидели почти всю конституционную конструкцию.';if(score>=65)return'Хорошо: основная проблема найдена, но ответ можно сделать точнее.';if(score>=35)return'Направление верное, но вы заметили не все ключевые элементы.';return'Пока слишком общо. Сравните ответ с разбором и попробуйте следующую ситуацию.'}
+function setMobileCoachStep(step){
+  mobileCoachStep=step;
+  const wb=document.querySelector(".coachWorkbench");
+  if(!wb)return;
+  wb.dataset.mobileStep=step;
+  document.querySelectorAll(".coachMobileStep").forEach(b=>b.classList.toggle("active",b.dataset.step===step));
+}
 function renderCoach(){
   const panel=document.getElementById("panel");
   if(!coachState.scenario){newCoachScenario();return}
   const c=coachState.scenario;
-  panel.innerHTML='<div class="coachWorkbench">'+
+  panel.innerHTML='<div class="coachWorkbench" data-mobile-step="'+mobileCoachStep+'">'+
+    '<div class="coachMobileSteps"><button class="coachMobileStep" data-step="situation">1 · Ситуация</button><button class="coachMobileStep" data-step="answer">2 · Ответ</button><button class="coachMobileStep" data-step="review">3 · Разбор</button></div>'+
     '<div class="coachTopbar"><div class="coachIdentity"><div class="aiOrb">AI</div><div><h3>Ситуационный тренер</h3><p>Свободный ответ · жизненная ситуация · разбор аргументации</p></div></div><div class="coachCounter">Ситуация '+coachState.number+'</div></div>'+
     '<div class="coachGrid">'+
       '<section class="coachSituation">'+
@@ -288,7 +296,7 @@ function renderCoach(){
         '<div class="scenarioText">'+c.text+'</div>'+
         '<div class="scenarioScene">'+c.actors.map(a=>'<div class="miniActor"><i>'+a[0]+'</i>'+a[1]+'</div>').join('<span class="arrow">→</span>')+'</div>'+
         '<div class="coachQuestionBox"><span>Вопрос</span><h4>'+c.question+'</h4></div>'+
-        '<div class="coachChecklist"><b>Как рассуждать</b><div><span>1</span>Кто действует?</div><div><span>2</span>Какое право или принцип затронуты?</div><div><span>3</span>Что нужно проверить юридически?</div></div>'+
+        '<div class="coachChecklist"><b>Как рассуждать</b><div><span>1</span>Кто действует?</div><div><span>2</span>Какое право или принцип затронуты?</div><div><span>3</span>Что нужно проверить юридически?</div></div><button class="btn primary coachToAnswer" id="coachToAnswerBtn">Перейти к ответу →</button>'+
       '</section>'+
       '<section class="coachResponse">'+
         '<div class="coachResponseHead"><div><span class="eyebrow">Ваш ответ</span><h4>Объясните ситуацию своими словами</h4></div><span class="coachNoArticle">Номер статьи не нужен</span></div>'+
@@ -298,14 +306,17 @@ function renderCoach(){
       '</section>'+
     '</div>'+
   '</div>';
+  document.querySelectorAll(".coachMobileStep").forEach(b=>b.onclick=()=>setMobileCoachStep(b.dataset.step));
+  const toAnswer=document.getElementById("coachToAnswerBtn");if(toAnswer)toAnswer.onclick=()=>{setMobileCoachStep("answer");setTimeout(()=>document.getElementById("coachAnswer")?.focus(),60)};
+  setMobileCoachStep(mobileCoachStep);
   bindRipple();
-  setTimeout(()=>document.getElementById("coachAnswer")?.focus(),80)
+  if(mobileCoachStep!=="situation")setTimeout(()=>document.getElementById("coachAnswer")?.focus(),80)
 }
 function submitCoach(){
  if(coachState.answered)return;const ta=document.getElementById('coachAnswer'),text=ta?.value.trim()||'';
  if(text.length<20){errorSound();ta?.classList.add('shake');setTimeout(()=>ta?.classList.remove('shake'),350);toast('Напишите хотя бы одно содержательное предложение');return}
  const c=coachState.scenario,res=evaluateCoach(text,c);coachState.answered=true;coachState.score=res.score;state.coachSolved=(state.coachSolved||0)+1;state.coachPoints=(state.coachPoints||0)+res.score;save();
- const box=document.getElementById('coachResult');box.classList.add('show');box.closest(".coachResponse")?.classList.add("reviewed");const chips=c.labels.map((lab,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+lab+'</span>').join('');
+ const box=document.getElementById('coachResult');box.classList.add('show');box.closest(".coachResponse")?.classList.add("reviewed");setMobileCoachStep("review");const chips=c.labels.map((lab,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+lab+'</span>').join('');
  box.innerHTML='<div class="coachResultLabel">Разбор ответа</div><div class="coachResultHead"><div class="coachScore">'+res.score+'%</div><div><h4>'+coachLevelText(res.score)+'</h4><p>Оценка показывает смысловые элементы, которые удалось обнаружить в вашем ответе.</p></div></div><div class="detected">'+chips+'</div><div class="modelAnswer"><b>Сильный вариант ответа</b><p>'+c.model+'</p><div class="legalBase"><span>Правовое основание</span><b>'+c.refs+'</b></div></div><div class="coachButtons" style="margin-top:10px"><button class="btn primary rippleHost" onclick="newCoachScenario()">Следующая ситуация →</button></div>';
  ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();box.scrollTop=0;renderChapterNavigator();bindRipple()
 }
@@ -323,6 +334,7 @@ const state={
   lastModule:Number.isFinite(saved.lastModule)?saved.lastModule:1
 };
 let currentModule=null,currentTab='learn',blockIndex=0,learnMode='quote',currentTask=null,caseIndex=0,checkState=null;
+let mobileLearnMode="meaning",mobileCaseStep="situation",mobileCoachStep="situation";
 
 function save(){localStorage.setItem('gmu_const_v7',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,bosses:[...state.bosses],coachSeen:state.coachSeen,coachSolved:state.coachSolved,coachPoints:state.coachPoints,sound:state.sound,lastModule:state.lastModule}))}
 function targetsFor(id){return targets.filter(t=>t.chapter===id)}
@@ -529,6 +541,7 @@ function showHome(){
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
+  mobileLearnMode="meaning";mobileCaseStep="situation";mobileCoachStep="situation";
   coachState={scenario:null,number:0,answered:false,score:0};
   const ch=chapters.find(x=>x.id===id);
   document.getElementById("crumb").textContent=mLabel(id)+" · "+ch.name;
@@ -576,21 +589,38 @@ function expandedOfficial(meta,bl){
   }
   return body
 }
+function setMobileLearnMode(mode){
+  mobileLearnMode=mode;
+  const board=document.querySelector(".lessonBoard");
+  if(!board)return;
+  board.dataset.mobileMode=mode;
+  document.querySelectorAll(".mobileLearnTab").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+}
 function renderLearn(){
   const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById("panel");
   ids.forEach(id=>state.viewed.add(id));save();updateProgress();
   const links=[...(meta.links||[])],detail=officialPracticeDetails[currentModule+"-"+blockIndex];
   (detail?.links||[]).forEach(x=>{if(!links.some(y=>y[1]===x[1]))links.push(x)});
   const officialLinks=links.map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join("");
-  panel.innerHTML='<div class="lessonBoard"><div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
-  '<div class="lessonColumns"><article class="lessonCard quote"><div class="lessonCardHead"><h4>Текст Конституции</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div><div class="quoteGuide"><b>На что смотреть:</b><p>'+chapterStudyTips[currentModule]+'</p></div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
-  '<article class="lessonCard official"><div class="lessonCardHead"><h4>Смысл нормы и практика КС РФ</h4><span>Развёрнутый разбор</span></div><div class="lessonScroll lessonText">'+expandedMeaning(meta,bl)+'<div class="officialDivider"><span>Практика Конституционного Суда</span></div>'+expandedOfficial(meta,bl)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article></div>'+
-  '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="caseBottom">Перейти к кейсам →</button></div></div></div>';
+
+  panel.innerHTML='<div class="lessonBoard" data-mobile-mode="'+mobileLearnMode+'">'+
+    '<div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
+    '<div class="mobileLearnTabs"><button class="mobileLearnTab" data-mode="meaning">Разбор</button><button class="mobileLearnTab" data-mode="quote">Текст</button><button class="mobileLearnTab" data-mode="official">КС РФ</button></div>'+
+    '<div class="lessonColumns">'+
+      '<article class="lessonCard quote"><div class="lessonCardHead"><h4>Текст Конституции</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div><div class="quoteGuide"><b>На что смотреть:</b><p>'+chapterStudyTips[currentModule]+'</p></div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
+      '<article class="lessonCard official"><div class="lessonCardHead"><h4>Смысл нормы и практика КС РФ</h4><span>Развёрнутый разбор</span></div><div class="lessonScroll lessonText"><section class="learnMeaningSection">'+expandedMeaning(meta,bl)+'</section><section class="learnOfficialSection"><div class="officialDivider"><span>Практика Конституционного Суда</span></div>'+expandedOfficial(meta,bl)+'</section></div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
+    '</div>'+
+    '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="caseBottom">К кейсам →</button></div></div>'+
+  '</div>';
+
   const prev=document.getElementById("prevConceptBtn"),next=document.getElementById("nextConceptBtn");
   prev.disabled=blockIndex===0;next.disabled=blockIndex===inf.blocks.length-1;
   document.getElementById("prevTopicBottom").disabled=blockIndex===0;document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
-  prev.onclick=prevConcept;next.onclick=nextConcept;document.getElementById("prevTopicBottom").onclick=prevConcept;document.getElementById("nextTopicBottom").onclick=nextConcept;
+  prev.onclick=prevConcept;next.onclick=nextConcept;
+  document.getElementById("prevTopicBottom").onclick=prevConcept;document.getElementById("nextTopicBottom").onclick=nextConcept;
   document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");document.getElementById("caseBottom").onclick=()=>switchTab("cases");
+  document.querySelectorAll(".mobileLearnTab").forEach(b=>b.onclick=()=>setMobileLearnMode(b.dataset.mode));
+  setMobileLearnMode(mobileLearnMode);
   renderChapterNavigator();bindRipple()
 }
 
@@ -796,18 +826,26 @@ function answerClassify(){
   ok?succeed():fail('Часть позиций попала не в ту категорию.',null)
 }
 
+function setMobileCaseStep(step){
+  mobileCaseStep=step;
+  const wb=document.querySelector(".caseWorkbench");
+  if(!wb)return;
+  wb.dataset.mobileStep=step;
+  document.querySelectorAll(".caseMobileStep").forEach(b=>b.classList.toggle("active",b.dataset.step===step));
+}
 function renderCases(){
   const bank=caseBank[currentModule]||[],c=bank[caseIndex%bank.length],panel=document.getElementById("panel");
   const already=(state.doneCases[currentModule]||[]).includes(caseIndex);
 
-  panel.innerHTML='<div class="caseWorkbench">'+
+  panel.innerHTML='<div class="caseWorkbench" data-mobile-step="'+mobileCaseStep+'">'+
+    '<div class="caseMobileSteps"><button class="caseMobileStep" data-step="situation">1 · Ситуация</button><button class="caseMobileStep" data-step="answer">2 · Ответ</button><button class="caseMobileStep" data-step="review">3 · Разбор</button></div>'+
     '<div class="caseTopbar"><div><div class="eyebrow">Жизненный кейс</div><h3>Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
     '<div class="caseGrid">'+
       '<section class="caseBrief">'+
         '<div class="caseStoryLabel">Ситуация</div>'+
         '<div class="caseStory">'+c.story+'</div>'+
         '<div class="caseQuestionCard"><span>Вопрос</span><h4>'+c.question+'</h4></div>'+
-        '<div class="caseNavRow"><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button><button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button></div>'+
+        '<div class="caseNavRow"><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button><button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button><button class="btn primary caseToAnswer" id="caseToAnswerBtn">К ответу →</button></div>'+
       '</section>'+
       '<section class="caseAnalysis" id="caseAnalysis">'+
         '<div class="caseAnalysisHead"><div><span class="eyebrow">Ваш анализ</span><h4>Сначала сформулируйте проблему, затем выберите вывод</h4></div><span class="caseStatus">'+(already?'Пройден':'Не разобран')+'</span></div>'+
@@ -822,9 +860,12 @@ function renderCases(){
   const a=document.getElementById("caseAnswers");
   const analysis=document.getElementById("caseAnalysis");
   const result=document.getElementById("caseExplain");
+  document.querySelectorAll(".caseMobileStep").forEach(b=>b.onclick=()=>setMobileCaseStep(b.dataset.step));
+  const toAnswer=document.getElementById("caseToAnswerBtn");if(toAnswer)toAnswer.onclick=()=>setMobileCaseStep("answer");
 
   function showCaseReview(html,full=false){
     analysis.classList.add("reviewed");
+    setMobileCaseStep("review");
     result.classList.add("show");
     result.innerHTML='<div class="caseResultLabel">'+(full?'Полный разбор':'Проверка вывода')+'</div>'+html;
     result.scrollTop=0;
@@ -864,6 +905,8 @@ function renderCases(){
 
   if(already){
     showCaseReview('<h4>Этот кейс уже пройден.</h4><p>Можно решить его повторно или сразу открыть полный разбор.</p>')
+  }else{
+    setMobileCaseStep(mobileCaseStep)
   }
   bindRipple()
 }
