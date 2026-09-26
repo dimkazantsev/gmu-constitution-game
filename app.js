@@ -338,8 +338,20 @@ let mobileLearnMode="meaning",mobileCaseStep="situation",mobileCoachStep="situat
 
 function save(){localStorage.setItem('gmu_const_v7',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,bosses:[...state.bosses],coachSeen:state.coachSeen,coachSolved:state.coachSolved,coachPoints:state.coachPoints,sound:state.sound,lastModule:state.lastModule}))}
 function requestProgressReset(){
-  const ok=window.confirm("Сбросить весь учебный прогресс? Будут очищены просмотренные темы, пройденные кейсы, результаты тренера и рейтинг. Настройка звука сохранится.");
-  if(!ok)return;
+  const overlay=document.getElementById("resetOverlay");
+  if(!overlay){resetAllProgress();return}
+  overlay.setAttribute("aria-hidden","false");
+  document.body.classList.add("modalOpen");
+  setTimeout(()=>overlay.querySelector(".resetDialogActions .ghost")?.focus(),30)
+}
+function closeProgressReset(){
+  const overlay=document.getElementById("resetOverlay");
+  if(overlay)overlay.setAttribute("aria-hidden","true");
+  document.body.classList.remove("modalOpen");
+  document.getElementById("resetProgressBtn")?.focus()
+}
+function confirmProgressReset(){
+  closeProgressReset();
   resetAllProgress()
 }
 function resetAllProgress(){
@@ -1005,3 +1017,10 @@ function submitCheckMulti(){
 }
 
 renderHome();setTopHeaderMode(false);renderChapterNavigator();syncSoundButton();bindRipple();
+document.getElementById("resetOverlay")?.addEventListener("click",e=>{
+  if(e.target.id==="resetOverlay")closeProgressReset()
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&document.getElementById("resetOverlay")?.getAttribute("aria-hidden")==="false")closeProgressReset()
+});
+
