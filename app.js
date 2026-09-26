@@ -331,7 +331,7 @@ const state={
   coachSolved:Number(saved.coachSolved||0),
   coachPoints:Number(saved.coachPoints||0),
   sound:saved.sound!==false,
-  lastModule:Number.isFinite(saved.lastModule)?saved.lastModule:1
+  lastModule:Number.isFinite(saved.lastModule)?saved.lastModule:0
 };
 let currentModule=null,currentTab='learn',blockIndex=0,learnMode='quote',currentTask=null,caseIndex=0,checkState=null;
 let mobileLearnMode="meaning",mobileCaseStep="situation",mobileCoachStep="situation";
@@ -352,7 +352,7 @@ function resetAllProgress(){
   state.coachSeen={};
   state.coachSolved=0;
   state.coachPoints=0;
-  state.lastModule=1;
+  state.lastModule=0;
   state.sound=soundValue;
   currentModule=null;
   currentTab="learn";
@@ -450,7 +450,7 @@ const chapterStudyTips={
   10:"Переходные нормы объясняют, как избежать правового и институционального вакуума."
 };
 function renderChapterNavigator(){
-  const effectiveId=currentModule===null?(Number.isFinite(state.lastModule)?state.lastModule:1):currentModule;
+  const effectiveId=currentModule===null?0:currentModule;
   const idx=chapters.findIndex(x=>x.id===effectiveId),ch=chapters[idx];
   if(idx<0||!ch)return;
   const prev=document.getElementById("prevChapterBtn"),next=document.getElementById("nextChapterBtn");
@@ -557,7 +557,7 @@ function renderHome(){
     const dot=document.createElement("button");dot.className="carouselDot";dot.setAttribute("aria-label","Открыть "+(c.id===0?"преамбулу":"главу "+c.id));dot.onclick=()=>setCarousel(i);dots.appendChild(dot)
   });
   document.getElementById("trainerShortcut").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),30)};
-  const savedIndex=chapters.findIndex(x=>x.id===state.lastModule);carouselIndex=savedIndex>=0?savedIndex:0;
+  carouselIndex=0;
   bindCarousel();requestAnimationFrame(()=>setCarousel(carouselIndex,false));
   syncSoundButton();bindRipple()
 }
