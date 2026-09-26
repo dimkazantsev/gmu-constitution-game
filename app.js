@@ -776,37 +776,72 @@ function answerClassify(){
 function renderCases(){
   const bank=caseBank[currentModule]||[],c=bank[caseIndex%bank.length],panel=document.getElementById("panel");
   const already=(state.doneCases[currentModule]||[]).includes(caseIndex);
-  panel.innerHTML='<div class="caseLayout"><div class="caseTask"><div class="tag">Кейс '+(caseIndex+1)+' из '+bank.length+' · '+c.refs+'</div><div class="story">'+c.story+'</div><div class="caseQuestion">'+c.question+'</div><div class="caseReasoning"><div class="caseStep"><b>Шаг 1. Сформулируйте проблему своими словами</b><textarea id="caseHypothesis" placeholder="Что здесь произошло? Какое право, принцип или полномочие затронуты?"></textarea></div><div class="caseStep"><b>Шаг 2. Выберите юридический вывод</b><div class="answers" id="caseAnswers"></div></div></div><div class="caseExplain" id="caseExplain"></div><div class="caseFooter"><div><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button> <button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button></div><button class="btn primary" id="revealCaseBtn">Показать полный разбор</button></div></div></div>';
+
+  panel.innerHTML='<div class="caseWorkbench">'+
+    '<div class="caseTopbar"><div><div class="eyebrow">Жизненный кейс</div><h3>Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
+    '<div class="caseGrid">'+
+      '<section class="caseBrief">'+
+        '<div class="caseStoryLabel">Ситуация</div>'+
+        '<div class="caseStory">'+c.story+'</div>'+
+        '<div class="caseQuestionCard"><span>Вопрос</span><h4>'+c.question+'</h4></div>'+
+        '<div class="caseNavRow"><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button><button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button></div>'+
+      '</section>'+
+      '<section class="caseAnalysis" id="caseAnalysis">'+
+        '<div class="caseAnalysisHead"><div><span class="eyebrow">Ваш анализ</span><h4>Сначала сформулируйте проблему, затем выберите вывод</h4></div><span class="caseStatus">'+(already?'Пройден':'Не разобран')+'</span></div>'+
+        '<textarea id="caseHypothesis" class="caseHypothesis" placeholder="Что здесь произошло? Какое право, принцип или полномочие затронуты? Что нужно проверить?"></textarea>'+
+        '<div class="caseChoiceBlock"><b>Выберите юридический вывод</b><div class="answers" id="caseAnswers"></div></div>'+
+        '<div class="caseActions"><button class="btn ghost" id="revealCaseBtn">Показать полный разбор</button></div>'+
+        '<div class="caseResult" id="caseExplain"><div class="caseResultPlaceholder"><b>Разбор появится здесь.</b><span>После выбора или кнопки «Показать полный разбор» вы увидите объяснение и правовое основание.</span></div></div>'+
+      '</section>'+
+    '</div>'+
+  '</div>';
+
   const a=document.getElementById("caseAnswers");
+  const analysis=document.getElementById("caseAnalysis");
+  const result=document.getElementById("caseExplain");
+
+  function showCaseReview(html,full=false){
+    analysis.classList.add("reviewed");
+    result.classList.add("show");
+    result.innerHTML='<div class="caseResultLabel">'+(full?'Полный разбор':'Проверка вывода')+'</div>'+html;
+    result.scrollTop=0;
+  }
+
   c.options.forEach((x,i)=>{
     const b=document.createElement("button");b.className="ans";
-    b.innerHTML='<span class="letter">'+("ABCD"[i])+'</span><span>'+x+'</span>';
+    b.innerHTML='<span class="letter">'+("ABCD"[i])+'</span><span>'+capUi(x)+'</span>';
     b.onclick=()=>{
-      const e=document.getElementById("caseExplain");e.style.display="block";
       if(i===c.answer){
         document.querySelectorAll("#caseAnswers .ans").forEach(y=>y.disabled=true);
         successSound();b.classList.add("correct","glowSuccess");
-        e.innerHTML='<b>Юридический вывод выбран верно.</b> Теперь откройте полный разбор и сравните его со своей формулировкой.';
+        showCaseReview('<h4>Юридический вывод выбран верно.</h4><p>Теперь сравните свою формулировку с полным разбором.</p><button class="btn primary" id="openFullCaseReview">Открыть полный разбор →</button>');
+        setTimeout(()=>{const q=document.getElementById("openFullCaseReview");if(q)q.onclick=()=>document.getElementById("revealCaseBtn").click()},0);
         if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];
         if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);
         save();updateProgress()
       }else{
-        errorSound();b.disabled=true;b.classList.add("wrong","shake");setTimeout(()=>b.classList.remove("shake"),350);
-        e.innerHTML='<b>Этот вывод не раскрывает главный конституционный конфликт.</b> Попробуйте другой вариант.'
+        errorSound();b.disabled=true;b.classList.add("wrong","shake");
+        setTimeout(()=>b.classList.remove("shake"),350);
+        showCaseReview('<h4>Этот вывод не раскрывает главный конституционный конфликт.</h4><p>Попробуйте другой вариант: обратите внимание на участников, полномочия и правовое основание действия.</p>')
       }
     };
     a.appendChild(b)
   });
+
   document.getElementById("revealCaseBtn").onclick=()=>{
-    const e=document.getElementById("caseExplain");e.style.display="block";
     const hypothesis=(document.getElementById("caseHypothesis").value||"").trim();
-    e.innerHTML='<b>Полный разбор.</b> '+c.why+'<br><br><b>Правовое основание:</b> '+c.refs+(hypothesis?'<br><br><b>Ваша гипотеза:</b> '+hypothesis:"");
+    const hypothesisHtml=hypothesis?'<div class="caseUserHypothesis"><span>Ваша гипотеза</span><p>'+hypothesis.replace(/</g,"&lt;").replace(/>/g,"&gt;")+'</p></div>':"";
+    showCaseReview('<h4>'+capUi(c.why)+'</h4>'+hypothesisHtml+'<div class="caseLegalBase"><span>Правовое основание</span><b>'+c.refs+'</b></div>',true)
   };
+
   const prev=document.getElementById("prevCaseBtn"),next=document.getElementById("nextCaseBtn");
   prev.disabled=caseIndex===0;next.disabled=caseIndex>=bank.length-1;
   prev.onclick=()=>{if(caseIndex>0){caseIndex--;renderCases()}};
   next.onclick=()=>{if(caseIndex<bank.length-1){caseIndex++;renderCases()}};
-  if(already){const e=document.getElementById("caseExplain");e.style.display="block";e.innerHTML='<b>Этот кейс уже пройден.</b> Можно разобрать его повторно или сразу открыть полный анализ.'}
+
+  if(already){
+    showCaseReview('<h4>Этот кейс уже пройден.</h4><p>Можно решить его повторно или сразу открыть полный разбор.</p>')
+  }
   bindRipple()
 }
 function renderCheck(){
