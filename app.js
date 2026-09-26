@@ -599,22 +599,22 @@ function renderCourseChapterVisual(id){
   const el=document.getElementById("courseChapterVisual");
   if(!el)return;
 
-  const scenes={
-    0:{icon:"§",label:"Учредительная воля",meta:"Народ · ценности · легитимность",shape:"preamble"},
-    1:{icon:"⚖",label:"Архитектура государства",meta:"Народ · власть · пределы власти",shape:"foundations"},
-    2:{icon:"♥",label:"Пространство прав",meta:"Человек · достоинство · защита",shape:"rights"},
-    3:{icon:"◇",label:"Федеральные связи",meta:"Федерация · субъекты · полномочия",shape:"federal"},
-    4:{icon:"◎",label:"Президентский узел",meta:"Глава государства · координация · гарантии",shape:"president"},
-    5:{icon:"▥",label:"Парламентский контур",meta:"Две палаты · представительство · закон",shape:"assembly"},
-    6:{icon:"▦",label:"Исполнительный контур",meta:"Управление · исполнение · ответственность",shape:"government"},
-    7:{icon:"⚖",label:"Контур правосудия",meta:"Суд · независимость · законность",shape:"justice"},
-    8:{icon:"⌂",label:"Уровень сообщества",meta:"Население · территория · местные вопросы",shape:"municipal"},
-    9:{icon:"↻",label:"Механизм изменения",meta:"Стабильность · поправки · пересмотр",shape:"amendments"},
-    10:{icon:"II",label:"Правовая преемственность",meta:"Переход · непрерывность · ввод в действие",shape:"transition"}
+  const clouds={
+    0:{title:"Ключевые идеи преамбулы",tags:["Народ","Ценности","Права","Суверенитет","Память","Единство","Демократия","Ответственность","Легитимность","Государственность"]},
+    1:{title:"Основы конституционного строя",tags:["Народовластие","Федерализм","Правовое государство","Республика","Разделение властей","Многообразие","Светскость","МСУ","Верховенство Конституции","Суверенитет"]},
+    2:{title:"Права и свободы",tags:["Достоинство","Равенство","Жизнь","Свобода","Частная жизнь","Совесть","Слово","Собственность","Судебная защита","Обязанности"]},
+    3:{title:"Федеративное устройство",tags:["Субъекты","Совместное ведение","Полномочия","Республика","Край","Область","Автономия","Территория","Центр","Единство системы"]},
+    4:{title:"Президент Российской Федерации",tags:["Глава государства","Гарант","Полномочия","Указ","Вето","Назначение","Безопасность","Координация","Послание","Срок полномочий"]},
+    5:{title:"Федеральное Собрание",tags:["Госдума","Совет Федерации","Законопроект","Чтения","Одобрение","Депутаты","Сенаторы","Представительство","Парламент","Контроль"]},
+    6:{title:"Правительство Российской Федерации",tags:["Исполнительная власть","Председатель","Министерства","Бюджет","Политика","Исполнение законов","Социальная сфера","Управление","Ответственность","Постановления"]},
+    7:{title:"Судебная власть и прокуратура",tags:["Правосудие","Независимость суда","Конституционный контроль","Верховный Суд","Прокуратура","Законность","Состязательность","Судьи","Процесс","Защита прав"]},
+    8:{title:"Местное самоуправление",tags:["Население","Муниципалитет","Местные вопросы","Бюджет","Благоустройство","Органы МСУ","Самостоятельность","Территория","Участие жителей","Локальная власть"]},
+    9:{title:"Поправки и пересмотр",tags:["Устойчивость","Процедура","Пересмотр","Поправка","Особый порядок","Главы 1, 2, 9","Реформа","Парламент","Одобрение","Субъекты РФ"]},
+    10:{title:"Переходные положения",tags:["Ввод в действие","Преемственность","Старые акты","Переход","Непрерывность","Действие норм","Замещение","Система права","Реформа","Стабильность"]}
   };
 
-  const sc=scenes[id]||scenes[0];
-  el.className="courseChapterVisual chapterScene scene-"+sc.shape;
+  const c=clouds[id]||clouds[0];
+  el.className="courseChapterVisual tagCloudCard";
   el.setAttribute("aria-hidden","true");
   el.removeAttribute("role");
   el.removeAttribute("tabindex");
@@ -622,21 +622,24 @@ function renderCourseChapterVisual(id){
   el.onclick=null;
   el.onkeydown=null;
 
-  el.innerHTML=
-    '<div class="sceneAura auraA"></div>'+
-    '<div class="sceneAura auraB"></div>'+
-    '<div class="sceneRail railA"></div>'+
-    '<div class="sceneRail railB"></div>'+
-    '<div class="sceneRail railC"></div>'+
-    '<div class="sceneParticle p1"></div>'+
-    '<div class="sceneParticle p2"></div>'+
-    '<div class="sceneParticle p3"></div>'+
-    '<div class="sceneParticle p4"></div>'+
-    '<div class="sceneParticle p5"></div>'+
-    '<div class="sceneCore">'+sc.icon+'</div>'+
-    '<div class="sceneKicker">Смысл главы</div>'+
-    '<div class="sceneLabel">'+sc.label+'</div>'+
-    '<div class="sceneMeta">'+sc.meta+'</div>';
+  el.innerHTML='<div class="tagCloudHead"><div class="tagCloudBadge">Смысл главы</div><div class="tagCloudTitle">'+c.title+'</div></div>'+
+    '<div class="tagCloudArea">'+c.tags.map((tag,i)=>'<span class="cloudTag t'+((i%10)+1)+'" data-index="'+i+'">'+tag+'</span>').join("")+'</div>';
+
+  el.querySelectorAll(".cloudTag").forEach((tag,i)=>{
+    const directions=[
+      [-12,-8],[10,-10],[-9,9],[12,7],[-14,4],
+      [9,-7],[-8,-11],[13,-4],[-10,8],[11,10]
+    ];
+    const d=directions[i%directions.length];
+    tag.addEventListener("pointerenter",()=>{
+      tag.style.setProperty("--push-x",d[0]+"px");
+      tag.style.setProperty("--push-y",d[1]+"px");
+      tag.classList.add("repelled")
+    });
+    tag.addEventListener("pointerleave",()=>{
+      tag.classList.remove("repelled")
+    });
+  })
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
@@ -645,7 +648,7 @@ function openModule(id){
   const ch=chapters.find(x=>x.id===id);
   document.getElementById("crumb").textContent=mLabel(id)+" · "+ch.name;
   setTopHeaderMode(true);
-  document.getElementById("courseKicker").textContent=mLabel(id);
+  document.getElementById("courseKicker").textContent=id===0?"Вводная часть":mLabel(id);
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
   renderCourseChapterVisual(id);
@@ -654,6 +657,7 @@ function openModule(id){
 }
 function updateProgress(){
   if(currentModule===null)return;
+
   const p=modulePct(currentModule);
   const blocks=moduleInfo[currentModule]?.blocks||[];
   const cases=caseBank[currentModule]||[];
@@ -663,23 +667,30 @@ function updateProgress(){
   document.getElementById("coursePct").textContent=p+"%";
   document.getElementById("courseBar").style.width=p+"%";
 
+  const theory=document.getElementById("progressTheory");
+  const caseStat=document.getElementById("progressCases");
   const meta=document.getElementById("progressMeta");
   const action=document.getElementById("progressAction");
+
+  if(theory)theory.textContent="Теория "+learned+"/"+blocks.length;
+  if(caseStat)caseStat.textContent="Кейсы "+doneCases+"/"+cases.length;
+
   if(meta&&action){
     if(learned<blocks.length){
-      meta.textContent="Разобрано "+learned+" из "+blocks.length+" смысловых блоков";
-      action.textContent=learned===0?"Начать разбор →":"Продолжить разбор →";
+      meta.textContent=learned===0?"Начните со смысловых блоков главы":"Продолжите изучение теории";
+      action.textContent=learned===0?"Открыть тему →":"Продолжить тему →";
       action.onclick=()=>switchTab("learn");
     }else if(doneCases<cases.length){
-      meta.textContent="Теория пройдена · кейсы "+doneCases+" из "+cases.length;
+      meta.textContent="Теория завершена — переходите к кейсам";
       action.textContent="Перейти к кейсам →";
       action.onclick=()=>switchTab("cases");
     }else{
-      meta.textContent="Глава освоена · можно закрепить материал";
+      meta.textContent="Глава пройдена — закрепите материал";
       action.textContent="Открыть ИИ‑тренер →";
       action.onclick=()=>switchTab("coach");
     }
   }
+
   renderChapterNavigator()
 }
 function activateCourseTab(tab){
