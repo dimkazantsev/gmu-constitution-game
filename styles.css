@@ -4663,3 +4663,711 @@ button,a,textarea,input{font-family:inherit!important}
     animation:none!important
   }
 }
+
+
+/* =========================================================
+   TYPOGRAPHY + ALIGNMENT PASS V8
+   Better Cyrillic readability and precise control centering
+   ========================================================= */
+
+html{
+  -webkit-font-smoothing:antialiased!important;
+  -moz-osx-font-smoothing:grayscale!important;
+  text-rendering:optimizeLegibility!important;
+}
+body,
+button,
+a,
+textarea,
+input{
+  font-family:"Segoe UI Variable","Segoe UI",Inter,Arial,sans-serif!important;
+  font-kerning:normal!important;
+}
+body{
+  letter-spacing:0!important;
+}
+
+/* ----- clearer hierarchy ----- */
+.brand b{
+  font-size:16px!important;
+  font-weight:750!important;
+  letter-spacing:-.01em!important;
+}
+.brand small{
+  font-size:10.5px!important;
+  line-height:1.3!important;
+  letter-spacing:0!important;
+}
+
+.homeCopy .eyebrow,
+.courseIdentity .eyebrow,
+.readerHeader .eyebrow,
+.caseTopbar .eyebrow,
+.coachResponseHead .eyebrow{
+  letter-spacing:.10em!important;
+  font-weight:800!important;
+}
+.homeCopy h1{
+  letter-spacing:-.035em!important;
+  font-weight:760!important;
+}
+.homeCopy p{
+  font-size:13.5px!important;
+  line-height:1.55!important;
+  letter-spacing:0!important;
+}
+
+.chapterSlideText h2{
+  letter-spacing:-.035em!important;
+  font-weight:760!important;
+}
+.chapterSlideText p{
+  font-size:14px!important;
+  line-height:1.55!important;
+  letter-spacing:0!important;
+}
+.slideMeta span{
+  font-size:9.5px!important;
+  font-weight:700!important;
+}
+
+/* ----- sidebar ----- */
+.courseIdentity{
+  text-align:center!important;
+}
+.courseIdentity .eyebrow{
+  justify-content:center!important;
+  width:100%!important;
+}
+.courseIdentity h2{
+  font-size:27px!important;
+  line-height:1.08!important;
+  letter-spacing:-.025em!important;
+  font-weight:760!important;
+}
+.courseIdentity p{
+  margin-left:auto!important;
+  margin-right:auto!important;
+  max-width:230px!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  letter-spacing:0!important;
+  text-align:center!important;
+}
+
+.courseSidebar .courseProgress{
+  text-align:center!important;
+}
+.courseSidebar .progressTopline{
+  align-items:center!important;
+}
+.courseSidebar .progressLabel{
+  font-size:9.5px!important;
+  font-weight:750!important;
+}
+.courseSidebar .progressTopline b{
+  font-size:20px!important;
+  font-weight:760!important;
+}
+.courseSidebar .progressStats{
+  justify-content:center!important;
+}
+.courseSidebar .progressChip{
+  font-size:8.5px!important;
+  font-weight:750!important;
+  justify-content:center!important;
+}
+.courseSidebar .progressMeta{
+  font-size:9px!important;
+  line-height:1.4!important;
+  text-align:center!important;
+}
+
+/* centered mode controls */
+.courseSidebar .tab{
+  grid-template-columns:34px minmax(0,1fr)!important;
+  align-items:center!important;
+  justify-items:center!important;
+  text-align:center!important;
+}
+.courseSidebar .tabIcon{
+  display:grid!important;
+  place-items:center!important;
+  margin:0 auto!important;
+}
+.courseSidebar .tab>span:last-child{
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.courseSidebar .tab b{
+  font-size:12px!important;
+  line-height:1.15!important;
+  font-weight:760!important;
+}
+.courseSidebar .tab small{
+  font-size:9px!important;
+  line-height:1.2!important;
+  font-weight:600!important;
+  text-align:center!important;
+}
+
+/* ----- top navigation ----- */
+.topChapterNav .chapterArrow,
+.carouselArrow,
+.readerNav .conceptArrow{
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  text-align:center!important;
+}
+.topChapterNav .chapterArrow span{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  transform:none!important;
+  line-height:1!important;
+}
+.topChapterNav .chapterArrow:not(:disabled):hover span{
+  transform:scale(1.06)!important;
+}
+.topChapterNav .chapterPicker{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+}
+.topChapterNav .chapterPickerLabel{
+  font-size:12.5px!important;
+  line-height:1.2!important;
+  font-weight:760!important;
+  text-align:center!important;
+}
+.topChapterNav .chapterPickerHint{
+  font-size:9px!important;
+  font-weight:600!important;
+}
+
+/* ----- topic rail ----- */
+.topicRailHead{
+  text-align:center!important;
+}
+.topicRailHead span{
+  font-size:10px!important;
+  font-weight:750!important;
+}
+.topicRailItem{
+  align-items:center!important;
+}
+.topicRailItem>span{
+  display:grid!important;
+  place-items:center!important;
+  font-size:9.5px!important;
+  font-weight:760!important;
+}
+.topicRailItem b{
+  font-size:11.5px!important;
+  line-height:1.28!important;
+  font-weight:720!important;
+  letter-spacing:0!important;
+}
+.topicRailItem small{
+  font-size:9px!important;
+  line-height:1.3!important;
+  font-weight:500!important;
+}
+
+/* ----- reader ----- */
+.readerHeader{
+  align-items:center!important;
+}
+.readerHeader h3{
+  font-size:22px!important;
+  line-height:1.12!important;
+  letter-spacing:-.02em!important;
+  font-weight:760!important;
+}
+.readerHeader p{
+  font-size:11.5px!important;
+  line-height:1.4!important;
+  letter-spacing:0!important;
+}
+.readerTabs{
+  justify-content:center!important;
+}
+.readerTab{
+  min-height:33px!important;
+  font-size:10.5px!important;
+  font-weight:720!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.readerPane{
+  text-align:left!important;
+}
+.readerPaneLabel{
+  font-size:9.5px!important;
+  font-weight:750!important;
+  letter-spacing:.06em!important;
+}
+.readerPane .lessonText{
+  font-size:14.5px!important;
+  line-height:1.72!important;
+  letter-spacing:.002em!important;
+  color:#3b4f78!important;
+}
+.readerPane .lessonText p{
+  margin-bottom:14px!important;
+}
+.readerPane .lessonBullets li{
+  margin:9px 0!important;
+}
+.readerPane .constQuote{
+  font-size:clamp(22px,1.9vw,31px)!important;
+  line-height:1.52!important;
+  letter-spacing:-.012em!important;
+  font-weight:520!important;
+}
+.readerPaneTop>span{
+  font-size:9.5px!important;
+  font-weight:720!important;
+}
+.readerInsight{
+  font-size:11px!important;
+  line-height:1.55!important;
+}
+.sourceChip{
+  font-size:9.5px!important;
+  font-weight:700!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.readerFooter{
+  align-items:center!important;
+}
+.readerFooter .btn{
+  font-size:9.5px!important;
+  font-weight:720!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* ----- schemes ----- */
+.schemeLabHead{
+  align-items:center!important;
+}
+.schemeLabHead>div:first-child{
+  text-align:left!important;
+}
+.schemeLabHead h3{
+  font-size:22px!important;
+  line-height:1.15!important;
+  font-weight:760!important;
+}
+.schemeLabHead p{
+  font-size:11px!important;
+  line-height:1.4!important;
+}
+.schemeScore{
+  display:grid!important;
+  place-items:center!important;
+}
+.schemeScore b{
+  font-weight:760!important;
+}
+.schemeToolbox{
+  text-align:center!important;
+}
+.schemeToolboxTitle{
+  font-size:14px!important;
+  font-weight:760!important;
+  text-align:center!important;
+}
+.schemeToolbox p{
+  font-size:10px!important;
+  line-height:1.35!important;
+  text-align:center!important;
+}
+.schemeChip{
+  font-size:10.5px!important;
+  line-height:1.25!important;
+  font-weight:700!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+}
+.schemeChipIcon{
+  display:grid!important;
+  place-items:center!important;
+}
+.schemeToolboxActions{
+  align-items:center!important;
+}
+.schemeToolboxActions .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9px!important;
+  font-weight:720!important;
+}
+.schemeTarget{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.schemeTargetIcon{
+  display:grid!important;
+  place-items:center!important;
+}
+.schemeTargetTitle{
+  font-size:13px!important;
+  line-height:1.25!important;
+  font-weight:760!important;
+  text-align:center!important;
+}
+.schemeTargetHint{
+  font-size:9px!important;
+  line-height:1.3!important;
+  text-align:center!important;
+}
+.schemeFeedback{
+  font-size:10.5px!important;
+  line-height:1.4!important;
+  display:flex!important;
+  align-items:center!important;
+}
+
+/* ----- cases ----- */
+.caseTopbar{
+  align-items:center!important;
+}
+.caseTopbar>div:first-child{
+  text-align:left!important;
+}
+.caseTopbar h3{
+  font-size:21px!important;
+  font-weight:760!important;
+}
+.caseRef{
+  font-size:9px!important;
+  font-weight:700!important;
+  text-align:center!important;
+}
+.caseStoryLabel{
+  font-size:9px!important;
+  font-weight:750!important;
+}
+.caseStory{
+  font-size:clamp(20px,1.45vw,25px)!important;
+  line-height:1.48!important;
+  letter-spacing:-.01em!important;
+}
+.caseQuestionCard{
+  text-align:left!important;
+}
+.caseQuestionCard h4{
+  font-size:13px!important;
+  line-height:1.45!important;
+  font-weight:720!important;
+}
+.caseNavRow{
+  align-items:center!important;
+  justify-content:center!important;
+}
+.caseNavRow .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9px!important;
+  font-weight:720!important;
+}
+.caseAnalysisHead{
+  align-items:center!important;
+}
+.caseAnalysisHead h4{
+  font-size:14px!important;
+  line-height:1.35!important;
+  font-weight:760!important;
+}
+.caseStatus{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:8.5px!important;
+}
+.caseHypothesis{
+  font-size:12.5px!important;
+  line-height:1.55!important;
+}
+.caseChoiceBlock>b{
+  display:block!important;
+  font-size:10px!important;
+  font-weight:760!important;
+  text-align:center!important;
+  margin-bottom:5px!important;
+}
+.caseChoiceBlock .ans{
+  align-items:center!important;
+}
+.caseChoiceBlock .ans .letter{
+  display:grid!important;
+  place-items:center!important;
+}
+.caseChoiceBlock .ans span:last-child{
+  font-size:11px!important;
+  line-height:1.42!important;
+}
+.caseActions{
+  justify-content:center!important;
+}
+.caseActions .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9px!important;
+}
+.caseResult h4{
+  font-size:13px!important;
+  line-height:1.35!important;
+}
+.caseResult p{
+  font-size:10.5px!important;
+  line-height:1.55!important;
+}
+
+/* ----- coach ----- */
+.coachTopbar{
+  align-items:center!important;
+}
+.coachIdentity{
+  align-items:center!important;
+}
+.aiOrb{
+  display:grid!important;
+  place-items:center!important;
+}
+.coachTopbar .coachIdentity h3{
+  font-size:19px!important;
+  line-height:1.2!important;
+  font-weight:760!important;
+}
+.coachTopbar .coachIdentity p{
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+.coachCounter{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:9px!important;
+}
+.coachSituation .scenarioText{
+  font-size:clamp(20px,1.45vw,25px)!important;
+  line-height:1.48!important;
+  letter-spacing:-.01em!important;
+}
+.coachQuestionBox h4{
+  font-size:13px!important;
+  line-height:1.45!important;
+  font-weight:720!important;
+}
+.coachChecklist{
+  text-align:left!important;
+}
+.coachChecklist>b{
+  display:block!important;
+  font-size:9px!important;
+  font-weight:760!important;
+  text-align:center!important;
+}
+.coachChecklist>div{
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  align-items:center!important;
+}
+.coachChecklist>div span{
+  display:grid!important;
+  place-items:center!important;
+}
+.coachResponseHead{
+  align-items:center!important;
+}
+.coachResponseHead h4{
+  font-size:14px!important;
+  line-height:1.35!important;
+  font-weight:760!important;
+}
+.coachNoArticle{
+  font-size:8.5px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.coachResponse .freeAnswer{
+  font-size:12.5px!important;
+  line-height:1.55!important;
+}
+.coachResponse .coachActions{
+  align-items:center!important;
+}
+.coachResponse .coachActions .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9px!important;
+}
+.coachResultHead{
+  align-items:center!important;
+}
+.coachResultHead .coachScore{
+  font-weight:760!important;
+}
+.coachResultHead h4{
+  font-size:13px!important;
+  line-height:1.35!important;
+}
+.coachResultHead p,
+.modelAnswer p{
+  font-size:10.5px!important;
+  line-height:1.55!important;
+}
+
+/* ----- common control centering ----- */
+.btn,
+.topBtn,
+.allChaptersBtn,
+.progressChip,
+.caseRef,
+.caseStatus,
+.coachCounter,
+.mobileCourseBtn{
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.btn{
+  font-weight:720!important;
+  letter-spacing:0!important;
+}
+
+/* =========================================================
+   TABLET TYPOGRAPHY
+   ========================================================= */
+@media(min-width:768px) and (max-width:1100px){
+  .courseIdentity{text-align:left!important}
+  .courseIdentity .eyebrow{justify-content:flex-start!important}
+  .courseIdentity p{text-align:left!important;margin-left:0!important;max-width:none!important}
+
+  .courseSidebar .tab{
+    justify-items:center!important;
+    text-align:center!important;
+  }
+  .courseSidebar .tab b{font-size:10px!important}
+  .readerHeader h3{font-size:19px!important}
+  .readerHeader p{font-size:10px!important}
+  .readerPane .lessonText{font-size:13px!important;line-height:1.65!important}
+  .readerPane .constQuote{font-size:23px!important}
+  .topicRailItem b{font-size:10.5px!important}
+  .topicRailItem small{font-size:8.5px!important}
+  .caseStory,.coachSituation .scenarioText{font-size:19px!important}
+}
+
+/* =========================================================
+   PHONE TYPOGRAPHY + CENTERING
+   ========================================================= */
+@media(max-width:767px){
+  .homeCopy .eyebrow{font-size:7.8px!important}
+  .homeCopy h1{
+    font-size:25px!important;
+    line-height:1!important;
+    letter-spacing:-.025em!important;
+  }
+  .homeProgress span,.homeProgress small{font-size:7.5px!important}
+  .homeProgress b{font-size:16px!important}
+
+  .courseIdentity{
+    text-align:left!important;
+  }
+  .courseIdentity .eyebrow{
+    justify-content:flex-start!important;
+  }
+  .courseIdentity h2{
+    font-size:18px!important;
+    font-weight:760!important;
+  }
+  .courseIdentity p{
+    font-size:9px!important;
+    line-height:1.35!important;
+    text-align:left!important;
+    margin-left:0!important;
+    max-width:none!important;
+  }
+
+  .mobileCourseBtn{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+  }
+  .mobileCourseBtn b{font-size:8.5px!important;font-weight:720!important}
+
+  .readerHeader h3{
+    font-size:17px!important;
+    line-height:1.12!important;
+  }
+  .readerHeader p{font-size:9px!important}
+  .readerTabs{
+    justify-content:center!important;
+  }
+  .readerTab{
+    font-size:8.8px!important;
+    min-height:32px!important;
+  }
+  .readerPane .lessonText{
+    font-size:12px!important;
+    line-height:1.65!important;
+  }
+  .readerPane .constQuote{
+    font-size:20px!important;
+    line-height:1.5!important;
+  }
+  .readerInsight{
+    font-size:9.5px!important;
+    line-height:1.5!important;
+  }
+  .readerFooter .btn{
+    font-size:8.5px!important;
+  }
+
+  .schemeLabHead h3{font-size:18px!important}
+  .schemeLabHead p{font-size:9px!important}
+  .schemeChip{font-size:8.8px!important}
+  .schemeTargetTitle{font-size:11px!important}
+  .schemeTargetHint{font-size:8.2px!important}
+
+  .caseTopbar h3,.coachTopbar .coachIdentity h3{font-size:16px!important}
+  .caseStory,.coachSituation .scenarioText{
+    font-size:17px!important;
+    line-height:1.48!important;
+  }
+  .caseQuestionCard h4,.coachQuestionBox h4{font-size:11.5px!important}
+  .caseHypothesis,.coachResponse .freeAnswer{
+    font-size:11.5px!important;
+    line-height:1.5!important;
+  }
+  .caseChoiceBlock .ans span:last-child{font-size:10px!important}
+  .caseResult p,.modelAnswer p{font-size:9.5px!important}
+}
