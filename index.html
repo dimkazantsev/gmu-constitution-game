@@ -15,17 +15,18 @@
   <div class="topCenter">
     <div class="crumb" id="crumb" style="display:none"></div>
     <div class="topChapterNav" id="topChapterNav">
-      <button class="chapterArrow" id="prevChapterBtn">←</button>
+      <button class="chapterArrow" id="prevChapterBtn" aria-label="Предыдущая глава"><span>←</span></button>
       <button class="chapterPicker" id="chapterPicker">
         <span class="chapterPickerLabel" id="chapterPickerLabel"></span>
         <span class="chapterPickerHint">Сменить главу ▾</span>
       </button>
-      <button class="chapterArrow" id="nextChapterBtn">→</button>
+      <button class="chapterArrow" id="nextChapterBtn" aria-label="Следующая глава"><span>→</span></button>
       <button class="allChaptersBtn" onclick="showHome()">Все главы</button>
       <div class="chapterMenu" id="chapterMenu"></div>
     </div>
   </div>
   <div class="topActions">
+    <button class="topBtn resetProgressBtn" id="resetProgressBtn" onclick="requestProgressReset()" title="Сбросить прогресс курса">↻ <span>Сбросить</span></button>
     <button class="topBtn active" id="soundBtn" onclick="toggleSound()">🔊 Звук</button>
     <a class="topBtn sourceBtn" href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальный текст ↗</a>
   </div>
@@ -96,6 +97,17 @@
   </section>
 </main>
 
+<div class="resetOverlay" id="resetOverlay" aria-hidden="true">
+  <div class="resetDialog" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+    <div class="resetIcon">↻</div>
+    <h3 id="resetTitle">Сбросить прогресс?</h3>
+    <p>Будут очищены просмотренные темы, пройденные кейсы, результаты тренера и игровой рейтинг. Настройка звука сохранится.</p>
+    <div class="resetDialogActions">
+      <button class="btn ghost" onclick="closeProgressReset()">Отмена</button>
+      <button class="btn resetDanger" onclick="confirmProgressReset()">Сбросить всё</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 <script src="app.js"></script>
 </body>
