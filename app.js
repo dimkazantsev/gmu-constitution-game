@@ -97,6 +97,81 @@ const moduleInfo = {
   ],diagram:{kind:'flow',title:'Переход без правового вакуума',caption:'Переходные положения обеспечивают непрерывность.',nodes:[['◌','Старая система','акты и институты'],['⌁','Фильтр Конституции','непротиворечащие нормы сохраняются'],['⇢','Переход','временные правила'],['●','Новая система','работает по Конституции']]}}
 };
 
+
+const learnMeta = {
+0:[
+ {quote:'«Мы, многонациональный народ Российской Федерации…»',quoteRef:'Преамбула',meaning:'Конституция говорит от имени многонационального народа: это учредительная формула, а не описание отдельного государственного органа.',official:'Официальное толкование Конституции даёт Конституционный Суд РФ. Для преамбулы отдельный «постатейный комментарий» не подменяется учебным пересказом: здесь основа — официальный текст Конституции.',links:[['Текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx'],['О толковании КС РФ','https://www.ksrf.ru/about/legalbases/FCL/Chapter3.php']]},
+ {quote:'«…исходя из ответственности за свою Родину перед нынешним и будущими поколениями…»',quoteRef:'Преамбула',meaning:'Преамбула связывает принятие Конституции с исторической преемственностью и ответственностью перед будущими поколениями.',official:'КС РФ рассматривает Конституцию как системный акт: преамбула помогает понимать ценностный контекст, но конкретные права и полномочия раскрываются в статьях Конституции.',links:[['Текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+1:[
+ {quote:'«Человек, его права и свободы являются высшей ценностью.»',quoteRef:'ст. 2',meaning:'Государственная власть существует не сама для себя: признание, соблюдение и защита прав человека названы обязанностью государства.',official:'В практике КС РФ основы конституционного строя используются как системные ориентиры при оценке законодательства и деятельности публичной власти.',links:[['Глава 1 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter1.php']]},
+ {quote:'«Государственная власть … осуществляется на основе разделения на законодательную, исполнительную и судебную.»',quoteRef:'ст. 10',meaning:'Разные ветви власти получают разные функции и не должны подменять друг друга.',official:'КС РФ связывает разделение властей с пределами компетенции органов: каждый орган действует в собственных конституционных полномочиях.',links:[['Глава 1 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter1.php']]},
+ {quote:'«Никакая идеология не может устанавливаться в качестве государственной или обязательной.»',quoteRef:'ст. 13',meaning:'Государство не вправе превращать одну систему политических или мировоззренческих взглядов в обязательную для всех.',official:'Официальный текст одновременно закрепляет идеологическое и политическое многообразие; эти положения читаются во взаимосвязи, а не изолированно.',links:[['Глава 1 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter1.php']]},
+ {quote:'«Конституция Российской Федерации имеет высшую юридическую силу, прямое действие…»',quoteRef:'ст. 15',meaning:'Все иные правовые акты должны соответствовать Конституции; её нормы могут иметь непосредственное юридическое значение.',official:'КС РФ при конституционном контроле оценивает не только буквальный текст нормы, но и смысл, который ей придаёт правоприменение. Это позволяет исключать неконституционное толкование.',links:[['Глава 1 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter1.php'],['Как КС оценивает смысл нормы','https://www.ksrf.ru/about/legalbases/FCL/Chapter2.php']]},
+ {quote:'«Местное самоуправление в пределах своих полномочий самостоятельно.»',quoteRef:'ст. 12',meaning:'Муниципальный уровень не является просто нижним отделом регионального органа власти: у него есть собственная конституционная самостоятельность.',official:'КС РФ подчёркивает самостоятельность МСУ в пределах полномочий и одновременно признаёт его публичную природу и взаимодействие с другими уровнями публичной власти.',links:[['Правовые позиции КС РФ о муниципальной службе','https://www.ksrf.ru/Decision/lp/frame/position/posByLI788.htm']]}
+],
+2:[
+ {quote:'«Каждый имеет право на свободу и личную неприкосновенность.»',quoteRef:'ст. 22',meaning:'Личная свобода — защищённая сфера; задержание и содержание под стражей требуют предусмотренных Конституцией оснований и судебного контроля.',official:'КС РФ рассматривает гарантии прав не изолированно, а вместе с процедурой их ограничения и судебной защиты.',links:[['Глава 2 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_1.php']]},
+ {quote:'«Граждане Российской Федерации имеют право участвовать в управлении делами государства…»',quoteRef:'ст. 32',meaning:'Политические права дают гражданину способы участвовать в формировании и работе публичной власти.',official:'Официальный текст связывает участие в управлении с выборами, референдумом, государственной службой и отправлением правосудия в предусмотренных формах.',links:[['Глава 2 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_1.php']]},
+ {quote:'«Каждый имеет право на образование.»',quoteRef:'ст. 43',meaning:'Социальные права требуют не только невмешательства государства, но и организации институтов и гарантий, которые делают право доступным.',official:'При оценке социальных прав КС РФ учитывает их место в системе конституционных гарантий и допустимость законодательной конкретизации.',links:[['Глава 2 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_1.php']]},
+ {quote:'«Государственная защита прав и свобод человека и гражданина … гарантируется.»',quoteRef:'ст. 45',meaning:'Право становится практически значимым, когда существуют механизмы защиты: суд, юридическая помощь и иные законные способы.',official:'КС РФ выявляет конституционно-правовой смысл норм, чтобы их применение не разрушало гарантированное Конституцией право.',links:[['О конституционно-правовом смысле нормы','https://www.ksrf.ru/about/legalbases/FCLM/Article87.php']]},
+ {quote:'«Права и свободы человека и гражданина могут быть ограничены федеральным законом…»',quoteRef:'ст. 55',meaning:'Ограничение права — не свободное усмотрение чиновника: важны форма закона, допустимая цель и необходимая мера.',official:'КС РФ проверяет ограничения в системной связи с защищаемым правом и конституционными целями, исключая произвольное правоприменение.',links:[['Глава 2 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_1.php']]}
+],
+3:[
+ {quote:'«Вне пределов ведения Российской Федерации … субъекты Российской Федерации обладают всей полнотой государственной власти.»',quoteRef:'ст. 73',meaning:'Федерализм устроен как распределение компетенций: федеральная, совместная и остаточная региональная сферы.',official:'КС РФ прямо рассматривает статьи 71–73 как систему разграничения нормотворческих полномочий Федерации и её субъектов.',links:[['Глава 3 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter3.php'],['Позиция КС РФ о разграничении полномочий','https://www.ksrf.ru/doc/KSRFDecision30230.pdf']]},
+ {quote:'«На территории Российской Федерации не допускается установление таможенных границ…»',quoteRef:'ст. 74',meaning:'Федеративное устройство не означает разделение страны на отдельные внутренние рынки.',official:'Единство экономического пространства действует вместе с разграничением компетенций: субъект сохраняет власть в своей сфере, но не может разрушать общий рынок.',links:[['Глава 3 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter3.php']]},
+ {quote:'«По предметам совместного ведения … издаются федеральные законы…»',quoteRef:'ст. 76',meaning:'Совместное ведение означает не хаотичное дублирование, а юридически организованное соотношение федерального и регионального регулирования.',official:'КС РФ указывал: до принятия федерального закона субъект может регулировать соответствующий вопрос, а после его принятия региональные акты должны быть приведены в соответствие.',links:[['Позиция КС РФ о совместном ведении','https://www.ksrf.ru/doc/KSRFDecision30230.pdf']]}
+],
+4:[
+ {quote:'«Президент Российской Федерации является главой государства.»',quoteRef:'ст. 80',meaning:'Президент занимает особое место в системе публичной власти и обеспечивает взаимодействие её институтов в пределах Конституции.',official:'Официальный текст раскрывает статус Президента через конкретные полномочия; их нельзя расширять только из общей формулы о главе государства.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«…назначает Председателя Правительства Российской Федерации, кандидатура которого утверждена Государственной Думой…»',quoteRef:'ст. 83',meaning:'Даже кадровое полномочие может быть частью совместной процедуры нескольких институтов.',official:'Конституционная логика формирования органов власти строится на разграничении ролей: представление, утверждение, консультации и назначение — разные юридические действия.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Президент Российской Федерации осуществляет руководство внешней политикой Российской Федерации.»',quoteRef:'ст. 86',meaning:'Внешняя политика относится к отдельному конституционному направлению президентских полномочий.',official:'Полномочия Президента в сфере внешней политики и безопасности действуют в системе с полномочиями других органов, закреплёнными Конституцией.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Указы и распоряжения Президента Российской Федерации не должны противоречить Конституции … и федеральным законам.»',quoteRef:'ст. 90',meaning:'Президентский указ — правовой акт, но он не стоит над Конституцией и федеральным законом.',official:'Принцип верховенства Конституции означает, что компетенция и акты любого государственного органа имеют юридические пределы.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+5:[
+ {quote:'«Федеральное Собрание — парламент Российской Федерации — является представительным и законодательным органом…»',quoteRef:'ст. 94',meaning:'Парламент представляет население и осуществляет федеральную законодательную функцию.',official:'Двухпалатность означает не дублирование: Конституция отдельно закрепляет состав, организацию и предметы ведения каждой палаты.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«К ведению Совета Федерации относятся…»',quoteRef:'ст. 102',meaning:'У верхней палаты есть собственная компетенция, связанная в том числе с федеративными, кадровыми и иными конституционными вопросами.',official:'Полномочия палаты определяются Конституцией и не выводятся из общего статуса парламента произвольно.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«К ведению Государственной Думы относятся…»',quoteRef:'ст. 103',meaning:'Нижняя палата имеет отдельный набор полномочий, включая участие в формировании Правительства и парламентский контроль.',official:'Компетенция Государственной Думы и Совета Федерации различается; конституционные процедуры строятся с учётом этого разделения.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Федеральные законы принимаются Государственной Думой.»',quoteRef:'ст. 105',meaning:'Принятие закона Госдумой — важный, но не единственный этап: далее включаются правила рассмотрения Советом Федерации и участия Президента.',official:'Конституционный законодательный процесс представляет собой последовательность стадий, а специальные категории законов имеют дополнительные требования.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+6:[
+ {quote:'«Исполнительную власть Российской Федерации осуществляет Правительство Российской Федерации…»',quoteRef:'ст. 110',meaning:'Правительство — центральный конституционный институт федеральной исполнительной власти.',official:'Статус Правительства раскрывается не одной статьёй: порядок формирования, организация работы, полномочия и ответственность регулируются всей главой 6.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Председатель Правительства Российской Федерации назначается Президентом … после утверждения его кандидатуры Государственной Думой.»',quoteRef:'ст. 111',meaning:'Назначение Председателя — последовательная процедура, где Президент и Государственная Дума выполняют разные действия.',official:'Смысл процедуры — не в запоминании последовательности ради самой последовательности, а в институциональном взаимодействии при формировании исполнительной власти.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Правительство Российской Федерации … разрабатывает и представляет Государственной Думе федеральный бюджет…»',quoteRef:'ст. 114',meaning:'Правительство не только исполняет решения: Конституция закрепляет за ним самостоятельный набор направлений государственной деятельности.',official:'Перечень полномочий Правительства читается вместе с федеральными законами, которые конкретизируют порядок их осуществления.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«На основании и во исполнение Конституции Российской Федерации … Правительство … издает постановления и распоряжения…»',quoteRef:'ст. 115',meaning:'Акты Правительства имеют подзаконную природу и должны соответствовать актам более высокой юридической силы.',official:'Конституционная иерархия ограничивает исполнительное нормотворчество: Правительство действует в рамках Конституции, законов и актов Президента.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+7:[
+ {quote:'«Правосудие в Российской Федерации осуществляется только судом.»',quoteRef:'ст. 118',meaning:'Ни министерство, ни комиссия, ни другой административный орган не может присвоить себе функцию правосудия.',official:'Конституционные гарантии суда определяют не только организацию судебной системы, но и пределы вмешательства других ветвей власти.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Судьи независимы и подчиняются только Конституции Российской Федерации и федеральному закону.»',quoteRef:'ст. 120',meaning:'Независимость судьи защищает не личный комфорт судьи, а возможность получить решение, основанное на праве.',official:'КС РФ связывает независимость судебной власти с принципом разделения властей и недопустимостью внешнего определения исхода конкретного дела.',links:[['О конституционно-правовом смысле норм','https://www.ksrf.ru/about/legalbases/FCLM/Article87.php']]},
+ {quote:'«Конституционный Суд Российской Федерации является высшим судебным органом конституционного контроля…»',quoteRef:'ст. 125',meaning:'Конституционный Суд проверяет конституционность и разрешает иные вопросы в формах, прямо предусмотренных Конституцией.',official:'Официальное толкование Конституции, данное КС РФ в установленной процедуре, обязательно для органов власти, должностных лиц, граждан и организаций.',links:[['О толковании Конституции КС РФ','https://www.ksrf.ru/about/legalbases/FCL/Chapter3.php']]},
+ {quote:'«Верховный Суд Российской Федерации является высшим судебным органом…»',quoteRef:'ст. 126',meaning:'Верховный Суд и Конституционный Суд выполняют разные функции; прокуратура также имеет самостоятельный конституционный статус.',official:'Важно не смешивать конституционный контроль, высшую судебную инстанцию по соответствующим категориям дел и функции прокуратуры.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+8:[
+ {quote:'«Местное самоуправление … обеспечивает самостоятельное решение населением вопросов местного значения…»',quoteRef:'ст. 130',meaning:'Смысл МСУ — дать местному сообществу собственную сферу решения вопросов, непосредственно связанных с жизнью территории.',official:'КС РФ называет самостоятельность сущностной чертой местного самоуправления и связывает его цель с удовлетворением основных жизненных потребностей местного сообщества.',links:[['Глава 8 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter8.php'],['Позиция КС РФ о МСУ','https://www.ksrf.ru/doc/KSRFDecision94338.pdf']]},
+ {quote:'«Органы местного самоуправления самостоятельно управляют муниципальной собственностью…»',quoteRef:'ст. 132',meaning:'У муниципалитета есть собственные функции и ресурсы, которыми он управляет в рамках закона.',official:'КС РФ подчёркивает самостоятельность местного самоуправления в пределах полномочий, даже при его взаимодействии с государственной властью.',links:[['Правовые позиции КС РФ о МСУ','https://www.ksrf.ru/Decision/lp/frame/position/posByLI788.htm']]},
+ {quote:'«…при условии передачи им необходимых … материальных и финансовых средств.»',quoteRef:'ст. 132',meaning:'Если государство передаёт муниципалитету своё полномочие, вместе с задачей должны передаваться необходимые ресурсы.',official:'Конституция одновременно допускает государственный контроль за реализацией переданных полномочий: это отдельный режим, не равный собственным вопросам местного значения.',links:[['Глава 8 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter8.php']]},
+ {quote:'«Местное самоуправление … гарантируется правом на судебную защиту…»',quoteRef:'ст. 133',meaning:'Самостоятельность МСУ подкреплена юридическими гарантиями, а не оставлена только политической декларацией.',official:'КС РФ рассматривает судебную защиту и запрет необоснованного ограничения прав МСУ как элементы его конституционного статуса.',links:[['Глава 8 на сайте КС РФ','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter8.php']]}
+],
+9:[
+ {quote:'«Положения глав 1, 2 и 9 … не могут быть пересмотрены Федеральным Собранием.»',quoteRef:'ст. 135',meaning:'Наиболее фундаментальные части Конституции специально защищены от обычной процедуры изменения.',official:'Специальный порядок пересмотра выражает повышенную устойчивость основ строя, прав и свобод и самой процедуры конституционного изменения.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Поправки к главам 3–8 Конституции Российской Федерации принимаются в порядке…»',quoteRef:'ст. 136',meaning:'Для глав 3–8 действует отдельная процедура конституционной поправки, отличная от пересмотра глав 1, 2 и 9.',official:'Конституция разводит процедуры в зависимости от того, какую часть текста хотят изменить; сначала определяется объект изменения.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Изменения в статью 65 Конституции Российской Федерации…»',quoteRef:'ст. 137',meaning:'Состав Федерации и наименование субъекта изменяются по специальным правилам, а не через полный пересмотр Конституции.',official:'Статья 137 выделяет изменения статьи 65 в самостоятельный конституционный механизм.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+],
+10:[
+ {quote:'«Конституция Российской Федерации вступает в силу со дня официального ее опубликования…»',quoteRef:'Раздел II, п. 1',meaning:'Переходный раздел фиксирует юридический момент начала действия новой Конституции.',official:'Заключительные и переходные положения обеспечивают не только дату вступления в силу, но и непрерывность правовой системы.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Законы и другие правовые акты … применяются в части, не противоречащей Конституции…»',quoteRef:'Раздел II, п. 2',meaning:'Старая правовая система не исчезает мгновенно: прежние нормы проходят фильтр совместимости с новой Конституцией.',official:'Такой переходный механизм предотвращает правовой вакуум, одновременно обеспечивая верховенство новой Конституции.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]},
+ {quote:'«Совет Министров — Правительство Российской Федерации … сохраняет свои полномочия…»',quoteRef:'Раздел II, п. 6',meaning:'Переход к новой конституционной модели должен сохранять непрерывность работы институтов до формирования их по новым правилам.',official:'Переходные положения юридически связывают старую и новую институциональную систему, чтобы вступление Конституции в силу не создавало вакуума власти.',links:[['Официальный текст Конституции','https://www.ksrf.ru/about/legalbases/ConstitutionRF/Pages/default.aspx']]}
+]
+};
+
+const officialConstUrl='https://publication.pravo.gov.ru/document/0001202210060013';
+const routes=[
+ {title:'Основы и человек',subtitle:'От ценностей к правам',ids:[0,1,2],color:'#246BFD'},
+ {title:'Как устроена власть',subtitle:'Федерация и федеральные институты',ids:[3,4,5,6,7],color:'#765CFF'},
+ {title:'Управление на местах',subtitle:'Муниципальный уровень',ids:[8],color:'#FF4FA3'},
+ {title:'Как меняется система',subtitle:'Поправки и переход',ids:[9,10],color:'#55A6FF'}
+];
+
 const taskBank = {
 0:[
  {id:'0a',type:'multi',label:'Смысл',prompt:'Какие идеи относятся к ценностной рамке преамбулы?',options:[['Права и свободы человека',1],['Гражданский мир и согласие',1],['Ответственность перед поколениями',1],['Перечень федеральных министерств',0]],why:'Преамбула формулирует учредительные ценности, а не устройство конкретных органов.',refs:'Преамбула'},
@@ -175,19 +250,38 @@ Object.keys(taskBank).forEach(k=>{
   }));
 });
 
-const saved=JSON.parse(localStorage.getItem('gmu_const_v6')||'{}');
+Object.keys(caseBank).forEach(k=>{
+  (caseBank[k]||[]).forEach((c,i)=>{
+    checkBank[k].push({id:'case-'+k+'-'+i,type:'single',prompt:c.question,options:c.options,answer:c.answer,why:c.why,refs:c.refs});
+  });
+});
+
+const saved=JSON.parse(localStorage.getItem('gmu_const_v7')||localStorage.getItem('gmu_const_v6')||'{}');
 const state={
   viewed:new Set(saved.viewed||[]),
   doneTasks:saved.doneTasks||{},
   doneCases:saved.doneCases||{},
   scores:saved.scores||{},
-  sound:saved.sound!==false
+  bosses:new Set(saved.bosses||[]),
+  sound:saved.sound!==false,
+  lastModule:Number.isFinite(saved.lastModule)?saved.lastModule:1
 };
-let currentModule=null,currentTab='learn',blockIndex=0,currentTask=null,caseIndex=0,checkState=null;
+let currentModule=null,currentTab='learn',blockIndex=0,learnMode='quote',currentTask=null,caseIndex=0,checkState=null;
 
-function save(){localStorage.setItem('gmu_const_v6',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,sound:state.sound}))}
+function save(){localStorage.setItem('gmu_const_v7',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,bosses:[...state.bosses],sound:state.sound,lastModule:state.lastModule}))}
 function targetsFor(id){return targets.filter(t=>t.chapter===id)}
 function mLabel(id){return id===0?'Преамбула':id===10?'Раздел II':'Глава '+id}
+function totalTaskDone(){return Object.values(state.doneTasks).reduce((a,v)=>a+(v?.length||0),0)}
+function totalCaseDone(){return Object.values(state.doneCases).reduce((a,v)=>a+(v?.length||0),0)}
+function rating(){
+  const scoreBonus=Object.values(state.scores).reduce((a,v)=>a+Math.floor((Number(v)||0)/5),0);
+  return 1000+totalTaskDone()*35+totalCaseDone()*55+state.bosses.size*180+scoreBonus
+}
+function league(){
+  const r=rating();
+  if(r<1200)return['Стажёр','I'];if(r<1500)return['Исследователь','II'];if(r<1900)return['Аналитик','III'];if(r<2400)return['Советник','IV'];return['Архитектор публичной власти','V']
+}
+function bossUnlocked(id){return (state.doneTasks[id]?.length||0)>=taskBank[id].length&&(state.doneCases[id]?.length||0)>=caseBank[id].length}
 function modulePct(id){
   const total=(taskBank[id]?.length||0)+(caseBank[id]?.length||0)+(checkBank[id]?.length||0);
   const done=(state.doneTasks[id]?.length||0)+(state.doneCases[id]?.length||0)+(state.scores[id]!==undefined?(checkBank[id]?.length||0):0);
@@ -212,22 +306,54 @@ function tone(freq,start,dur,type='sine',vol=.04){
 function successSound(){tone(523,0,.11,'triangle',.05);tone(659,.08,.13,'triangle',.05);tone(784,.17,.16,'sine',.05);tone(1047,.28,.10,'sine',.03)}
 function errorSound(){tone(220,0,.13,'sawtooth',.025);tone(165,.10,.17,'triangle',.035)}
 
+function bindRipple(){
+  document.querySelectorAll('button,.rippleHost').forEach(el=>{
+    if(el.dataset.rippleBound)return;el.dataset.rippleBound='1';
+    el.addEventListener('pointerdown',e=>{
+      const r=el.getBoundingClientRect(),d=document.createElement('span'),size=Math.max(r.width,r.height);
+      d.className='rippleFx';d.style.width=d.style.height=size+'px';d.style.left=(e.clientX-r.left-size/2)+'px';d.style.top=(e.clientY-r.top-size/2)+'px';el.appendChild(d);setTimeout(()=>d.remove(),550)
+    })
+  })
+}
+function confetti(origin){
+  const r=origin?.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
+  const palette=['#246BFD','#FF4FA3','#765CFF','#20AD72'];
+  for(let i=0;i<18;i++){const p=document.createElement('i');p.className='confetti';p.style.background=palette[i%palette.length];p.style.left=(r.left+r.width/2)+'px';p.style.top=(r.top+r.height/2)+'px';p.style.setProperty('--dx',(Math.random()*220-110)+'px');p.style.setProperty('--dy',(-40-Math.random()*150)+'px');document.body.appendChild(p);setTimeout(()=>p.remove(),900)}
+}
+function xpPop(amount,origin){
+  const r=origin?.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0};
+  const p=document.createElement('div');p.className='xpPop';p.textContent='+'+amount+' рейтинга';p.style.left=(r.left+r.width/2)+'px';p.style.top=r.top+'px';document.body.appendChild(p);setTimeout(()=>p.remove(),950)
+}
 function renderHome(){
-  const g=document.getElementById('modules');g.innerHTML='';
-  chapters.forEach(ch=>{
-    const p=modulePct(ch.id),b=document.createElement('button');
-    b.className='moduleCard';b.style.setProperty('--accent',ch.accent);
-    b.innerHTML='<div class="cardTop"><div class="num">'+(ch.id===0?'§':ch.id===10?'II':String(ch.id).padStart(2,'0'))+'</div><div class="range">'+ch.range+'</div></div>'+
-      '<h3>'+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p><div class="bar"><span style="width:'+p+'%"></span></div>'+
-      '<div class="cardFoot"><span>'+p+'% освоено</span><span>'+taskBank[ch.id].length+' уникальных заданий</span></div>';
-    b.onclick=()=>openModule(ch.id);g.appendChild(b)
+  const r=rating(),lg=league(),continueId=chapters.some(ch=>modulePct(ch.id)<100)?(chapters.find(ch=>modulePct(ch.id)<100)?.id??state.lastModule):state.lastModule;
+  const ch=chapters.find(x=>x.id===continueId)||chapters[1],cp=modulePct(ch.id);
+  const cont=document.getElementById('continueCard');
+  cont.innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div>'+
+    '<div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" onclick="openModule('+ch.id+')">Продолжить →</button></div>';
+
+  const rg=document.getElementById('routes');rg.innerHTML='';
+  routes.forEach(route=>{
+    const d=document.createElement('section');d.className='routeCard';d.style.setProperty('--route',route.color);
+    d.innerHTML='<div class="routeTop"><div><h3>'+route.title+'</h3><p>'+route.subtitle+'</p></div><span>'+route.ids.length+' мод.</span></div><div class="chapterPills"></div>';
+    const pills=d.querySelector('.chapterPills');
+    route.ids.forEach(id=>{
+      const c=chapters.find(x=>x.id===id),p=modulePct(id),b=document.createElement('button');b.className='chapterPill rippleHost';
+      b.innerHTML='<span>'+(id===0?'§':id===10?'II':id)+'</span><span>'+c.name+'</span><span class="miniPct">'+p+'%</span>';
+      b.onclick=()=>openModule(id);pills.appendChild(b)
+    });rg.appendChild(d)
   });
-  document.getElementById('globalProgress').textContent=state.viewed.size+' / '+targets.length+' норм просмотрено';
-  syncSoundButton()
+
+  const hud=document.getElementById('gameHud');
+  hud.innerHTML='<div class="rankRow"><div class="avatar">'+lg[1]+'</div><div><h3>'+lg[0]+'</h3><p>Лига '+lg[1]+' · рейтинг растёт за практику, кейсы и боссов</p></div></div>'+
+    '<div><div class="ratingLabel">Конституционный рейтинг</div><div class="ratingValue">'+r+'</div></div>'+
+    '<div class="gameStats"><div class="gameStat"><b>'+totalTaskDone()+'</b><span>заданий решено</span></div><div class="gameStat"><b>'+state.bosses.size+' / '+chapters.length+'</b><span>боссов побеждено</span></div></div>'+
+    '<div class="bossShelf"><h4>Боссы глав</h4><div class="bossIcons">'+chapters.map(c=>'<div class="bossIcon '+(state.bosses.has(c.id)?'won':'')+'" title="'+mLabel(c.id)+'">'+(state.bosses.has(c.id)?'★':(c.id===0?'§':c.id===10?'II':c.id))+'</div>').join('')+'</div></div>'+
+    '<div class="quest"><b>Миссия:</b> завершите практику и кейс текущей главы — откроется её Босс. Победа даёт самый большой прирост рейтинга.</div>';
+  syncSoundButton();bindRipple()
 }
 function showHome(){currentModule=null;document.getElementById('crumb').textContent='Разделы Конституции';renderHome();showPage('home')}
 function openModule(id){
-  currentModule=id;currentTab='learn';blockIndex=0;currentTask=null;caseIndex=0;checkState=null;
+  currentModule=id;state.lastModule=id;save();currentTab='learn';blockIndex=0;learnMode='quote';currentTask=null;caseIndex=0;checkState=null;
   const ch=chapters.find(x=>x.id===id);
   document.getElementById('crumb').textContent=mLabel(id)+' · '+ch.name;
   document.getElementById('courseKicker').textContent=mLabel(id);
@@ -241,17 +367,34 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentTab=b.dataset
 function renderTab(){if(currentTab==='learn')renderLearn();else if(currentTab==='scheme')renderScheme();else if(currentTab==='practice')renderPractice();else if(currentTab==='cases')renderCases();else renderCheck()}
 
 function renderLearn(){
-  const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],ids=bl[3]||[],panel=document.getElementById('panel');
+  const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById('panel');
   ids.forEach(id=>state.viewed.add(id));save();
-  panel.innerHTML='<div class="learn"><aside class="rail"><div><div class="eyebrow">Смысловые блоки</div><h3>Разобраться</h3><p>Номер статьи здесь только источник. Сначала — идея и механизм.</p></div><div class="clusterList" id="clusterList"></div></aside>'+
-    '<div class="learnMain"><div class="bigIdea"><div><div class="eyebrow">'+mLabel(currentModule)+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><span class="refs">'+bl[2]+'</span></div><div class="normGrid" id="normGrid"></div>'+
-    '<div class="note">Смысловой конспект не заменяет официальный текст Конституции. Номер нормы показывается как источник, но не является объектом запоминания.</div></div></div>';
+
+  panel.innerHTML='<div class="learn"><aside class="rail"><div><div class="eyebrow">Смысловые блоки</div><h3>Разобраться</h3><p>Каждый блок: дословная формула Конституции → учебный смысл → официальная практика.</p></div><div class="clusterList" id="clusterList"></div></aside>'+
+    '<div class="learnMain"><div class="bigIdea"><div><div class="eyebrow">'+mLabel(currentModule)+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><span class="refs">'+bl[2]+'</span></div>'+
+    '<div class="learnModeTabs"><button class="learnMode '+(learnMode==='quote'?'active':'')+'" onclick="setLearnMode(\'quote\')">Цитата</button><button class="learnMode '+(learnMode==='meaning'?'active':'')+'" onclick="setLearnMode(\'meaning\')">Что это значит</button><button class="learnMode '+(learnMode==='official'?'active':'')+'" onclick="setLearnMode(\'official\')">Практика КС РФ</button></div>'+
+    '<div class="learnContent '+(learnMode==='quote'?'quoteMode':'')+' learnPulse" id="learnContent"></div>'+
+    '<div class="microActions"><button class="microBtn rippleHost" onclick="setLearnMode(\'quote\')">«» Текст</button><button class="microBtn rippleHost" onclick="setLearnMode(\'meaning\')">◎ Смысл</button><button class="microBtn rippleHost" onclick="switchTab(\'scheme\')">⇄ Показать схему</button><button class="microBtn rippleHost" onclick="switchTab(\'practice\')">⚡ Проверить себя</button></div></div></div>';
+
   const list=document.getElementById('clusterList');
-  inf.blocks.forEach((x,i)=>{const b=document.createElement('button');b.className='clusterBtn'+(i===blockIndex?' active':'');b.innerHTML='<b>'+x[0]+'</b><span>'+x[2]+'</span>';b.onclick=()=>{blockIndex=i;renderLearn()};list.appendChild(b)});
-  const grid=document.getElementById('normGrid');
-  let arr=ids.map(id=>targets.find(t=>t.id===id)).filter(Boolean);if(!arr.length)arr=targetsFor(currentModule).slice(0,8);
-  arr.forEach(t=>{state.viewed.add(t.id);const d=document.createElement('div');d.className='norm';d.innerHTML='<b>'+t.label+'</b><p>'+t.topic+'</p>';grid.appendChild(d)});
-  save();renderHome()
+  inf.blocks.forEach((x,i)=>{const b=document.createElement('button');b.className='clusterBtn rippleHost'+(i===blockIndex?' active':'');b.innerHTML='<b>'+x[0]+'</b><span>'+x[2]+'</span>';b.onclick=()=>{blockIndex=i;learnMode='quote';renderLearn()};list.appendChild(b)});
+  renderLearnContent(meta,bl);
+  bindRipple()
+}
+function setLearnMode(mode){learnMode=mode;renderLearn()}
+function renderLearnContent(meta,bl){
+  const c=document.getElementById('learnContent');if(!c)return;
+  if(learnMode==='quote'){
+    c.classList.add('quoteMode');
+    c.innerHTML='<div><div class="constQuote">'+(meta.quote||'Откройте официальный текст нормы.')+'</div><div class="constQuoteSource"><span class="sourceChip">'+(meta.quoteRef||bl[2])+'</span><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></div>';
+  }else if(learnMode==='meaning'){
+    c.classList.remove('quoteMode');
+    c.innerHTML='<div class="explainCard"><h4>Учебное объяснение</h4><p>'+(meta.meaning||bl[1])+'</p><div class="officialNotice">Это учебный пересказ смысла нормы, а не официальное толкование Конституционного Суда.</div></div>';
+  }else{
+    c.classList.remove('quoteMode');
+    const links=(meta.links||[]).map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join('');
+    c.innerHTML='<div class="officialCard"><div><h4>Официальная практика и толкование</h4><p>'+(meta.official||'Отдельная правовая позиция КС РФ для этого учебного блока в локальный банк не внесена; используйте официальный текст Конституции и решения КС РФ.')+'</p><div class="officialNotice">КС РФ даёт официальное и обязательное толкование Конституции только в установленной законом процедуре. Учебное объяснение на соседней вкладке не подменяет такое толкование.</div></div><div class="officialLinks">'+links+'</div></div>';
+  }
 }
 function renderScheme(){
   const d=moduleInfo[currentModule].diagram,p=document.getElementById('panel');let body='';
@@ -304,9 +447,9 @@ function renderTaskInput(t){
     const c=document.createElement('button');c.className='btn primary check';c.textContent='Проверить распределение';c.onclick=answerClassify;g.appendChild(c);z.appendChild(g)
   }
 }
-function fail(msg,el){errorSound();if(el&&el.classList)el.classList.add('wrong');document.getElementById('feedback').innerHTML='<b>Не получилось.</b> '+msg+' Попробуйте ещё раз — правильный вариант не раскрывается автоматически.';if(el&&el.classList)setTimeout(()=>el.classList.remove('wrong'),500)}
+function fail(msg,el){errorSound();if(el&&el.classList){el.classList.add('wrong','shake');setTimeout(()=>el.classList.remove('shake'),350)}document.getElementById('feedback').innerHTML='<b>Не получилось.</b> '+msg+' Попробуйте ещё раз — правильный вариант не раскрывается автоматически.';if(el&&el.classList)setTimeout(()=>el.classList.remove('wrong'),500)}
 function succeed(el){
-  successSound();if(el&&el.classList)el.classList.add('correct');
+  successSound();if(el&&el.classList)el.classList.add('correct','glowSuccess');confetti(el);xpPop(35,el);
   document.getElementById('feedback').innerHTML='<b>Верно.</b> '+currentTask.why+' <span class="refs">Основание: '+currentTask.refs+'</span>';
   if(!state.doneTasks[currentModule])state.doneTasks[currentModule]=[];
   if(!state.doneTasks[currentModule].includes(currentTask.id))state.doneTasks[currentModule].push(currentTask.id);
@@ -348,25 +491,35 @@ function renderCases(){
   c.options.forEach((x,i)=>{const b=document.createElement('button');b.className='ans';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>{document.querySelectorAll('#caseAnswers .ans').forEach(y=>y.disabled=true);const e=document.getElementById('caseExplain');e.style.display='block';if(i===c.answer){successSound();b.classList.add('correct');e.innerHTML='<b>Верно.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>';if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);save();updateProgress()}else{errorSound();b.classList.add('wrong');e.innerHTML='<b>Нет.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>'}};a.appendChild(b)})
 }
 function renderCheck(){
-  const bank=checkBank[currentModule]||[];
-  if(!bank.length){document.getElementById('panel').innerHTML='<div class="finish"><div><div class="score">—</div><h3>Итоговый блок ещё не готов</h3></div></div>';return}
-  if(!checkState){document.getElementById('panel').innerHTML='<div class="finish"><div><div class="score">'+bank.length+'</div><h3>Итоговый контроль раздела</h3><p>Здесь только смысловые вопросы. Номера статей даны как источник.</p><div class="row"><button class="btn primary" onclick="startCheck()">Начать →</button></div></div></div>';return}
+  const bank=checkBank[currentModule]||[],panel=document.getElementById('panel');
+  if(!bossUnlocked(currentModule)&&!state.bosses.has(currentModule)){
+    const tasks=state.doneTasks[currentModule]?.length||0,cases=state.doneCases[currentModule]?.length||0;
+    panel.innerHTML='<div class="bossPanel"><div class="bossCard bossLocked"><div class="lock">🔒</div><h3>Босс главы пока закрыт</h3><p>Сначала завершите уникальную практику и разберите все кейсы этой главы. Здесь нет фарма на повторениях: босс открывается за содержательное прохождение.</p><div class="bossReward">Практика: '+tasks+' / '+taskBank[currentModule].length+' · Кейсы: '+cases+' / '+caseBank[currentModule].length+'</div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn primary" onclick="switchTab(\'practice\')">В практику →</button></div></div></div>';bindRipple();return
+  }
+  if(!checkState){
+    const won=state.bosses.has(currentModule);
+    panel.innerHTML='<div class="bossPanel"><div class="bossCard"><div class="bossTop"><div class="bossMark">⚔</div><div><div class="eyebrow">Босс '+mLabel(currentModule)+'</div><h3>'+chapters.find(x=>x.id===currentModule).name+'</h3><p>'+bank.length+' финальных вопросов · первая попытка фиксируется</p></div><div class="bossHealth">'+Array.from({length:Math.max(3,bank.length)},()=>'<span class="heart on">♥</span>').join('')+'</div></div><div class="bossReward">'+(won?'★ Босс уже побеждён. Повтор доступен для тренировки.':'Награда: победа в главе, свечение профиля и +180 к игровому рейтингу.')+'</div><div class="row" style="justify-content:center;margin-top:16px"><button class="btn pink rippleHost" onclick="startCheck()">Вызвать босса →</button></div></div></div>';bindRipple();return
+  }
   if(checkState.i>=bank.length){
-    const score=Math.round(checkState.correct/bank.length*100);state.scores[currentModule]=Math.max(state.scores[currentModule]||0,score);save();updateProgress();if(score>=70)successSound();else errorSound();
-    document.getElementById('panel').innerHTML='<div class="finish"><div><div class="score">'+score+'%</div><h3>'+checkState.correct+' из '+bank.length+'</h3><p>Попытка завершена без повторов.</p><div class="row"><button class="btn ghost" onclick="checkState=null;renderCheck()">Назад</button><button class="btn primary" onclick="startCheck()">Новая попытка</button></div></div></div>';return
+    const score=Math.round(checkState.correct/bank.length*100),win=score>=70,first=win&&!state.bosses.has(currentModule);
+    if(win)state.bosses.add(currentModule);
+    state.scores[currentModule]=Math.max(state.scores[currentModule]||0,score);save();updateProgress();
+    if(win){successSound();confetti(panel);if(first)xpPop(180,panel)}else errorSound();
+    panel.innerHTML='<div class="finish"><div><div class="score">'+score+'%</div><h3>'+(win?'Босс побеждён':'Босс устоял')+'</h3><p>'+(win?'Глава закрыта. Победа отмечена в игровом профиле.':'Нужно не менее 70%. Повторная попытка доступна, вопросы не фармят прогресс практики.')+'</p><div class="row"><button class="btn ghost" onclick="checkState=null;renderCheck()">Назад</button><button class="btn primary rippleHost" onclick="startCheck()">Новая попытка</button></div></div></div>';renderHome();bindRipple();return
   }
   const q=bank[checkState.i],opts=q.type==='multi'?q.options.map(x=>x[0]):q.options;
-  document.getElementById('panel').innerHTML='<div class="practice"><div class="taskArea"><div class="taskMeta"><span class="tag">Итог · '+q.refs+'</span><span class="count">'+(checkState.i+1)+' / '+bank.length+'</span></div><div class="taskPrompt">'+q.prompt+'</div><div class="taskSub">Оценивается понимание смысла, а не номер статьи.</div><div class="answerZone"><div class="answers" id="checkAnswers"></div></div><div class="feedback">Ответ фиксируется с первой попытки.</div></div></div>';
+  panel.innerHTML='<div class="practice"><div class="taskArea"><div class="taskMeta"><span class="tag">Босс · '+q.refs+'</span><span class="count">'+(checkState.i+1)+' / '+bank.length+'</span></div><div class="taskPrompt">'+q.prompt+'</div><div class="taskSub">Номер нормы уже указан. Проверяется понимание механизма.</div><div class="answerZone"><div class="answers" id="checkAnswers"></div></div><div class="feedback">Ответ фиксируется с первой попытки.</div></div><aside class="taskSide"><div><div class="eyebrow">Бой</div><h3>Не зубрёжка</h3><p>Босс использует смысловые задачи и кейсы пройденной главы.</p></div><div class="doneBox"><b>'+checkState.correct+'</b>точных решений</div><div></div><button class="btn ghost" onclick="checkState=null;renderCheck()">Отступить</button></aside></div>';
   const a=document.getElementById('checkAnswers');
-  opts.forEach((x,i)=>{const b=document.createElement('button');b.className='ans';b.dataset.i=i;b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>q.type==='multi'?b.classList.toggle('selected'):submitCheckSingle(i);a.appendChild(b)});
-  if(q.type==='multi'){const b=document.createElement('button');b.className='btn primary check';b.textContent='Зафиксировать ответ';b.onclick=submitCheckMulti;a.appendChild(b)}
+  opts.forEach((x,i)=>{const b=document.createElement('button');b.className='ans rippleHost';b.dataset.i=i;b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>q.type==='multi'?b.classList.toggle('selected'):submitCheckSingle(i);a.appendChild(b)});
+  if(q.type==='multi'){const b=document.createElement('button');b.className='btn primary check rippleHost';b.textContent='Зафиксировать ответ';b.onclick=submitCheckMulti;a.appendChild(b)}
+  bindRipple()
 }
 function startCheck(){checkState={i:0,correct:0};renderCheck()}
-function advanceCheck(ok){if(ok){checkState.correct++;successSound()}else errorSound();checkState.i++;setTimeout(renderCheck,300)}
+function advanceCheck(ok){if(ok){checkState.correct++;successSound()}else errorSound();checkState.i++;setTimeout(renderCheck,320)}
 function submitCheckSingle(i){advanceCheck(i===checkBank[currentModule][checkState.i].answer)}
 function submitCheckMulti(){
   const q=checkBank[currentModule][checkState.i],got=[...document.querySelectorAll('#checkAnswers .ans.selected')].map(x=>+x.dataset.i).sort((a,b)=>a-b),need=q.options.map((o,i)=>o[1]?i:null).filter(x=>x!==null);
   advanceCheck(got.length===need.length&&got.every((x,i)=>x===need[i]))
 }
 
-renderHome();syncSoundButton();
+renderHome();syncSoundButton();bindRipple();
