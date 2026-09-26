@@ -5279,3 +5279,289 @@ button,a,textarea,input{font-family:inherit!important}
   .practiceCaseBody h5{font-size:10.5px!important}
   .practiceCaseBody p{font-size:9.3px!important}
 }
+
+
+/* =========================================================
+   LEARN MODE V9 — COMPLETE TEXT, PLAIN EXPLANATION, KС TIMELINE
+   ========================================================= */
+
+.reader{
+  min-height:0!important;
+}
+.readerBody{
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.readerPane{
+  display:none!important;
+  height:100%!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  scrollbar-gutter:stable!important;
+  overscroll-behavior:contain!important;
+}
+.learningStudio[data-pane="meaning"] .paneMeaning,
+.learningStudio[data-pane="quote"] .paneQuote,
+.learningStudio[data-pane="official"] .paneOfficial{
+  display:block!important;
+}
+
+/* visible, unobtrusive scrollbar */
+.readerPane{
+  scrollbar-width:thin!important;
+  scrollbar-color:#9fb7ee #eef3fb!important;
+}
+.readerPane::-webkit-scrollbar{width:10px!important}
+.readerPane::-webkit-scrollbar-track{
+  background:#eef3fb!important;
+  border-radius:999px!important;
+}
+.readerPane::-webkit-scrollbar-thumb{
+  background:linear-gradient(#7fa5ff,#d779bd)!important;
+  border:2px solid #eef3fb!important;
+  border-radius:999px!important;
+}
+
+.readerPaneContent,
+.fullArticles,
+.practiceTimeline,
+.practiceApply,
+.practiceFeature,
+.practiceEmpty,
+.readerPaneIntro{
+  width:min(100%,1040px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+.readerTabs{
+  justify-content:center!important;
+  align-items:center!important;
+}
+.readerTab{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  min-width:150px!important;
+  font-size:10px!important;
+  line-height:1.2!important;
+}
+
+.readerHeader{
+  align-items:center!important;
+}
+.readerHeader>div:first-child{
+  text-align:left!important;
+}
+.readerNav{
+  align-items:center!important;
+  justify-content:center!important;
+}
+.readerNav .conceptArrow{
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  line-height:1!important;
+}
+
+/* plain-language explanation */
+.plainLead,
+.plainLife,
+.plainQuestion{
+  width:min(100%,1040px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.plainLead{
+  text-align:center!important;
+}
+.plainLead>span{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.plainLead h4{
+  max-width:850px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.plainLead p{
+  max-width:900px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.plainLife,
+.plainQuestion{
+  align-items:center!important;
+}
+.plainLife b,
+.plainQuestion b{
+  text-align:center!important;
+}
+.plainArticle{
+  align-items:center!important;
+}
+.plainArticleNo{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* complete Constitution text */
+.readerPaneIntro{
+  position:sticky!important;
+  top:0!important;
+  z-index:8!important;
+  background:rgba(249,251,255,.97)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.readerPaneIntro>div{
+  text-align:center!important;
+  margin:0 auto!important;
+}
+.readerPaneIntro span,
+.readerPaneIntro h4{
+  text-align:center!important;
+}
+.fullArticleHead{
+  justify-content:center!important;
+}
+.fullArticleBody{
+  font-size:13.5px!important;
+  line-height:1.72!important;
+}
+
+/* Constitutional Court practice */
+.practiceSteps{
+  max-width:850px!important;
+  margin:12px auto 0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.practiceSteps>div{
+  min-height:58px!important;
+  padding:8px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  gap:5px!important;
+  border:1px solid #dce5f5!important;
+  border-radius:12px!important;
+  background:#fff!important;
+}
+.practiceSteps b{
+  width:25px!important;
+  height:25px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:8px!important;
+  background:linear-gradient(135deg,#edf4ff,#fff0f8)!important;
+  color:#2f63cf!important;
+  font-size:9px!important;
+}
+.practiceSteps span{
+  font-size:9px!important;
+  line-height:1.25!important;
+  font-weight:800!important;
+  color:#56698f!important;
+}
+.practiceCase{
+  align-items:stretch!important;
+}
+.practiceYear{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.practiceCaseTop{
+  align-items:center!important;
+}
+.practiceCaseBody>a{
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.practiceCaseRefs{
+  align-items:center!important;
+}
+
+/* left topic rail */
+.topicRailHead{
+  align-items:center!important;
+}
+.topicRailItem>span{
+  display:grid!important;
+  place-items:center!important;
+}
+.topicRailItem{
+  align-items:center!important;
+}
+
+/* footer controls centered */
+.readerFooter{
+  align-items:center!important;
+}
+.readerFooter>div{
+  align-items:center!important;
+}
+.readerFooter .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* tablet */
+@media(min-width:768px) and (max-width:1100px){
+  .readerTab{
+    min-width:130px!important;
+    font-size:9px!important;
+  }
+  .practiceSteps{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .fullArticleBody{
+    font-size:12px!important;
+    line-height:1.65!important;
+  }
+}
+
+/* phone */
+@media(max-width:767px){
+  .readerPane{
+    scrollbar-gutter:auto!important;
+  }
+  .readerPane::-webkit-scrollbar{width:6px!important}
+  .readerTabs{
+    justify-content:flex-start!important;
+  }
+  .readerTab{
+    min-width:auto!important;
+    flex:0 0 auto!important;
+    font-size:8px!important;
+  }
+  .readerPaneIntro{
+    top:0!important;
+  }
+  .practiceSteps{
+    grid-template-columns:1fr 1fr!important;
+    gap:5px!important;
+  }
+  .practiceSteps>div{
+    min-height:48px!important;
+  }
+  .practiceSteps span{
+    font-size:7.8px!important;
+  }
+  .fullArticleBody{
+    font-size:11px!important;
+    line-height:1.6!important;
+  }
+}
