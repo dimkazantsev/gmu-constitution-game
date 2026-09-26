@@ -821,3 +821,51 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .coachResponse .coachActions{display:grid;grid-template-columns:1fr 1fr}
   .coachResponse .coachActions .btn{min-width:0}
 }
+
+
+/* ===== CLEAR TRAINER REVIEW STATE ===== */
+.coachResponse.reviewed{
+  grid-template-rows:auto 118px auto minmax(220px,1fr);
+}
+.coachResponse.reviewed .freeAnswer{
+  min-height:118px;max-height:118px;
+  background:#f7f9fd;
+}
+.coachResponse.reviewed .coachActions{
+  border-top:1px solid var(--line);
+  padding-top:8px;
+}
+.coachResponse.reviewed .coachResult{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(255,79,163,.06),transparent 28%),
+    linear-gradient(145deg,#fff,#f8fbff);
+  border-color:#cbd8f3;
+  box-shadow:0 12px 28px rgba(42,69,135,.07);
+  padding:14px 15px;
+}
+.coachResultLabel{
+  display:inline-flex;align-items:center;
+  min-height:26px;padding:0 9px;border-radius:999px;
+  background:linear-gradient(135deg,var(--soft),var(--softpink));
+  color:var(--blue);font-size:9.5px;font-weight:1000;
+  text-transform:uppercase;letter-spacing:.09em;
+  margin-bottom:9px
+}
+.coachResponse.reviewed .coachResultHead{
+  margin-bottom:7px
+}
+.coachResponse.reviewed .detected{
+  margin:9px 0 10px
+}
+.coachResponse.reviewed .modelAnswer{
+  margin-top:8px
+}
+
+@media(max-width:1100px){
+  .coachResponse.reviewed{
+    grid-template-rows:auto 110px auto minmax(240px,1fr)
+  }
+  .coachResponse.reviewed .freeAnswer{
+    min-height:110px;max-height:110px
+  }
+}
