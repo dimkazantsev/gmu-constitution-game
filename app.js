@@ -612,10 +612,15 @@ function renderCourseChapterVisual(id){
   };
   const sc=scenes[id]||scenes[0];
   el.className="courseChapterVisual visual-"+sc.shape;
+  const blockCount=moduleInfo[id]?.blocks?.length||0;
+  const caseCount=caseBank[id]?.length||0;
   el.innerHTML='<div class="visualGlow g1"></div><div class="visualGlow g2"></div>'+
     '<div class="visualNode n1"></div><div class="visualNode n2"></div><div class="visualNode n3"></div>'+
     '<div class="visualLine l1"></div><div class="visualLine l2"></div>'+
-    '<div class="visualCore">'+sc.icon+'</div><div class="visualCaption">'+sc.label+'</div>';
+    '<div class="visualBadge">Живая схема</div>'+
+    '<div class="visualCore">'+sc.icon+'</div>'+
+    '<div class="visualCaption">'+sc.label+'</div>'+
+    '<div class="visualMeta">'+blockCount+' блока · '+caseCount+' кейс'+(caseCount===1?'':'а')+'</div>';
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
@@ -634,8 +639,31 @@ function openModule(id){
 function updateProgress(){
   if(currentModule===null)return;
   const p=modulePct(currentModule);
+  const blocks=moduleInfo[currentModule]?.blocks||[];
+  const cases=caseBank[currentModule]||[];
+  const learned=blocks.filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length;
+  const doneCases=state.doneCases[currentModule]?.length||0;
+
   document.getElementById("coursePct").textContent=p+"%";
   document.getElementById("courseBar").style.width=p+"%";
+
+  const meta=document.getElementById("progressMeta");
+  const action=document.getElementById("progressAction");
+  if(meta&&action){
+    if(learned<blocks.length){
+      meta.textContent="Разобрано "+learned+" из "+blocks.length+" смысловых блоков";
+      action.textContent=learned===0?"Начать разбор →":"Продолжить разбор →";
+      action.onclick=()=>switchTab("learn");
+    }else if(doneCases<cases.length){
+      meta.textContent="Теория пройдена · кейсы "+doneCases+" из "+cases.length;
+      action.textContent="Перейти к кейсам →";
+      action.onclick=()=>switchTab("cases");
+    }else{
+      meta.textContent="Глава освоена · можно закрепить материал";
+      action.textContent="Открыть ИИ‑тренер →";
+      action.onclick=()=>switchTab("coach");
+    }
+  }
   renderChapterNavigator()
 }
 function activateCourseTab(tab){
