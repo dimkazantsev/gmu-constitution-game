@@ -306,3 +306,146 @@ h1,h2,h3,h4,p{margin:0}
   .schemeBoard{grid-template-columns:1fr}.schemeText{display:none}
   .practice,.caseLayout,.coach{grid-template-columns:1fr}.taskSide,.caseVisual,.coachSide{display:none}
 }
+
+
+/* ===== CLEAN WORKSPACE PASS ===== */
+.page{padding:14px 18px}
+.home,.course{display:block;width:100%;height:100%;max-width:none;margin:0}
+.homeWorkspace{height:100%;display:grid;grid-template-rows:72px 150px minmax(0,1fr);gap:12px}
+.courseWorkspace{height:100%;display:grid;grid-template-rows:54px 72px 44px minmax(0,1fr);gap:10px}
+.homeTitle{padding:0 4px}
+.homeTitle h1{font-size:36px}
+.homeTitle p{font-size:13px;max-width:760px}
+.homeFocus{grid-template-columns:1.35fr .65fr}
+.homeChapters{
+  min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(96px,1fr);gap:10px
+}
+.homeChapterCard{
+  border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px 15px;text-align:left;
+  box-shadow:0 8px 24px rgba(42,69,135,.05);transition:.16s;position:relative;overflow:hidden
+}
+.homeChapterCard:hover{transform:translateY(-2px);box-shadow:0 15px 34px rgba(42,69,135,.10);border-color:#cbd9fb}
+.homeChapterCard h3{font-size:15px;line-height:1.15;margin-top:9px}
+.homeChapterCard p{font-size:11px;color:var(--muted);line-height:1.3;margin-top:4px}
+.homeChapterTop{display:flex;align-items:center;justify-content:space-between}
+.homeChapterNum{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--pink));display:grid;place-items:center;color:#fff;font-size:11px;font-weight:1000}
+.homeChapterPct{font-size:11px;color:var(--muted);font-weight:900}
+
+/* chapter navigation */
+.chapterNavigator{
+  position:relative;display:grid;grid-template-columns:48px minmax(280px,520px) 48px 110px;gap:8px;align-items:center
+}
+.chapterArrow,.allChaptersBtn,.chapterPicker{
+  min-height:44px;border:1px solid var(--line);background:#fff;border-radius:12px
+}
+.chapterArrow{font-size:20px;font-weight:1000}
+.chapterArrow:disabled{opacity:.25;cursor:default}
+.chapterPicker{padding:0 14px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.chapterPickerLabel{font-size:13px;font-weight:1000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chapterPickerHint{font-size:10px;color:var(--muted);white-space:nowrap}
+.allChaptersBtn{font-size:11px;font-weight:1000}
+.chapterMenu{
+  display:none;position:absolute;z-index:40;top:50px;left:56px;width:min(620px,72vw);max-height:430px;overflow:auto;
+  padding:8px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 25px 70px rgba(35,61,125,.18)
+}
+.chapterMenu.open{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chapterMenu button{
+  min-height:44px;border:1px solid transparent;border-radius:11px;background:#f9fbff;padding:8px 10px;text-align:left;
+  display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center
+}
+.chapterMenu button:hover{border-color:var(--line);background:linear-gradient(135deg,var(--soft),var(--softpink))}
+.chapterMenu .mnum{width:30px;height:30px;border-radius:8px;background:#edf2fb;display:grid;place-items:center;font-size:10px;font-weight:1000}
+.chapterMenu .mname{font-size:11px;font-weight:900;line-height:1.2}.chapterMenu .mpct{font-size:9px;color:var(--muted);font-weight:900}
+
+/* course head */
+.courseHead{padding:0 4px}
+.courseTitle h2{font-size:30px}
+.courseTitle p{font-size:12px}
+.tabs{gap:7px}.tab{min-height:38px;padding:0 15px;font-size:11.5px}
+.panel{border-radius:20px}
+
+/* lesson board more breathing room */
+.lessonBoard{padding:12px;grid-template-rows:58px minmax(0,1fr) 42px;gap:10px}
+.lessonColumns{grid-template-columns:1fr 1fr 1fr;gap:10px}
+.lessonCard{padding:14px 15px}
+.lessonCardHead h4{font-size:13px}
+.constQuote{font-size:20px}
+.lessonText{font-size:13.5px}
+.lessonBullets li{font-size:12.5px}
+
+/* Practice: only one task canvas, no cramped side rail */
+.practice{display:block;height:100%}
+.taskArea{height:100%;border-right:0;padding:20px 24px}
+.taskSide{display:none}
+.taskPrompt{font-size:clamp(24px,2.35vw,36px);max-width:1100px}
+.answers{grid-template-columns:1fr 1fr;max-width:1200px}
+.feedback{max-width:1200px}
+
+/* Cases: clearly a story, not practice clone */
+.caseLayout{height:100%;display:grid;grid-template-columns:minmax(0,1fr)}
+.caseVisual{display:none}
+.caseTask{
+  padding:20px 24px;display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto;gap:10px;
+  background:
+    radial-gradient(circle at 92% 8%,rgba(255,79,163,.08),transparent 25%),
+    radial-gradient(circle at 8% 92%,rgba(36,107,253,.07),transparent 26%),#fff
+}
+.caseTask:before{content:"ЖИЗНЕННАЯ СИТУАЦИЯ";font-size:10px;font-weight:1000;letter-spacing:.14em;color:var(--pink)}
+.caseTask .story{
+  margin:0;font-size:22px;line-height:1.42;letter-spacing:-.02em;max-width:1100px;padding:16px 18px;
+  border:1px solid var(--line);border-radius:16px;background:#fafbff
+}
+.caseQuestion{font-size:18px;margin:0}
+.caseTask .answers{align-self:start}
+.caseExplain{max-width:1100px;font-size:12px}
+
+/* Coach: simpler, wider, no cluttered mini dashboard */
+.coach{display:block;height:100%}
+.coachMain{height:100%;border-right:0;padding:16px 20px;grid-template-rows:52px auto minmax(0,1fr) auto}
+.coachSide{display:none}
+.scenarioCard{padding:14px 16px}
+.scenarioText{font-size:21px}
+.scenarioScene{gap:8px}
+.miniActor{font-size:11px}
+.coachAsk{font-size:17px}
+.freeAnswer{font-size:14px}
+.coachHint{font-size:11px}
+
+/* Remove old sidebars entirely */
+.chapterSidebar{display:none!important}
+
+/* Typography consistency */
+.brand small,.homeTitle p,.continueText p,.trainerTeaser p,.routeTop p,.chapterPickerHint,
+.courseTitle p,.taskSub,.feedback,.caseTask p,.coachIdentity p,.coachHint{ text-transform:none }
+button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allChaptersBtn{letter-spacing:0}
+
+/* 1366-ish screens */
+@media(max-width:1450px){
+  .homeChapters{grid-template-columns:repeat(3,1fr)}
+  .homeWorkspace{grid-template-rows:66px 140px minmax(0,1fr)}
+  .lessonColumns{grid-template-columns:1fr 1fr 1.05fr}
+  .constQuote{font-size:18px}
+  .lessonText{font-size:12.5px}
+}
+@media(max-width:1050px){
+  .homeChapters{grid-template-columns:repeat(2,1fr)}
+  .homeFocus{grid-template-columns:1fr}.trainerTeaser{display:none}
+  .chapterNavigator{grid-template-columns:44px minmax(0,1fr) 44px 92px}
+  .chapterPickerHint{display:none}
+  .lessonColumns{grid-template-columns:1fr 1fr}.lessonCard.official{grid-column:1/-1}
+}
+@media(max-width:760px){
+  .top{padding:0 10px}.brand{min-width:0;flex:1}.brand small,.crumb,.sourceBtn{display:none}
+  .page{padding:10px}
+  .homeWorkspace{grid-template-rows:54px 118px minmax(0,1fr)}
+  .homeTitle p{display:none}.homeTitle h1{font-size:29px}
+  .homeChapters{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.homeChapterCard{min-width:78vw;scroll-snap-align:center}
+  .courseWorkspace{grid-template-rows:48px 62px 42px minmax(0,1fr)}
+  .chapterNavigator{grid-template-columns:40px minmax(0,1fr) 40px}.allChaptersBtn{display:none}
+  .chapterMenu{left:0;width:100%;grid-template-columns:1fr!important}
+  .courseTitle h2{font-size:23px}.courseTitle p,.courseProgress{display:none}
+  .lessonColumns{grid-template-columns:1fr}.lessonCard.quote,.lessonCard.official{display:none}.lessonCard.meaning{display:grid}
+  .answers{grid-template-columns:1fr}
+  .caseTask .story{font-size:18px}
+  .scenarioText{font-size:18px}
+}
