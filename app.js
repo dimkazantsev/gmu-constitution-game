@@ -595,52 +595,6 @@ function showHome(){
   showPage("home")
 }
 
-function renderCourseChapterVisual(id){
-  const el=document.getElementById("courseChapterVisual");
-  if(!el)return;
-
-  const clouds={
-    0:{title:"Ключевые идеи преамбулы",tags:["Народ","Ценности","Права","Суверенитет","Память","Единство","Демократия","Ответственность","Легитимность","Государственность"]},
-    1:{title:"Основы конституционного строя",tags:["Народовластие","Федерализм","Правовое государство","Республика","Разделение властей","Многообразие","Светскость","МСУ","Верховенство Конституции","Суверенитет"]},
-    2:{title:"Права и свободы",tags:["Достоинство","Равенство","Жизнь","Свобода","Частная жизнь","Совесть","Слово","Собственность","Судебная защита","Обязанности"]},
-    3:{title:"Федеративное устройство",tags:["Субъекты","Совместное ведение","Полномочия","Республика","Край","Область","Автономия","Территория","Центр","Единство системы"]},
-    4:{title:"Президент Российской Федерации",tags:["Глава государства","Гарант","Полномочия","Указ","Вето","Назначение","Безопасность","Координация","Послание","Срок полномочий"]},
-    5:{title:"Федеральное Собрание",tags:["Госдума","Совет Федерации","Законопроект","Чтения","Одобрение","Депутаты","Сенаторы","Представительство","Парламент","Контроль"]},
-    6:{title:"Правительство Российской Федерации",tags:["Исполнительная власть","Председатель","Министерства","Бюджет","Политика","Исполнение законов","Социальная сфера","Управление","Ответственность","Постановления"]},
-    7:{title:"Судебная власть и прокуратура",tags:["Правосудие","Независимость суда","Конституционный контроль","Верховный Суд","Прокуратура","Законность","Состязательность","Судьи","Процесс","Защита прав"]},
-    8:{title:"Местное самоуправление",tags:["Население","Муниципалитет","Местные вопросы","Бюджет","Благоустройство","Органы МСУ","Самостоятельность","Территория","Участие жителей","Локальная власть"]},
-    9:{title:"Поправки и пересмотр",tags:["Устойчивость","Процедура","Пересмотр","Поправка","Особый порядок","Главы 1, 2, 9","Реформа","Парламент","Одобрение","Субъекты РФ"]},
-    10:{title:"Переходные положения",tags:["Ввод в действие","Преемственность","Старые акты","Переход","Непрерывность","Действие норм","Замещение","Система права","Реформа","Стабильность"]}
-  };
-
-  const c=clouds[id]||clouds[0];
-  el.className="courseChapterVisual tagCloudCard";
-  el.setAttribute("aria-hidden","true");
-  el.removeAttribute("role");
-  el.removeAttribute("tabindex");
-  el.removeAttribute("aria-label");
-  el.onclick=null;
-  el.onkeydown=null;
-
-  el.innerHTML='<div class="tagCloudHead"><div class="tagCloudBadge">Смысл главы</div><div class="tagCloudTitle">'+c.title+'</div></div>'+
-    '<div class="tagCloudArea">'+c.tags.map((tag,i)=>'<span class="cloudTag t'+((i%10)+1)+'" data-index="'+i+'">'+tag+'</span>').join("")+'</div>';
-
-  el.querySelectorAll(".cloudTag").forEach((tag,i)=>{
-    const directions=[
-      [-12,-8],[10,-10],[-9,9],[12,7],[-14,4],
-      [9,-7],[-8,-11],[13,-4],[-10,8],[11,10]
-    ];
-    const d=directions[i%directions.length];
-    tag.addEventListener("pointerenter",()=>{
-      tag.style.setProperty("--push-x",d[0]+"px");
-      tag.style.setProperty("--push-y",d[1]+"px");
-      tag.classList.add("repelled")
-    });
-    tag.addEventListener("pointerleave",()=>{
-      tag.classList.remove("repelled")
-    });
-  })
-}
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
   mobileLearnMode="meaning";mobileCaseStep="situation";mobileCoachStep="situation";
@@ -651,7 +605,6 @@ function openModule(id){
   document.getElementById("courseKicker").textContent=id===0?"Вводная часть":mLabel(id);
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
-  renderCourseChapterVisual(id);
   document.querySelectorAll(".tab,.mobileCourseBtn").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
   updateProgress();renderChapterNavigator();renderTab();showPage("course")
 }
@@ -664,31 +617,22 @@ function updateProgress(){
   const learned=blocks.filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length;
   const doneCases=state.doneCases[currentModule]?.length||0;
 
-  document.getElementById("coursePct").textContent=p+"%";
-  document.getElementById("courseBar").style.width=p+"%";
-
+  const pct=document.getElementById("coursePct");
+  const bar=document.getElementById("courseBar");
   const theory=document.getElementById("progressTheory");
   const caseStat=document.getElementById("progressCases");
   const meta=document.getElementById("progressMeta");
-  const action=document.getElementById("progressAction");
 
+  if(pct)pct.textContent=p+"%";
+  if(bar)bar.style.width=p+"%";
   if(theory)theory.textContent="Теория "+learned+"/"+blocks.length;
   if(caseStat)caseStat.textContent="Кейсы "+doneCases+"/"+cases.length;
 
-  if(meta&&action){
-    if(learned<blocks.length){
-      meta.textContent=learned===0?"Начните со смысловых блоков главы":"Продолжите изучение теории";
-      action.textContent=learned===0?"Открыть тему →":"Продолжить тему →";
-      action.onclick=()=>switchTab("learn");
-    }else if(doneCases<cases.length){
-      meta.textContent="Теория завершена — переходите к кейсам";
-      action.textContent="Перейти к кейсам →";
-      action.onclick=()=>switchTab("cases");
-    }else{
-      meta.textContent="Глава пройдена — закрепите материал";
-      action.textContent="Открыть ИИ‑тренер →";
-      action.onclick=()=>switchTab("coach");
-    }
+  if(meta){
+    if(p===100)meta.textContent="Глава освоена";
+    else if(learned<blocks.length)meta.textContent="Изучайте смысловые блоки";
+    else if(doneCases<cases.length)meta.textContent="Закрепите материал на кейсах";
+    else meta.textContent="Закрепите материал в ИИ‑тренере";
   }
 
   renderChapterNavigator()
