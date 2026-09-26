@@ -502,14 +502,25 @@ function renderHome(){
   bindCarousel();requestAnimationFrame(()=>setCarousel(carouselIndex,false));
   syncSoundButton();bindRipple()
 }
+function setTopHeaderMode(courseMode){
+  const crumb=document.getElementById("crumb");
+  const nav=document.getElementById("topChapterNav");
+  if(crumb)crumb.style.display=courseMode?"none":"block";
+  if(nav)nav.classList.toggle("active",!!courseMode);
+}
 function showHome(){
-  currentModule=null;document.getElementById("crumb").textContent="Карта курса";renderHome();showPage("home")
+  currentModule=null;
+  document.getElementById("crumb").textContent="Карта курса";
+  setTopHeaderMode(false);
+  renderHome();
+  showPage("home")
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
   coachState={scenario:null,number:0,answered:false,score:0};
   const ch=chapters.find(x=>x.id===id);
   document.getElementById("crumb").textContent=mLabel(id)+" · "+ch.name;
+  setTopHeaderMode(true);
   document.getElementById("courseKicker").textContent=mLabel(id);
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
