@@ -12,54 +12,61 @@
     <div class="logo">§</div>
     <div><b>ГМУ · Конституция РФ</b><small>понять устройство, а не запоминать номера</small></div>
   </div>
-  <div class="crumb" id="crumb">Разделы Конституции</div>
+  <div class="crumb" id="crumb">Карта курса</div>
   <div class="topActions">
     <button class="topBtn active" id="soundBtn" onclick="toggleSound()">🔊 Звук</button>
-    <a class="topBtn sourceBtn" style="display:grid;place-items:center;text-decoration:none" href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальный текст ↗</a>
+    <a class="topBtn sourceBtn" href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальный текст ↗</a>
   </div>
 </header>
 
 <main class="stage">
   <section class="page home active" id="home">
-    <div class="hero">
-      <div>
-        <div class="eyebrow">Государственное и муниципальное управление</div>
-        <h1>Сначала смысл.<br>Потом норма.</h1>
+    <aside class="chapterSidebar" id="homeChapterNav"></aside>
+
+    <div class="homeWorkspace">
+      <div class="homeTitle">
+        <div>
+          <div class="eyebrow">Государственное и муниципальное управление</div>
+          <h1>Конституция РФ</h1>
+        </div>
+        <p>Выберите главу слева или продолжите маршрут. Курс объясняет механизм нормы, показывает практику КС РФ и проверяет понимание на ситуациях.</p>
       </div>
-      <p>Каждая глава — отдельная лаборатория. В ней есть объяснение, визуальная схема, уникальные задания и управленческие ситуации. Номер статьи показывается как источник после решения, но не является предметом угадывания.</p>
-    </div>
-    <div class="homeDashboard">
-      <div class="homeMain">
+
+      <div class="homeFocus">
         <div class="continueCard" id="continueCard"></div>
-        <div class="routes" id="routes"></div>
+        <div class="trainerTeaser" id="trainerTeaser"></div>
       </div>
-      <aside class="gameHud" id="gameHud"></aside>
+
+      <div class="routes" id="routes"></div>
     </div>
   </section>
 
   <section class="page course" id="course">
-    <div class="courseHead">
-      <button class="back" onclick="showHome()">←</button>
-      <div class="courseTitle">
-        <div class="eyebrow" id="courseKicker"></div>
-        <h2 id="courseTitle"></h2>
-        <p id="courseDesc"></p>
-      </div>
-      <div class="courseProgress">
-        <div class="pTop"><span>Освоение модуля</span><b id="coursePct">0%</b></div>
-        <div class="bar"><span id="courseBar"></span></div>
-      </div>
-    </div>
+    <aside class="chapterSidebar" id="courseChapterNav"></aside>
 
-    <div class="tabs">
-      <button class="tab active" data-tab="learn">Понять</button>
-      <button class="tab" data-tab="scheme">Схема</button>
-      <button class="tab" data-tab="practice">Практика</button>
-      <button class="tab" data-tab="cases">Кейсы</button>
-      <button class="tab" data-tab="coach">ИИ‑тренер</button>
-    </div>
+    <div class="courseWorkspace">
+      <div class="courseHead">
+        <div class="courseTitle">
+          <div class="eyebrow" id="courseKicker"></div>
+          <h2 id="courseTitle"></h2>
+          <p id="courseDesc"></p>
+        </div>
+        <div class="courseProgress">
+          <div class="pTop"><span>Освоение главы</span><b id="coursePct">0%</b></div>
+          <div class="bar"><span id="courseBar"></span></div>
+        </div>
+      </div>
 
-    <div class="panel" id="panel"></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="learn">Понять</button>
+        <button class="tab" data-tab="scheme">Схема</button>
+        <button class="tab" data-tab="practice">Практика</button>
+        <button class="tab" data-tab="cases">Кейсы</button>
+        <button class="tab" data-tab="coach">ИИ‑тренер</button>
+      </div>
+
+      <div class="panel" id="panel"></div>
+    </div>
   </section>
 </main>
 
