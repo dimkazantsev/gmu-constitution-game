@@ -337,6 +337,40 @@ let currentModule=null,currentTab='learn',blockIndex=0,learnMode='quote',current
 let mobileLearnMode="meaning",mobileCaseStep="situation",mobileCoachStep="situation";
 
 function save(){localStorage.setItem('gmu_const_v7',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,bosses:[...state.bosses],coachSeen:state.coachSeen,coachSolved:state.coachSolved,coachPoints:state.coachPoints,sound:state.sound,lastModule:state.lastModule}))}
+function requestProgressReset(){
+  const ok=window.confirm("Сбросить весь учебный прогресс? Будут очищены просмотренные темы, пройденные кейсы, результаты тренера и рейтинг. Настройка звука сохранится.");
+  if(!ok)return;
+  resetAllProgress()
+}
+function resetAllProgress(){
+  const soundValue=state.sound;
+  state.viewed=new Set();
+  state.doneTasks={};
+  state.doneCases={};
+  state.scores={};
+  state.bosses=new Set();
+  state.coachSeen={};
+  state.coachSolved=0;
+  state.coachPoints=0;
+  state.lastModule=1;
+  state.sound=soundValue;
+  currentModule=null;
+  currentTab="learn";
+  blockIndex=0;
+  currentTask=null;
+  caseIndex=0;
+  checkState=null;
+  mobileLearnMode="meaning";
+  mobileCaseStep="situation";
+  mobileCoachStep="situation";
+  coachState={scenario:null,number:0,answered:false,score:0};
+  save();
+  renderHome();
+  setTopHeaderMode(false);
+  renderChapterNavigator();
+  showPage("home");
+  toast("Учебный прогресс сброшен")
+}
 function targetsFor(id){return targets.filter(t=>t.chapter===id)}
 function mLabel(id){return id===0?'Преамбула':id===10?'Раздел II':'Глава '+id}
 function totalTaskDone(){return Object.values(state.doneTasks).reduce((a,v)=>a+(v?.length||0),0)}
