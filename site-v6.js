@@ -111,7 +111,7 @@
 
   function buildShells(){
     $(".homeShell").innerHTML='<div class="appGrid"><div id="homeLeft"></div><main class="centerSurface homeCenter" id="homeCenter"></main><aside class="rightRail" id="homeRight"></aside></div>';
-    $(".courseWorkspace").innerHTML='<div class="appGrid"><div id="courseLeft"></div><main class="centerSurface courseCenter"><div class="panel" id="panel"></div></main><aside class="rightRail" id="courseRight"></aside></div>';
+    $(".courseWorkspace").innerHTML='<div class="appGrid"><div id="courseLeft"></div><main class="centerSurface courseCenter"><div class="panel" id="panel"></div><div class="legacyCompat" hidden><span id="crumb"></span><span id="courseKicker"></span><span id="courseTitle"></span><span id="courseDesc"></span><span id="coursePct"></span><span id="courseBar"></span><span id="progressTheory"></span><span id="progressCases"></span><span id="progressMeta"></span></div></main><aside class="rightRail" id="courseRight"></aside></div>';
   }
 
   const baseNavigator=renderChapterNavigator;
