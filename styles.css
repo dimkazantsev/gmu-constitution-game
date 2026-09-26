@@ -3079,3 +3079,258 @@ body.modalOpen{overflow:hidden}
     transition:none!important
   }
 }
+
+
+/* ===== COURSE STRIP V5: INTERACTIVE TAG CLOUD + CLEAN PROGRESS ===== */
+.courseWorkspace{
+  grid-template-rows:102px 44px minmax(0,1fr)!important;
+  gap:6px!important;
+}
+.courseHead{
+  grid-template-columns:minmax(0,1.15fr) minmax(360px,1.05fr) minmax(250px,.68fr)!important;
+  min-height:102px!important;
+  gap:10px!important;
+}
+.courseTitle,
+.courseChapterVisual,
+.courseProgress{
+  min-height:102px!important;
+}
+.courseTitle{
+  padding:13px 17px!important;
+}
+.courseTitle .eyebrow{
+  min-height:22px!important;
+  font-size:8.5px!important;
+}
+.courseTitle h2{
+  font-size:clamp(23px,1.55vw,29px)!important;
+}
+.courseTitle p{
+  font-size:11px!important;
+  line-height:1.35!important;
+}
+
+/* tag cloud */
+.courseChapterVisual.tagCloudCard{
+  position:relative!important;
+  height:102px!important;
+  min-height:102px!important;
+  padding:10px 12px!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  cursor:default!important;
+  background:
+    radial-gradient(circle at 18% 25%,rgba(36,107,253,.11),transparent 30%),
+    radial-gradient(circle at 82% 72%,rgba(255,79,163,.11),transparent 31%),
+    linear-gradient(135deg,#f5f8ff,#fff6fb)!important;
+}
+.courseChapterVisual.tagCloudCard .sceneAura,
+.courseChapterVisual.tagCloudCard .sceneRail,
+.courseChapterVisual.tagCloudCard .sceneParticle,
+.courseChapterVisual.tagCloudCard .sceneCore,
+.courseChapterVisual.tagCloudCard .sceneKicker,
+.courseChapterVisual.tagCloudCard .sceneLabel,
+.courseChapterVisual.tagCloudCard .sceneMeta{
+  display:none!important;
+}
+.tagCloudHead{
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  position:relative;
+  z-index:8;
+}
+.tagCloudBadge{
+  min-height:22px;
+  padding:0 8px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,.84);
+  border:1px solid rgba(207,220,246,.94);
+  color:#6077aa;
+  font-size:8px;
+  font-weight:1000;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.tagCloudTitle{
+  max-width:65%;
+  text-align:right;
+  font-size:8.5px;
+  font-weight:1000;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#6f7fa4;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tagCloudArea{
+  position:absolute;
+  left:10px;right:10px;top:34px;bottom:8px;
+  overflow:hidden;
+}
+.cloudTag{
+  --push-x:0px;
+  --push-y:0px;
+  position:absolute;
+  z-index:2;
+  min-height:22px;
+  padding:0 9px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(204,217,244,.95);
+  color:#315ab8;
+  font-size:8.5px;
+  font-weight:900;
+  white-space:nowrap;
+  box-shadow:0 5px 14px rgba(31,54,111,.055);
+  transform:translate(0,0);
+  transition:
+    transform .24s cubic-bezier(.2,.8,.2,1),
+    box-shadow .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+  animation:cloudDrift 6.6s ease-in-out infinite;
+}
+.cloudTag.repelled{
+  animation-play-state:paused;
+  transform:translate(var(--push-x),var(--push-y)) scale(1.06);
+  background:#fff;
+  border-color:#bfd2fb;
+  box-shadow:0 10px 22px rgba(31,54,111,.12);
+  z-index:10;
+}
+.cloudTag.t1{left:1%;top:2%;animation-delay:0s}
+.cloudTag.t2{left:18%;top:22%;animation-delay:.35s}
+.cloudTag.t3{left:39%;top:3%;animation-delay:.7s}
+.cloudTag.t4{left:60%;top:23%;animation-delay:1.05s}
+.cloudTag.t5{left:80%;top:2%;animation-delay:1.4s}
+.cloudTag.t6{left:7%;top:55%;animation-delay:1.75s}
+.cloudTag.t7{left:29%;top:62%;animation-delay:2.1s}
+.cloudTag.t8{left:50%;top:53%;animation-delay:2.45s}
+.cloudTag.t9{left:70%;top:63%;animation-delay:2.8s}
+.cloudTag.t10{right:1%;top:49%;animation-delay:3.15s}
+@keyframes cloudDrift{
+  0%,100%{margin-top:0}
+  50%{margin-top:-3px}
+}
+
+/* clean progress card */
+.courseProgress{
+  min-height:102px!important;
+  padding:11px 13px!important;
+  display:grid!important;
+  grid-template-rows:auto 7px auto auto 29px!important;
+  gap:6px!important;
+}
+.progressTopline{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+}
+.progressLabel{
+  font-size:9.5px!important;
+  font-weight:900!important;
+  color:#7584a6!important;
+}
+.progressTopline b{
+  font-size:21px!important;
+  line-height:1!important;
+  color:#20376f!important;
+}
+.courseProgress .bar{
+  height:7px!important;
+}
+.progressStats{
+  display:flex!important;
+  gap:5px!important;
+  flex-wrap:wrap!important;
+}
+.progressChip{
+  min-height:20px!important;
+  padding:0 7px!important;
+  border-radius:999px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  background:#f5f8ff!important;
+  border:1px solid #dbe5f8!important;
+  color:#61749f!important;
+  font-size:8px!important;
+  font-weight:900!important;
+}
+.progressMeta{
+  min-height:auto!important;
+  display:block!important;
+  font-size:8.6px!important;
+  line-height:1.25!important;
+  color:#6f7fa2!important;
+}
+.progressAction{
+  min-height:29px!important;
+  font-size:8.6px!important;
+  border-radius:10px!important;
+}
+
+/* keep tabs compact and full-width */
+.tabs{
+  width:100%!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  min-height:44px!important;
+}
+.tab{
+  min-height:42px!important;
+}
+.tabIcon{
+  width:24px!important;height:24px!important;flex-basis:24px!important;
+}
+
+/* tablet */
+@media(min-width:768px) and (max-width:1180px){
+  .courseWorkspace{
+    grid-template-rows:90px 42px minmax(0,1fr)!important;
+    gap:6px!important;
+  }
+  .courseHead{
+    grid-template-columns:minmax(0,1fr) minmax(260px,1fr) minmax(185px,.7fr)!important;
+    min-height:90px!important;
+    gap:8px!important;
+  }
+  .courseTitle,.courseChapterVisual,.courseProgress{min-height:90px!important}
+  .courseTitle{padding:10px 12px!important}
+  .courseTitle h2{font-size:20px!important}
+  .courseTitle p{font-size:9.5px!important}
+  .courseChapterVisual.tagCloudCard{height:90px!important;min-height:90px!important;padding:8px 9px!important}
+  .tagCloudHead{height:20px!important}
+  .tagCloudTitle{font-size:7.5px!important}
+  .tagCloudBadge{font-size:7.2px!important;min-height:19px!important}
+  .tagCloudArea{top:29px!important;left:7px!important;right:7px!important;bottom:5px!important}
+  .cloudTag{font-size:7.5px!important;min-height:19px!important;padding:0 7px!important}
+  .courseProgress{min-height:90px!important;padding:8px 9px!important;gap:4px!important;grid-template-rows:auto 6px auto auto 26px!important}
+  .progressTopline b{font-size:18px!important}
+  .progressChip{font-size:7.2px!important;min-height:18px!important}
+  .progressMeta{font-size:7.5px!important}
+  .progressAction{min-height:26px!important;font-size:7.7px!important}
+}
+
+/* phone remains separate */
+@media(max-width:767px){
+  .courseChapterVisual.tagCloudCard,
+  .courseProgress{
+    display:none!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .cloudTag{
+    animation:none!important;
+  }
+}
