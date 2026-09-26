@@ -566,16 +566,37 @@ function renderHome(){
   currentModule=null;
   const track=document.getElementById("chapterCarouselTrack"),dots=document.getElementById("carouselDots");
   track.innerHTML="";dots.innerHTML="";
+
   chapters.forEach((c,i)=>{
     const slide=document.createElement("article");slide.className="chapterSlide";
     const blockCount=moduleInfo[c.id]?.blocks?.length||0,caseCount=caseBank[c.id]?.length||0,p=modulePct(c.id);
-    slide.innerHTML='<div class="chapterSlideText"><div class="slideNo">'+(c.id===0?"Вводная часть":c.id===10?"Раздел II":"Глава "+c.id)+'</div><h2>'+(c.id===0?"Преамбула":c.name)+'</h2><p>'+moduleInfo[c.id].desc+'</p><div class="slideMeta"><span>'+blockCount+' смысловых блока</span><span>'+caseCount+' жизненных кейса</span><span>Практика КС РФ</span></div><div class="slideProgress"><div class="bar"><span style="width:'+p+'%"></span></div><b>'+p+'%</b></div><div class="slideActions"><button class="btn primary openChapter">Открыть главу →</button><button class="btn ghost openCoach">ИИ‑тренер</button></div></div><div class="chapterSlideArt">'+chapterArt(c.id)+'</div>';
+    slide.innerHTML='<div class="chapterSlideText"><div class="slideNo">'+(c.id===0?"Вводная часть":c.id===10?"Раздел II":"Глава "+c.id)+'</div><h2>'+(c.id===0?"Преамбула":c.name)+'</h2><p>'+moduleInfo[c.id].desc+'</p><div class="slideMeta"><span>'+blockCount+' смысловых блока</span><span>'+caseCount+' жизненных кейса</span><span>Практика КС РФ</span></div><div class="slideProgress"><div class="bar"><span style="width:'+p+'%"></span></div><b>'+p+'%</b></div><div class="slideActions"><button class="btn primary openChapter">Открыть →</button><button class="btn ghost openCoach">ИИ‑тренер</button></div></div><div class="chapterSlideArt">'+chapterArt(c.id)+'</div>';
     slide.querySelector(".openChapter").onclick=()=>openModule(c.id);
     slide.querySelector(".openCoach").onclick=()=>{openModule(c.id);setTimeout(()=>switchTab("coach"),30)};
     track.appendChild(slide);
-    const dot=document.createElement("button");dot.className="carouselDot";dot.setAttribute("aria-label","Открыть "+(c.id===0?"преамбулу":"главу "+c.id));dot.onclick=()=>setCarousel(i);dots.appendChild(dot)
+
+    const dot=document.createElement("button");
+    dot.className="carouselDot";
+    dot.setAttribute("aria-label","Открыть "+(c.id===0?"преамбулу":"главу "+c.id));
+    dot.onclick=()=>setCarousel(i);
+    dots.appendChild(dot)
   });
-  document.getElementById("trainerShortcut").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),30)};
+
+  const overall=Math.round(chapters.reduce((sum,c)=>sum+modulePct(c.id),0)/chapters.length);
+  const overallPct=document.getElementById("homeOverallPct"),overallBar=document.getElementById("homeOverallBar");
+  if(overallPct)overallPct.textContent=overall+"%";
+  if(overallBar)overallBar.style.width=overall+"%";
+
+  const lastId=Number.isFinite(state.lastModule)?state.lastModule:0;
+  const last=chapters.find(c=>c.id===lastId)||chapters[0];
+  const label=document.getElementById("homeContinueLabel");
+  if(label)label.textContent=overall===0?"Начните с Преамбулы":"Продолжить: "+(last.id===0?"Преамбула":last.name);
+
+  const continueBtn=document.getElementById("continueCourse");
+  if(continueBtn)continueBtn.onclick=()=>openModule(overall===0?0:last.id);
+  const trainer=document.getElementById("trainerShortcut");
+  if(trainer)trainer.onclick=()=>{openModule(last.id);setTimeout(()=>switchTab("coach"),30)};
+
   carouselIndex=0;
   bindCarousel();requestAnimationFrame(()=>setCarousel(carouselIndex,false));
   syncSoundButton();bindRipple()
@@ -669,40 +690,56 @@ function expandedOfficial(meta,bl){
   }
   return body
 }
-function setMobileLearnMode(mode){
+function setLearnPane(mode){
   mobileLearnMode=mode;
-  const board=document.querySelector(".lessonBoard");
-  if(!board)return;
-  board.dataset.mobileMode=mode;
-  document.querySelectorAll(".mobileLearnTab").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+  const studio=document.querySelector(".learningStudio");
+  if(!studio)return;
+  studio.dataset.pane=mode;
+  document.querySelectorAll(".readerTab").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
 }
 function renderLearn(){
   const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById("panel");
   ids.forEach(id=>state.viewed.add(id));save();updateProgress();
+
   const links=[...(meta.links||[])],detail=officialPracticeDetails[currentModule+"-"+blockIndex];
   (detail?.links||[]).forEach(x=>{if(!links.some(y=>y[1]===x[1]))links.push(x)});
   const officialLinks=links.map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join("");
 
-  panel.innerHTML='<div class="lessonBoard" data-mobile-mode="'+mobileLearnMode+'">'+
-    '<div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
-    '<div class="mobileLearnTabs"><button class="mobileLearnTab" data-mode="meaning">Разбор</button><button class="mobileLearnTab" data-mode="quote">Текст</button><button class="mobileLearnTab" data-mode="official">КС РФ</button></div>'+
-    '<div class="lessonColumns">'+
-      '<article class="lessonCard quote"><div class="lessonCardHead"><h4>Текст Конституции</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div><div class="quoteGuide"><b>На что смотреть:</b><p>'+chapterStudyTips[currentModule]+'</p></div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
-      '<article class="lessonCard official"><div class="lessonCardHead"><h4>Смысл нормы и практика КС РФ</h4><span>Развёрнутый разбор</span></div><div class="lessonScroll lessonText"><section class="learnMeaningSection">'+expandedMeaning(meta,bl)+'</section><section class="learnOfficialSection"><div class="officialDivider"><span>Практика Конституционного Суда</span></div>'+expandedOfficial(meta,bl)+'</section></div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
-    '</div>'+
-    '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="caseBottom">К кейсам →</button></div></div>'+
+  const topicButtons=inf.blocks.map((topic,i)=>
+    '<button class="topicRailItem '+(i===blockIndex?'active':'')+'" data-topic="'+i+'"><span>'+(i+1)+'</span><b>'+capUi(topic[0])+'</b><small>'+capUi(topic[1])+'</small></button>'
+  ).join("");
+
+  panel.innerHTML='<div class="learningStudio" data-pane="'+mobileLearnMode+'">'+
+    '<aside class="topicRail"><div class="topicRailHead"><span>Темы главы</span><b>'+inf.blocks.length+'</b></div><div class="topicRailList">'+topicButtons+'</div></aside>'+
+    '<section class="reader">'+
+      '<header class="readerHeader"><div><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+capUi(bl[0])+'</h3><p>'+capUi(bl[1])+'</p></div><div class="readerNav"><button class="conceptArrow" id="prevConceptBtn" aria-label="Предыдущая тема">←</button><button class="conceptArrow" id="nextConceptBtn" aria-label="Следующая тема">→</button></div></header>'+
+      '<div class="readerTabs"><button class="readerTab" data-mode="meaning">Смысл</button><button class="readerTab" data-mode="quote">Текст Конституции</button><button class="readerTab" data-mode="official">Практика КС РФ</button></div>'+
+      '<div class="readerBody">'+
+        '<article class="readerPane paneMeaning"><div class="readerPaneLabel">Развёрнутый разбор</div><div class="lessonText">'+expandedMeaning(meta,bl)+'</div><div class="readerInsight"><b>Как использовать:</b><span>'+chapterStudyTips[currentModule]+'</span></div></article>'+
+        '<article class="readerPane paneQuote"><div class="readerPaneTop"><span>'+(meta.quoteRef||bl[2])+'</span><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальный текст ↗</a></div><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке выше.")+'</div><div class="readerInsight"><b>На что смотреть:</b><span>'+chapterStudyTips[currentModule]+'</span></div></article>'+
+        '<article class="readerPane paneOfficial"><div class="readerPaneLabel">Официальное толкование и практика</div><div class="lessonText">'+expandedOfficial(meta,bl)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
+      '</div>'+
+      '<footer class="readerFooter"><div><button class="btn ghost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost" id="nextTopicBottom">Следующая тема →</button></div><div><button class="btn ghost" id="schemeBottom">Перейти к схеме</button><button class="btn primary" id="caseBottom">К кейсам →</button></div></footer>'+
+    '</section>'+
   '</div>';
+
+  document.querySelectorAll(".topicRailItem").forEach(b=>b.onclick=()=>{blockIndex=+b.dataset.topic;renderLearn()});
+  document.querySelectorAll(".readerTab").forEach(b=>b.onclick=()=>setLearnPane(b.dataset.mode));
 
   const prev=document.getElementById("prevConceptBtn"),next=document.getElementById("nextConceptBtn");
   prev.disabled=blockIndex===0;next.disabled=blockIndex===inf.blocks.length-1;
-  document.getElementById("prevTopicBottom").disabled=blockIndex===0;document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
+  document.getElementById("prevTopicBottom").disabled=blockIndex===0;
+  document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
   prev.onclick=prevConcept;next.onclick=nextConcept;
-  document.getElementById("prevTopicBottom").onclick=prevConcept;document.getElementById("nextTopicBottom").onclick=nextConcept;
-  document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");document.getElementById("caseBottom").onclick=()=>switchTab("cases");
-  document.querySelectorAll(".mobileLearnTab").forEach(b=>b.onclick=()=>setMobileLearnMode(b.dataset.mode));
-  setMobileLearnMode(mobileLearnMode);
+  document.getElementById("prevTopicBottom").onclick=prevConcept;
+  document.getElementById("nextTopicBottom").onclick=nextConcept;
+  document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");
+  document.getElementById("caseBottom").onclick=()=>switchTab("cases");
+
+  setLearnPane(mobileLearnMode||"meaning");
   renderChapterNavigator();bindRipple()
 }
+
 
 let schemeSession={selected:null,matched:0,total:0,kind:null};
 
