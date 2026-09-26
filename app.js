@@ -549,7 +549,7 @@ function openModule(id){
   document.getElementById("courseKicker").textContent=mLabel(id);
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
+  document.querySelectorAll(".tab,.mobileCourseBtn").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
   updateProgress();renderChapterNavigator();renderTab();showPage("course")
 }
 function updateProgress(){
@@ -559,11 +559,13 @@ function updateProgress(){
   document.getElementById("courseBar").style.width=p+"%";
   renderChapterNavigator()
 }
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  currentTab=b.dataset.tab;
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+function activateCourseTab(tab){
+  if(tab==="practice")tab="cases";
+  currentTab=tab;
+  document.querySelectorAll(".tab,.mobileCourseBtn").forEach(x=>x.classList.toggle("active",x.dataset.tab===tab));
   renderTab()
-});
+}
+document.querySelectorAll(".tab,.mobileCourseBtn").forEach(b=>b.onclick=()=>activateCourseTab(b.dataset.tab));
 function renderTab(){
   if(currentTab==="learn")renderLearn();
   else if(currentTab==="scheme")renderScheme();
@@ -765,7 +767,7 @@ function renderPractice(){
   renderTaskInput(currentTask)
 }
 function restartPractice(){state.doneTasks[currentModule]=[];currentTask=null;save();updateProgress();renderPractice()}
-function switchTab(tab){if(tab==="practice")tab="cases";currentTab=tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderTab()}
+function switchTab(tab){activateCourseTab(tab)}
 function renderTaskInput(t){
   const z=document.getElementById('answerZone');z.innerHTML='';
   if(t.type==='single'||t.type==='case'||t.type==='multi'){
