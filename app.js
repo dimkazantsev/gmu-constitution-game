@@ -361,88 +361,156 @@ function xpPop(amount,origin){
   const r=origin?.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0};
   const p=document.createElement('div');p.className='xpPop';p.textContent='+'+amount+' рейтинга';p.style.left=(r.left+r.width/2)+'px';p.style.top=r.top+'px';document.body.appendChild(p);setTimeout(()=>p.remove(),950)
 }
+
+const officialPracticeDetails={
+  "1-1":{title:"Разделение властей как предел компетенции",text:"Конституционный Суд связывает принцип разделения властей не только с организацией трех ветвей власти, но и с запретом для одного органа присваивать полномочия другого. В учебном анализе это означает: сначала определяется функция органа, затем источник его полномочия и только после этого оценивается конкретное решение.",caseText:"В Постановлении КС РФ от 21 января 2010 г. № 1-П обсуждались пределы судебной компетенции и недопустимость вторжения в полномочия законодателя. Это показывает, что статья 10 действует как правило о границах компетенции, а не только как общая декларация.",links:[["Постановление КС РФ № 1-П/2010","https://www.ksrf.ru/doc/KSRFDecision23725.pdf"]]},
+  "2-4":{title:"Ограничение прав: не любое ограничение допустимо",text:"При конституционном анализе ограничения проверяются правовая форма, цель, связь с защищаемым конституционным благом и предел необходимого вмешательства. Поэтому одинаковое по внешнему виду ограничение может получать разную оценку в зависимости от основания и последствий.",caseText:"На официальном сайте КС РФ разъяснялся смысл статьи 55: основные права и свободы могут ограничиваться только в необходимой мере ради конституционно перечисленных целей. Административное удобство само по себе такой целью не является.",links:[["Материал КС РФ о смысле статьи 55","https://www.ksrf.ru/Press-srv/smi/20298/"]]},
+  "3-0":{title:"Совместное ведение — это не «кто первый, тот и прав»",text:"КС РФ рассматривает статьи 72 и 76 во взаимосвязи. До принятия федерального закона субъект может регулировать вопрос совместного ведения, но после принятия федерального закона региональное регулирование должно быть приведено с ним в соответствие.",caseText:"Эта логика прямо сформулирована Конституционным Судом при рассмотрении разграничения нормотворческих полномочий Федерации и субъектов.",links:[["Решение КС РФ о совместном ведении","https://www.ksrf.ru/doc/KSRFDecision30230.pdf"]]},
+  "7-1":{title:"Независимость суда — гарантия для участника дела",text:"Независимость судьи нужна для того, чтобы результат дела определялся правом и обстоятельствами дела, а не административной установкой. Внешнее указание на желаемый исход разрушает смысл судебной защиты.",caseText:"Практика КС РФ использует принцип разделения властей и при определении пределов судебной компетенции: суд не должен подменять законодателя, а иные ветви власти — определять результат конкретного судебного дела.",links:[["Постановление КС РФ № 1-П/2010","https://www.ksrf.ru/doc/KSRFDecision23725.pdf"]]},
+  "8-1":{title:"Самостоятельность МСУ и государственный контроль — разные режимы",text:"Конституция допускает контроль за законностью деятельности местного самоуправления и отдельно — контроль за исполнением переданных государственных полномочий. Но контроль не равен праву государства произвольно заменить муниципалитет в его собственной компетенции.",caseText:"В Постановлении КС РФ от 30 ноября 2000 г. № 15-П разграничивались государственный контроль за переданными полномочиями и контроль законности при решении собственных вопросов местного значения.",links:[["Постановление КС РФ № 15-П/2000","https://www.ksrf.ru/doc/KSRFDecision30379.pdf"],["Глава 8 на сайте КС РФ","https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter8.php"]]},
+  "8-2":{title:"Переданное полномочие должно сопровождаться ресурсами",text:"Статья 132 прямо связывает наделение муниципалитета отдельными государственными полномочиями с передачей необходимых материальных и финансовых средств.",caseText:"Официальный текст статьи 132 одновременно предусматривает государственный контроль за реализацией переданных полномочий. Это отдельный режим, который нельзя смешивать с собственными вопросами местного значения.",links:[["Глава 8 на сайте КС РФ","https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter8.php"]]}
+};
+const chapterStudyTips={
+  0:"Смотрите, какую роль играет преамбула: она задаёт субъект принятия Конституции, ценности и историческую рамку, а не распределяет компетенции.",
+  1:"Проверяйте: кто является источником власти, какой орган действует, откуда у него полномочие и какой конституционный принцип ограничивает его действие.",
+  2:"Сначала назовите защищаемую сферу, затем форму вмешательства, после этого — основания ограничения и механизм защиты.",
+  3:"Сначала определите предмет ведения: РФ, совместное ведение или остаточная компетенция. Только затем анализируйте закон и орган.",
+  4:"Президентские полномочия удобнее понимать по связям с парламентом, Правительством, субъектами, безопасностью и внешней политикой.",
+  5:"Держите две модели: разграничение полномочий палат и последовательность прохождения федерального закона.",
+  6:"Разделяйте формирование Правительства, его текущие полномочия, издание актов и политико-правовую ответственность.",
+  7:"Не смешивайте правосудие, конституционный контроль, высшую судебную инстанцию и прокуратуру.",
+  8:"Всегда различайте собственные вопросы местного значения и переданные государственные полномочия.",
+  9:"Перед анализом поправки сначала определите, какая часть Конституции меняется.",
+  10:"Переходные нормы объясняют, как избежать правового и институционального вакуума."
+};
+function renderChapterNav(){
+  ["homeChapterNav","courseChapterNav"].forEach(id=>{
+    const el=document.getElementById(id); if(!el)return;
+    const lg=league();
+    el.innerHTML='<div class="navHead"><div class="eyebrow">Навигация</div><h3>Главы Конституции</h3><p>Любая глава доступна одним нажатием.</p></div><div class="navList"></div><div class="navFoot"><div class="navRating"><b>'+rating()+'</b><span>'+lg[0]+' · лига '+lg[1]+'</span></div><button class="navHome" onclick="showHome()">Карта</button></div>';
+    const list=el.querySelector(".navList");
+    chapters.forEach(ch=>{
+      const b=document.createElement("button");
+      b.className="navChapter"+(currentModule===ch.id?" active":"");
+      b.title=ch.id===0?"Преамбула":ch.name;
+      b.innerHTML='<span class="navNum">'+(ch.id===0?"§":ch.id===10?"II":ch.id)+'</span><span class="navName">'+(ch.id===0?"Преамбула":ch.name)+'</span><span class="navPct">'+modulePct(ch.id)+'%</span>';
+      b.onclick=()=>openModule(ch.id); list.appendChild(b)
+    })
+  })
+}
+
 function renderHome(){
-  const r=rating(),lg=league(),continueId=chapters.some(ch=>modulePct(ch.id)<100)?(chapters.find(ch=>modulePct(ch.id)<100)?.id??state.lastModule):state.lastModule;
+  currentModule=null;
+  renderChapterNav();
+  const continueId=chapters.find(ch=>modulePct(ch.id)<100)?.id ?? state.lastModule;
   const ch=chapters.find(x=>x.id===continueId)||chapters[1],cp=modulePct(ch.id);
-  const cont=document.getElementById('continueCard');
-  cont.innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div>'+
-    '<div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" onclick="openModule('+ch.id+')">Продолжить →</button></div>';
-
-  const rg=document.getElementById('routes');rg.innerHTML='';
+  document.getElementById("continueCard").innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div><div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" onclick="openModule('+ch.id+')">Продолжить →</button></div>';
+  document.getElementById("trainerTeaser").innerHTML='<div class="aiOrb">AI</div><div><div class="eyebrow">Ситуационный тренер</div><h3>Ответ своими словами</h3><p>Жизненная ситуация → ваш аргумент → подробный разбор.</p></div><div class="trainerStats"><span class="statChip">'+(state.coachSolved||0)+' ситуаций</span><span class="statChip">'+totalTaskDone()+' задач</span><button class="btn pink rippleHost" id="openCoachHome">Открыть тренер</button></div>';
+  document.getElementById("openCoachHome").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),40)};
+  const rg=document.getElementById("routes");rg.innerHTML="";
   routes.forEach(route=>{
-    const d=document.createElement('section');d.className='routeCard';d.style.setProperty('--route',route.color);
+    const d=document.createElement("section");d.className="routeCard";d.style.setProperty("--route",route.color);
     d.innerHTML='<div class="routeTop"><div><h3>'+route.title+'</h3><p>'+route.subtitle+'</p></div><span>'+route.ids.length+' мод.</span></div><div class="chapterPills"></div>';
-    const pills=d.querySelector('.chapterPills');
+    const pills=d.querySelector(".chapterPills");
     route.ids.forEach(id=>{
-      const c=chapters.find(x=>x.id===id),p=modulePct(id),b=document.createElement('button');b.className='chapterPill rippleHost';
-      b.innerHTML='<span>'+(id===0?'§':id===10?'II':id)+'</span><span>'+c.name+'</span><span class="miniPct">'+p+'%</span>';
+      const c=chapters.find(x=>x.id===id),p=modulePct(id),b=document.createElement("button");
+      b.className="chapterPill rippleHost";
+      b.innerHTML='<span>'+(id===0?"§":id===10?"II":id)+'</span><span>'+c.name+'</span><span class="miniPct">'+p+'%</span>';
       b.onclick=()=>openModule(id);pills.appendChild(b)
-    });rg.appendChild(d)
+    });
+    rg.appendChild(d)
   });
-
-  const hud=document.getElementById('gameHud');
-  hud.innerHTML='<div class="rankRow"><div class="avatar">'+lg[1]+'</div><div><h3>'+lg[0]+'</h3><p>Лига '+lg[1]+' · рейтинг растёт за практику, кейсы и свободные ответы</p></div></div>'+
-    '<div><div class="ratingLabel">Конституционный рейтинг</div><div class="ratingValue">'+r+'</div></div>'+
-    '<div class="gameStats"><div class="gameStat"><b>'+totalTaskDone()+'</b><span>заданий решено</span></div><div class="gameStat"><b>'+(state.coachSolved||0)+'</b><span>ситуаций разобрано</span></div></div>'+
-    '<div class="bossShelf"><h4>Маршруты</h4><div class="bossIcons">'+routes.map(route=>{const p=Math.round(route.ids.reduce((a,id)=>a+modulePct(id),0)/route.ids.length);return '<div class="bossIcon '+(p>=70?'won':'')+'" title="'+route.title+' · '+p+'%">'+p+'</div>'}).join('')+'</div></div>'+
-    '<div class="quest"><b>Миссия:</b> откройте главу и разберите новую ситуацию в «ИИ‑тренере». Свободный ответ тренирует аргументацию, а не узнавание варианта.</div>';
   syncSoundButton();bindRipple()
 }
-function showHome(){currentModule=null;document.getElementById('crumb').textContent='Разделы Конституции';renderHome();showPage('home')}
+function showHome(){
+  currentModule=null;document.getElementById("crumb").textContent="Карта курса";renderHome();showPage("home")
+}
 function openModule(id){
-  currentModule=id;state.lastModule=id;save();currentTab='learn';blockIndex=0;learnMode='quote';currentTask=null;caseIndex=0;checkState=null;coachState={scenario:null,number:0,answered:false,score:0};
+  currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
+  coachState={scenario:null,number:0,answered:false,score:0};
   const ch=chapters.find(x=>x.id===id);
-  document.getElementById('crumb').textContent=mLabel(id)+' · '+ch.name;
-  document.getElementById('courseKicker').textContent=mLabel(id);
-  document.getElementById('courseTitle').textContent=ch.name;
-  document.getElementById('courseDesc').textContent=moduleInfo[id].desc;
-  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab==='learn'));
-  updateProgress();renderTab();showPage('course')
+  document.getElementById("crumb").textContent=mLabel(id)+" · "+ch.name;
+  document.getElementById("courseKicker").textContent=mLabel(id);
+  document.getElementById("courseTitle").textContent=ch.name;
+  document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
+  updateProgress();renderChapterNav();renderTab();showPage("course")
 }
-function updateProgress(){const p=modulePct(currentModule);document.getElementById('coursePct').textContent=p+'%';document.getElementById('courseBar').style.width=p+'%'}
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentTab=b.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));renderTab()});
-function renderTab(){if(currentTab==='learn')renderLearn();else if(currentTab==='scheme')renderScheme();else if(currentTab==='practice')renderPractice();else if(currentTab==='cases')renderCases();else renderCoach()}
-
-function renderLearn(){
-  const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById('panel');
-  ids.forEach(id=>state.viewed.add(id));save();
-
-  panel.innerHTML='<div class="learn"><aside class="rail"><div><div class="eyebrow">Смысловые блоки</div><h3>Разобраться</h3><p>Каждый блок: дословная формула Конституции → учебный смысл → официальная практика.</p></div><div class="clusterList" id="clusterList"></div></aside>'+
-    '<div class="learnMain"><div class="bigIdea"><div><div class="eyebrow">'+mLabel(currentModule)+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><span class="refs">'+bl[2]+'</span></div>'+
-    '<div class="learnModeTabs"><button class="learnMode '+(learnMode==='quote'?'active':'')+'" onclick="setLearnMode(\'quote\')">Цитата</button><button class="learnMode '+(learnMode==='meaning'?'active':'')+'" onclick="setLearnMode(\'meaning\')">Что это значит</button><button class="learnMode '+(learnMode==='official'?'active':'')+'" onclick="setLearnMode(\'official\')">Практика КС РФ</button></div>'+
-    '<div class="learnContent '+(learnMode==='quote'?'quoteMode':'')+' learnPulse" id="learnContent"></div>'+
-    '<div class="microActions"><button class="microBtn rippleHost" onclick="setLearnMode(\'quote\')">«» Текст</button><button class="microBtn rippleHost" onclick="setLearnMode(\'meaning\')">◎ Смысл</button><button class="microBtn rippleHost" onclick="switchTab(\'scheme\')">⇄ Показать схему</button><button class="microBtn rippleHost" onclick="switchTab(\'practice\')">⚡ Проверить себя</button></div></div></div>';
-
-  const list=document.getElementById('clusterList');
-  inf.blocks.forEach((x,i)=>{const b=document.createElement('button');b.className='clusterBtn rippleHost'+(i===blockIndex?' active':'');b.innerHTML='<b>'+x[0]+'</b><span>'+x[2]+'</span>';b.onclick=()=>{blockIndex=i;learnMode='quote';renderLearn()};list.appendChild(b)});
-  renderLearnContent(meta,bl);
-  bindRipple()
+function updateProgress(){
+  const p=modulePct(currentModule);
+  document.getElementById("coursePct").textContent=p+"%";
+  document.getElementById("courseBar").style.width=p+"%";
+  renderChapterNav()
 }
-function setLearnMode(mode){learnMode=mode;renderLearn()}
-function renderLearnContent(meta,bl){
-  const c=document.getElementById('learnContent');if(!c)return;
-  if(learnMode==='quote'){
-    c.classList.add('quoteMode');
-    c.innerHTML='<div><div class="constQuote">'+(meta.quote||'Откройте официальный текст нормы.')+'</div><div class="constQuoteSource"><span class="sourceChip">'+(meta.quoteRef||bl[2])+'</span><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></div>';
-  }else if(learnMode==='meaning'){
-    c.classList.remove('quoteMode');
-    c.innerHTML='<div class="explainCard"><h4>Учебное объяснение</h4><p>'+(meta.meaning||bl[1])+'</p><div class="officialNotice">Это учебный пересказ смысла нормы, а не официальное толкование Конституционного Суда.</div></div>';
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  currentTab=b.dataset.tab;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));
+  renderTab()
+});
+function renderTab(){
+  if(currentTab==="learn")renderLearn();
+  else if(currentTab==="scheme")renderScheme();
+  else if(currentTab==="practice")renderPractice();
+  else if(currentTab==="cases")renderCases();
+  else renderCoach()
+}
+function prevConcept(){if(blockIndex>0){blockIndex--;renderLearn()}}
+function nextConcept(){if(blockIndex<moduleInfo[currentModule].blocks.length-1){blockIndex++;renderLearn()}}
+function expandedMeaning(meta,bl){
+  return '<p><b>Главная идея.</b> '+(meta.meaning||bl[1])+'</p>'+
+    '<p><b>Как читать эту норму.</b> Она работает не изолированно. Сначала определите, какой конституционный принцип, право или компетенция закреплены; затем — кто является адресатом нормы, какие действия требуются или запрещаются и с какими соседними положениями Конституции она связана.</p>'+
+    '<p><b>Алгоритм разбора.</b> '+chapterStudyTips[currentModule]+'</p>'+
+    '<ul class="lessonBullets"><li>Кто действует и на основании какого полномочия?</li><li>Какое право, принцип или компетенция затронуты?</li><li>Соблюдена ли предусмотренная процедура?</li><li>Есть ли механизм судебной, парламентской или иной конституционной защиты и контроля?</li></ul>'
+}
+function expandedOfficial(meta,bl){
+  const detail=officialPracticeDetails[currentModule+"-"+blockIndex];
+  let body='<p>'+(meta.official||"Для этого блока в локальный банк не привязано отдельное постановление КС РФ; поэтому сайт не приписывает Суду позицию без проверенного источника.")+'</p>';
+  if(detail){
+    body+='<p>'+detail.text+'</p><div class="officialCase"><b>'+detail.title+'.</b> '+detail.caseText+'</div>';
   }else{
-    c.classList.remove('quoteMode');
-    const links=(meta.links||[]).map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join('');
-    c.innerHTML='<div class="officialCard"><div><h4>Официальная практика и толкование</h4><p>'+(meta.official||'Отдельная правовая позиция КС РФ для этого учебного блока в локальный банк не внесена; используйте официальный текст Конституции и решения КС РФ.')+'</p><div class="officialNotice">КС РФ даёт официальное и обязательное толкование Конституции только в установленной законом процедуре. Учебное объяснение на соседней вкладке не подменяет такое толкование.</div></div><div class="officialLinks">'+links+'</div></div>';
+    body+='<p><b>Как читать практику КС РФ.</b> Нужно отделять буквальный текст Конституции, его законодательную конкретизацию и официальную правовую позицию Конституционного Суда. Суд оценивает нормативное регулирование в пределах своей компетенции и может выявлять его конституционно-правовой смысл.</p>'+
+      '<div class="officialCase"><b>Практический вывод.</b> Если по конкретной ситуации не указано решение КС РФ, не следует придумывать «позицию Суда». Сначала применяется официальный текст Конституции и закона, после чего ищется релевантное решение КС РФ.</div>';
   }
+  return body
+}
+function renderLearn(){
+  const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById("panel");
+  ids.forEach(id=>state.viewed.add(id));save();
+  const links=[...(meta.links||[])],detail=officialPracticeDetails[currentModule+"-"+blockIndex];
+  (detail?.links||[]).forEach(x=>{if(!links.some(y=>y[1]===x[1]))links.push(x)});
+  const officialLinks=links.map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join("");
+  panel.innerHTML='<div class="lessonBoard">'+
+    '<div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · смысловой блок</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><div class="conceptCount">'+(blockIndex+1)+' / '+inf.blocks.length+'</div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
+    '<div class="lessonColumns">'+
+      '<article class="lessonCard quote"><div class="lessonCardHead"><h4>1. Точная формулировка</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
+      '<article class="lessonCard meaning"><div class="lessonCardHead"><h4>2. Что это означает</h4><span>учебный разбор</span></div><div class="lessonScroll lessonText">'+expandedMeaning(meta,bl)+'</div><div class="sourceRow"><button class="sourceChip rippleHost" id="learnToScheme">Показать схему →</button></div></article>'+
+      '<article class="lessonCard official"><div class="lessonCardHead"><h4>3. Практика Конституционного Суда</h4><span>официальные источники</span></div><div class="lessonScroll lessonText">'+expandedOfficial(meta,bl)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
+    '</div>'+
+    '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="practiceBottom">Проверить понимание</button></div></div>'+
+    '</div>';
+  const prev=document.getElementById("prevConceptBtn"),next=document.getElementById("nextConceptBtn");
+  prev.disabled=blockIndex===0;next.disabled=blockIndex===inf.blocks.length-1;
+  document.getElementById("prevTopicBottom").disabled=blockIndex===0;
+  document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
+  prev.onclick=prevConcept;next.onclick=nextConcept;
+  document.getElementById("prevTopicBottom").onclick=prevConcept;
+  document.getElementById("nextTopicBottom").onclick=nextConcept;
+  document.getElementById("learnToScheme").onclick=()=>switchTab("scheme");
+  document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");
+  document.getElementById("practiceBottom").onclick=()=>switchTab("practice");
+  renderChapterNav();bindRipple()
 }
 function renderScheme(){
-  const d=moduleInfo[currentModule].diagram,p=document.getElementById('panel');let body='';
-  if(d.kind==='flow'){
-    body='<div class="flow">'+d.nodes.map((n,i)=>'<div class="flowNode"><div class="ico">'+n[0]+'</div><b>'+n[1]+'</b><span>'+n[2]+'</span></div>'+(i<d.nodes.length-1?'<div class="arrow">→</div>':'')).join('')+'</div>'
-  } else {
-    body='<div class="lanes">'+d.lanes.map(l=>'<div class="lane"><h4>'+l[0]+'</h4>'+l[1].map(x=>'<div>'+x+'</div>').join('')+'</div>').join('')+'</div>'
+  const d=moduleInfo[currentModule].diagram,p=document.getElementById("panel");let body="";
+  if(d.kind==="flow"){
+    body='<div class="flow">'+d.nodes.map((n,i)=>'<div class="flowNode"><div class="ico">'+n[0]+'</div><b>'+n[1]+'</b><span>'+n[2]+'</span></div>'+(i<d.nodes.length-1?'<div class="arrow">→</div>':"")).join("")+'</div>'
+  }else{
+    body='<div class="lanes">'+d.lanes.map(l=>'<div class="lane"><h4>'+l[0]+'</h4>'+l[1].map(x=>'<div>'+x+'</div>').join("")+'</div>').join("")+'</div>'
   }
-  p.innerHTML='<div class="schemeWrap"><aside class="schemeInfo"><div class="eyebrow">Визуальная модель</div><h3>'+d.title+'</h3><p>'+d.caption+'</p></aside><div class="schemeStage">'+body+'</div></div>'
+  p.innerHTML='<div class="schemeBoard"><div class="schemeText"><div class="eyebrow">Визуальная модель</div><h3>'+d.title+'</h3><p>'+d.caption+'</p><p style="margin-top:12px"><b>Как пользоваться схемой:</b> сначала определите участников или уровни, затем проследите связи и только после этого сопоставляйте ситуацию с конституционным правилом.</p><div style="margin-top:14px"><button class="btn primary rippleHost" id="schemePractice">Применить на задаче →</button></div></div><div class="schemeStage">'+body+'</div></div>';
+  document.getElementById("schemePractice").onclick=()=>switchTab("practice");
+  bindRipple()
 }
-function remainingTasks(){const done=new Set(state.doneTasks[currentModule]||[]);return taskBank[currentModule].filter(t=>!done.has(t.id))}
 function renderPractice(){
   const rem=remainingTasks(),panel=document.getElementById('panel');
   if(!currentTask&&rem.length)currentTask=rem[0];
