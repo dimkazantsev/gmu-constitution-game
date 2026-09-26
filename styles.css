@@ -245,3 +245,105 @@ h1,h2,h3,p{margin:0}
   .learn{grid-template-columns:1fr}.rail{display:none}.learnMain{display:grid}
   .officialCard{grid-template-columns:1fr}.officialLinks{justify-content:flex-start}
 }
+
+
+/* ===== PROPORTION & COACH PASS ===== */
+.page{padding:18px 20px}
+.home{gap:10px}
+.home .hero{min-height:92px;align-items:center}
+.home .hero h1{font-size:clamp(34px,3.2vw,52px);line-height:.92}
+.home .hero p{font-size:12px;line-height:1.45;max-width:520px}
+.homeDashboard{grid-template-columns:minmax(0,1fr) 320px;gap:12px}
+.homeMain{grid-template-rows:112px minmax(0,1fr);gap:12px}
+.continueCard{padding:17px 20px}
+.continueText small{font-size:10px}.continueText h3{font-size:24px}.continueText p{font-size:11px}
+.continueAction{min-width:176px;justify-content:flex-end}.continuePct{font-size:36px}
+.routes{gap:12px}
+.routeCard{padding:16px 17px}
+.routeTop h3{font-size:18px;letter-spacing:-.025em}
+.routeTop p{font-size:11px;margin-top:4px}
+.routeTop span{font-size:10px}
+.chapterPills{gap:8px;margin-top:14px}
+.chapterPill{padding:9px 11px;font-size:10.5px;border-radius:12px;line-height:1.15}
+.chapterPill .miniPct{font-size:9px}
+.gameHud{padding:16px;gap:11px}
+.avatar{width:54px;height:54px}.rankRow h3{font-size:18px}.rankRow p{font-size:9.5px}
+.ratingValue{font-size:38px}.gameStat{padding:9px}.gameStat b{font-size:18px}.gameStat span{font-size:9px}
+.bossShelf h4{font-size:9.5px}.bossIcon{border-radius:9px;font-size:10px}.quest{font-size:9.5px}
+.course{gap:10px}
+.courseHead h2{font-size:32px}
+.courseTitle p{font-size:11.5px;line-height:1.35}
+.tabs{gap:8px}.tab{padding:10px 15px;font-size:11px}
+.panel{border-radius:24px}
+.learn{grid-template-columns:310px 1fr}
+.rail{padding:20px}
+.rail h3{font-size:23px}.rail p{font-size:11px}
+.clusterBtn{padding:11px 12px}.clusterBtn b{font-size:12px}.clusterBtn span{font-size:10px}
+.learnMain{padding:20px 22px}
+.bigIdea h3{font-size:30px}.bigIdea p{font-size:13px;line-height:1.45}
+.learnMode{font-size:10.5px;padding:9px 12px}
+.constQuote{font-size:clamp(23px,2.25vw,34px)}
+.explainCard p,.officialCard p{font-size:14px}
+.microBtn{font-size:10px;padding:9px 11px}
+.practice{grid-template-columns:minmax(0,1fr) 290px}
+.taskArea{padding:24px}
+.taskPrompt{font-size:clamp(25px,2.5vw,39px);margin-top:18px}
+.taskSub{font-size:11.5px}
+.ans{min-height:68px;padding:13px 14px}.ans span:last-child{font-size:12px}
+.feedback{font-size:11.5px;padding:11px 13px}
+.taskSide{padding:18px}.taskSide h3{font-size:19px}.taskSide p{font-size:10.5px}
+.caseTask{padding:26px}.story{font-size:18px}.caseQuestion{font-size:21px}.caseExplain{font-size:11.5px}
+.caseVisual{padding:22px}.caseVisual h3{font-size:24px}
+.sceneActor{min-height:130px}.sceneActor b{font-size:11px}
+
+/* local AI-style coach */
+.coach{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 310px;background:
+radial-gradient(circle at 10% 8%,rgba(36,107,253,.08),transparent 25%),
+radial-gradient(circle at 92% 86%,rgba(255,79,163,.08),transparent 27%)}
+.coachMain{padding:24px 26px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;min-height:0;border-right:1px solid var(--line)}
+.coachHead{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.coachIdentity{display:flex;align-items:center;gap:12px}
+.aiOrb{width:52px;height:52px;border-radius:18px;background:linear-gradient(135deg,var(--blue),var(--pink));display:grid;place-items:center;color:#fff;font-size:21px;font-weight:1000;box-shadow:0 14px 32px rgba(74,75,220,.24);position:relative}
+.aiOrb:after{content:"";position:absolute;inset:-5px;border:1px solid rgba(36,107,253,.25);border-radius:22px;animation:orbPulse 2.2s ease-in-out infinite}
+@keyframes orbPulse{50%{transform:scale(1.08);opacity:.25}}
+.coachIdentity h3{font-size:22px}.coachIdentity p{font-size:10px;color:var(--muted);margin-top:3px}
+.coachCounter{font-size:10px;font-weight:900;color:#61719a;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 10px}
+.scenarioCard{border:1px solid rgba(36,107,253,.15);border-radius:22px;background:#fff;padding:18px 20px;box-shadow:0 12px 34px rgba(40,70,145,.07);position:relative;overflow:hidden}
+.scenarioCard:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-100px;top:-110px;background:linear-gradient(135deg,var(--blue),var(--pink));opacity:.08}
+.scenarioLabel{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--pink);font-weight:1000}
+.scenarioText{font-size:clamp(20px,2vw,29px);line-height:1.32;letter-spacing:-.025em;margin-top:9px;max-width:980px;position:relative;z-index:1}
+.scenarioScene{display:flex;align-items:center;gap:7px;margin-top:13px;position:relative;z-index:1}
+.miniActor{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:#f9fbff;border-radius:12px;padding:7px 9px;font-size:9.5px;font-weight:900}
+.miniActor i{font-style:normal;width:25px;height:25px;border-radius:8px;background:linear-gradient(135deg,var(--soft),var(--softpink));display:grid;place-items:center}
+.coachAsk{font-size:16px;font-weight:900;margin-top:1px}
+.answerComposer{display:grid;grid-template-rows:1fr auto;gap:9px;min-height:0}
+.freeAnswer{width:100%;height:100%;min-height:120px;resize:none;border:1px solid rgba(36,107,253,.18);border-radius:18px;background:#fbfcff;padding:15px 16px;font:inherit;font-size:14px;line-height:1.5;color:var(--ink);outline:none;transition:.2s}
+.freeAnswer:focus{background:#fff;border-color:rgba(36,107,253,.45);box-shadow:0 0 0 4px rgba(36,107,253,.07)}
+.coachActions{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.coachHint{font-size:10px;color:var(--muted)}
+.coachButtons{display:flex;gap:8px}
+.coachSide{padding:20px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px}
+.coachSide h3{font-size:19px}.coachSide p{font-size:10.5px;color:var(--muted);line-height:1.45}
+.skillMeter{display:grid;gap:7px}
+.skill{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;font-size:10px}
+.skillBar{grid-column:1/-1;height:6px;border-radius:99px;background:#e7ecf7;overflow:hidden}.skillBar span{height:100%;display:block;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:99px}
+.coachResult{display:none;border:1px solid var(--line);background:linear-gradient(135deg,#fff,#f8faff);border-radius:17px;padding:13px 14px;overflow:auto}
+.coachResult.show{display:block}
+.coachResult h4{font-size:12px;margin:0 0 7px}.coachResult p{font-size:11px;line-height:1.5;color:#526189}
+.detected{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.detected span{font-size:9px;padding:5px 7px;border-radius:999px;background:#eaf8f2;color:#137d55;font-weight:900}.detected span.miss{background:#fff0f6;color:#c63c77}
+.modelAnswer{margin-top:9px;padding:10px 11px;border-radius:12px;background:linear-gradient(135deg,var(--soft),var(--softpink));font-size:10.5px;line-height:1.5;color:#4e5d86}
+.coachScore{font-size:42px;font-weight:1000;letter-spacing:-.06em;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.coachFoot{padding:10px;border-radius:13px;background:#f8faff;border:1px solid var(--line);font-size:9.5px;color:#68769a}
+.typingDots{display:inline-flex;gap:3px;margin-left:5px}.typingDots i{width:4px;height:4px;border-radius:50%;background:currentColor;animation:dot 1s infinite}.typingDots i:nth-child(2){animation-delay:.15s}.typingDots i:nth-child(3){animation-delay:.3s}@keyframes dot{50%{transform:translateY(-3px);opacity:.35}}
+@media(max-width:1180px){
+ .homeDashboard{grid-template-columns:1fr}.gameHud{display:none}
+ .homeMain{grid-template-rows:108px 1fr}
+ .coach{grid-template-columns:1fr}.coachSide{display:none}
+}
+@media(max-width:760px){
+ .home .hero{min-height:70px}.home .hero h1{font-size:34px}
+ .homeMain{grid-template-rows:120px 1fr}.continueCard{padding:14px}.continueText h3{font-size:19px}.continueText p{display:none}
+ .routeTop h3{font-size:17px}.chapterPill{font-size:11px;padding:10px}
+ .courseHead h2{font-size:24px}.courseTitle p{display:none}
+ .coachMain{padding:16px}.scenarioText{font-size:20px}.scenarioScene{flex-wrap:wrap}.freeAnswer{font-size:13px}
+}
