@@ -568,3 +568,21 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .chapterSlideText{padding:22px}
   .lessonColumns{grid-template-columns:1fr}.lessonCard.quote{display:none}.lessonCard.official{display:grid}
 }
+
+.quoteGuide{
+  margin-top:22px;padding:14px 15px;border-radius:14px;background:linear-gradient(135deg,var(--soft),var(--softpink));
+  border:1px solid var(--line)
+}
+.quoteGuide b{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)}
+.quoteGuide p{font-size:13px;line-height:1.5;color:#526189;margin-top:6px}
+.officialDivider{display:flex;align-items:center;gap:10px;margin:18px 0 12px}
+.officialDivider:before,.officialDivider:after{content:"";height:1px;background:var(--line);flex:1}
+.officialDivider span{font-size:10px;font-weight:1000;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);white-space:nowrap}
+.carouselViewport{overflow-x:hidden;scroll-behavior:smooth;touch-action:pan-y;cursor:grab}
+.carouselViewport:active{cursor:grabbing}
+.carouselTrack{transform:none!important}
+.chapterSlide{scroll-snap-align:center}
+@media(max-width:820px){
+  .lessonCard.official{display:grid!important}
+  .lessonCard.quote{display:none!important}
+}
