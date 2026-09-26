@@ -5565,3 +5565,449 @@ button,a,textarea,input{font-family:inherit!important}
     line-height:1.6!important;
   }
 }
+
+
+/* =========================================================
+   LEARN CONTENT PASS V9
+   Full text -> simple meaning -> Constitutional Court practice
+   ========================================================= */
+
+.readerBody{
+  min-height:0!important;
+  overflow:hidden!important;
+}
+.readerPane{
+  overflow-y:scroll!important;
+  overflow-x:hidden!important;
+  scrollbar-gutter:stable!important;
+  padding:18px 20px 22px!important;
+}
+.readerPane::-webkit-scrollbar{width:11px!important}
+.readerPane::-webkit-scrollbar-track{
+  background:#eef3fb!important;
+  border-radius:999px!important;
+}
+.readerPane::-webkit-scrollbar-thumb{
+  background:linear-gradient(#7ea4ff,#c978b8)!important;
+  border:2px solid #eef3fb!important;
+  border-radius:999px!important;
+}
+.readerPane{scrollbar-width:thin!important;scrollbar-color:#8faef2 #eef3fb!important}
+
+/* centered sub-navigation */
+.readerTabs{
+  justify-content:center!important;
+  align-items:center!important;
+  gap:7px!important;
+}
+.readerTab{
+  min-width:145px!important;
+  min-height:34px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+}
+
+/* full constitutional text */
+.readerPaneIntro{
+  width:min(100%,1040px)!important;
+  margin:0 auto 12px!important;
+  position:sticky!important;
+  top:-18px!important;
+  z-index:10!important;
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  align-items:center!important;
+  gap:12px!important;
+  padding:11px 13px!important;
+  border:1px solid #dce5f4!important;
+  border-radius:13px!important;
+  background:rgba(249,251,255,.97)!important;
+  backdrop-filter:blur(10px)!important;
+}
+.readerPaneIntro>div{
+  min-width:0!important;
+  text-align:center!important;
+}
+.readerPaneIntro span{
+  display:block!important;
+  text-align:center!important;
+  font-size:8.5px!important;
+  font-weight:900!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+  color:#6b7da5!important;
+}
+.readerPaneIntro h4{
+  margin-top:3px!important;
+  text-align:center!important;
+  font-size:13px!important;
+  line-height:1.3!important;
+  color:#213d78!important;
+}
+.fullArticles{
+  width:min(100%,1040px)!important;
+  margin:0 auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:11px!important;
+}
+.fullArticle{
+  border:1px solid #dae4f4!important;
+  border-radius:15px!important;
+  background:#fff!important;
+  overflow:hidden!important;
+  box-shadow:0 7px 20px rgba(35,59,113,.035)!important;
+}
+.fullArticleHead{
+  min-height:44px!important;
+  padding:7px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  position:relative!important;
+  border-bottom:1px solid #e1e8f5!important;
+  background:#f8faff!important;
+}
+.fullArticleHead>span{
+  text-align:center!important;
+  font-size:12.5px!important;
+  line-height:1.2!important;
+  font-weight:900!important;
+  color:#1c4288!important;
+}
+.fullArticleHead>a{
+  position:absolute!important;
+  right:10px!important;
+  min-height:28px!important;
+  padding:0 8px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  border:1px solid #d7e2f5!important;
+  border-radius:9px!important;
+  background:#fff!important;
+  color:#4264a5!important;
+  font-size:7.8px!important;
+  font-weight:800!important;
+  text-decoration:none!important;
+}
+.fullArticleBody{
+  padding:17px 20px 20px!important;
+  font-size:13.5px!important;
+  line-height:1.74!important;
+  color:#344b76!important;
+  text-align:left!important;
+}
+
+/* simple meaning */
+.readerPaneContent{
+  width:min(100%,1040px)!important;
+  margin:0 auto!important;
+}
+.plainLead{
+  text-align:center!important;
+}
+.plainLead>span{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.plainLead h4{
+  max-width:840px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:center!important;
+  font-size:18px!important;
+  line-height:1.35!important;
+}
+.plainLead p{
+  max-width:900px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  font-size:13px!important;
+  line-height:1.65!important;
+}
+.plainLife,
+.plainQuestion{
+  align-items:center!important;
+}
+.plainLife b,
+.plainQuestion b{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.plainArticle{
+  grid-template-columns:110px minmax(0,1fr)!important;
+  align-items:center!important;
+}
+.plainArticleNo{
+  min-height:34px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-size:9px!important;
+}
+.plainArticleText{
+  min-width:0!important;
+}
+.plainArticleText p{
+  margin:0 0 7px!important;
+  font-size:12px!important;
+  line-height:1.62!important;
+  color:#465a82!important;
+}
+.plainArticleText p:last-child{margin-bottom:0!important}
+.plainArticleText b{
+  color:#213d77!important;
+  font-weight:850!important;
+}
+
+/* Constitutional Court practice */
+.practiceApply,
+.practiceArticleMap,
+.practiceFeature,
+.practiceTimeline{
+  width:min(100%,1040px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.practiceApply{
+  text-align:center!important;
+}
+.practiceApply>span{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.practiceApply h4{
+  max-width:850px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:center!important;
+}
+.practiceApply p{
+  max-width:900px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:left!important;
+}
+.practiceSteps{
+  max-width:850px!important;
+  margin:12px auto 0!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+.practiceSteps>div{
+  min-height:62px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.practiceSteps b{
+  display:grid!important;
+  place-items:center!important;
+}
+.practiceArticleMap{
+  margin-top:15px!important;
+}
+.practiceArticleRow{
+  margin-top:7px!important;
+  padding:11px 13px!important;
+  display:grid!important;
+  grid-template-columns:110px minmax(0,1fr)!important;
+  gap:12px!important;
+  align-items:center!important;
+  border:1px solid #dfe7f4!important;
+  border-radius:13px!important;
+  background:#fbfcff!important;
+}
+.practiceArticleNo{
+  min-height:32px!important;
+  padding:0 8px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  border-radius:9px!important;
+  background:#edf3ff!important;
+  color:#2e61ca!important;
+  font-size:8.8px!important;
+  font-weight:900!important;
+}
+.practiceArticleRow p{
+  margin:0!important;
+  font-size:11.5px!important;
+  line-height:1.55!important;
+  color:#4b5f86!important;
+}
+.practiceTimeline .plainSectionTitle{
+  text-align:center!important;
+  justify-content:center!important;
+}
+.practiceCase{
+  align-items:stretch!important;
+}
+.practiceYear{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+.practiceCaseTop{
+  align-items:center!important;
+}
+.practiceCaseBody h5{
+  line-height:1.4!important;
+}
+.practiceCaseBody p{
+  line-height:1.58!important;
+}
+.practiceWhy{
+  margin-top:8px!important;
+  padding:8px 10px!important;
+  border-radius:10px!important;
+  background:#f5f8ff!important;
+  color:#556a94!important;
+  font-size:9.5px!important;
+  line-height:1.45!important;
+}
+.practiceWhy b{
+  color:#294d98!important;
+}
+.practiceCaseRefs{
+  justify-content:flex-start!important;
+}
+.practiceCaseBody>a{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* central alignment for navigation/control objects, body prose stays left-aligned */
+.readerNav,
+.readerFooter,
+.readerFooter>div,
+.topicRailHead{
+  align-items:center!important;
+}
+.readerNav{
+  justify-content:center!important;
+}
+.readerNav .conceptArrow{
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+}
+.readerFooter .btn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* tablet */
+@media(min-width:768px) and (max-width:1100px){
+  .readerTab{
+    min-width:125px!important;
+    font-size:9px!important;
+  }
+  .practiceSteps{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .fullArticleBody{
+    font-size:12px!important;
+    line-height:1.68!important;
+  }
+  .plainArticleText p,
+  .practiceArticleRow p{
+    font-size:10.5px!important;
+  }
+}
+
+/* phone */
+@media(max-width:767px){
+  .readerTabs{
+    justify-content:flex-start!important;
+    overflow-x:auto!important;
+    scrollbar-width:none!important;
+  }
+  .readerTabs::-webkit-scrollbar{display:none!important}
+  .readerTab{
+    min-width:auto!important;
+    flex:0 0 auto!important;
+    min-height:31px!important;
+    padding:0 9px!important;
+    font-size:8px!important;
+  }
+  .readerPane{
+    padding:10px 10px 14px!important;
+  }
+  .readerPaneIntro{
+    top:-10px!important;
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  .readerPaneIntro .sourceChip{
+    position:static!important;
+    margin:0 auto!important;
+  }
+  .fullArticleHead{
+    min-height:40px!important;
+    padding-right:8px!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:4px!important;
+  }
+  .fullArticleHead>a{
+    position:static!important;
+    margin:0 auto!important;
+  }
+  .fullArticleBody{
+    padding:12px!important;
+    font-size:11px!important;
+    line-height:1.65!important;
+  }
+  .plainArticle,
+  .practiceArticleRow{
+    grid-template-columns:1fr!important;
+    gap:7px!important;
+  }
+  .plainArticleNo,
+  .practiceArticleNo{
+    width:max-content!important;
+    min-width:82px!important;
+    margin:0 auto!important;
+  }
+  .plainArticleText p,
+  .practiceArticleRow p{
+    font-size:9.8px!important;
+    line-height:1.5!important;
+  }
+  .practiceSteps{
+    grid-template-columns:1fr 1fr!important;
+    gap:5px!important;
+  }
+  .practiceSteps>div{
+    min-height:50px!important;
+  }
+  .practiceCase{
+    grid-template-columns:58px minmax(0,1fr)!important;
+    gap:7px!important;
+  }
+  .practiceYear{
+    font-size:11px!important;
+  }
+}
