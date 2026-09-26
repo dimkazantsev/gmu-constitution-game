@@ -416,8 +416,9 @@ const chapterStudyTips={
   10:"Переходные нормы объясняют, как избежать правового и институционального вакуума."
 };
 function renderChapterNavigator(){
-  if(currentModule===null)return;
-  const idx=chapters.findIndex(x=>x.id===currentModule),ch=chapters[idx];
+  const effectiveId=currentModule===null?(Number.isFinite(state.lastModule)?state.lastModule:1):currentModule;
+  const idx=chapters.findIndex(x=>x.id===effectiveId),ch=chapters[idx];
+  if(idx<0||!ch)return;
   const prev=document.getElementById("prevChapterBtn"),next=document.getElementById("nextChapterBtn");
   const label=document.getElementById("chapterPickerLabel"),picker=document.getElementById("chapterPicker"),menu=document.getElementById("chapterMenu");
   if(!prev||!next||!label||!picker||!menu)return;
@@ -529,14 +530,15 @@ function renderHome(){
 function setTopHeaderMode(courseMode){
   const crumb=document.getElementById("crumb");
   const nav=document.getElementById("topChapterNav");
-  if(crumb)crumb.style.display=courseMode?"none":"block";
-  if(nav)nav.classList.toggle("active",!!courseMode);
+  if(crumb)crumb.style.display="none";
+  if(nav)nav.classList.add("active");
+  renderChapterNavigator();
 }
 function showHome(){
   currentModule=null;
-  document.getElementById("crumb").textContent="Карта курса";
   setTopHeaderMode(false);
   renderHome();
+  renderChapterNavigator();
   showPage("home")
 }
 
@@ -968,4 +970,4 @@ function submitCheckMulti(){
   advanceCheck(got.length===need.length&&got.every((x,i)=>x===need[i]))
 }
 
-renderHome();syncSoundButton();bindRipple();
+renderHome();setTopHeaderMode(false);renderChapterNavigator();syncSoundButton();bindRipple();
