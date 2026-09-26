@@ -3334,3 +3334,307 @@ body.modalOpen{overflow:hidden}
     animation:none!important;
   }
 }
+
+
+/* ===== UNIFIED CHAPTER OVERVIEW V6 ===== */
+.courseWorkspace{
+  grid-template-rows:118px minmax(0,1fr)!important;
+  gap:8px!important;
+}
+.chapterOverview{
+  min-height:118px;
+  padding:10px 12px;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) 38px;
+  gap:7px;
+  border:1px solid rgba(205,216,240,.96);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 12% 0%,rgba(36,107,253,.065),transparent 28%),
+    radial-gradient(circle at 92% 100%,rgba(255,79,163,.065),transparent 26%),
+    linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,251,255,.97));
+  box-shadow:
+    0 10px 28px rgba(31,54,111,.055),
+    inset 0 1px 0 rgba(255,255,255,.86);
+  overflow:hidden;
+}
+.chapterOverviewMain{
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 330px;
+  gap:18px;
+  align-items:center;
+}
+
+/* Title area is no longer a card within a card */
+.chapterOverview .courseTitle{
+  min-width:0!important;
+  min-height:0!important;
+  padding:0 4px!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:3px!important;
+}
+.chapterOverview .courseTitle:before,
+.chapterOverview .courseTitle:after{
+  display:none!important;
+}
+.chapterOverview .courseTitle .eyebrow{
+  min-height:20px!important;
+  padding:0 8px!important;
+  margin:0!important;
+  width:max-content!important;
+  border:1px solid #dbe5f8!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.72)!important;
+  color:#2c65e9!important;
+  font-size:8.2px!important;
+  font-weight:1000!important;
+  letter-spacing:.10em!important;
+}
+.chapterOverview .courseTitle h2{
+  margin:0!important;
+  font-size:clamp(22px,1.45vw,28px)!important;
+  line-height:1.02!important;
+  letter-spacing:-.035em!important;
+  color:#182d5c!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.chapterOverview .courseTitle p{
+  margin:0!important;
+  max-width:100%!important;
+  font-size:10.5px!important;
+  line-height:1.3!important;
+  color:#7180a4!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Compact progress status, not navigation */
+.chapterOverview .courseProgress{
+  min-width:0!important;
+  width:auto!important;
+  min-height:0!important;
+  height:auto!important;
+  padding:0 0 0 18px!important;
+  margin:0!important;
+  border:0!important;
+  border-left:1px solid #dfe7f6!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  display:grid!important;
+  grid-template-rows:auto 6px auto auto!important;
+  gap:5px!important;
+  align-content:center!important;
+}
+.chapterOverview .courseProgress:before{
+  display:none!important;
+}
+.chapterOverview .progressTopline{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+}
+.chapterOverview .progressLabel{
+  font-size:9px!important;
+  font-weight:900!important;
+  color:#7484a8!important;
+}
+.chapterOverview .progressTopline b{
+  font-size:19px!important;
+  line-height:1!important;
+  color:#203a76!important;
+  letter-spacing:-.04em!important;
+}
+.chapterOverview .courseProgress .bar{
+  width:100%!important;
+  height:6px!important;
+  margin:0!important;
+  border-radius:999px!important;
+  background:#e8edf7!important;
+  overflow:hidden!important;
+}
+.chapterOverview .courseProgress .bar span{
+  height:100%!important;
+  border-radius:999px!important;
+  background:linear-gradient(90deg,#2f6dff,#7b62ff,#ff4fa3)!important;
+}
+.chapterOverview .progressStats{
+  display:flex!important;
+  gap:5px!important;
+  flex-wrap:nowrap!important;
+}
+.chapterOverview .progressChip{
+  min-height:18px!important;
+  padding:0 7px!important;
+  border-radius:999px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  border:1px solid #dbe5f7!important;
+  background:rgba(255,255,255,.74)!important;
+  color:#64759e!important;
+  font-size:7.5px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+}
+.chapterOverview .progressMeta{
+  min-height:0!important;
+  display:block!important;
+  font-size:8px!important;
+  line-height:1.2!important;
+  color:#8290ad!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Tabs are integrated into the same card */
+.chapterOverview .tabs{
+  width:100%!important;
+  min-height:38px!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:6px!important;
+  padding:0!important;
+  margin:0!important;
+  align-items:stretch!important;
+}
+.chapterOverview .tab{
+  min-width:0!important;
+  width:100%!important;
+  min-height:38px!important;
+  height:38px!important;
+  padding:0 10px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  border:1px solid #d9e3f6!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.72)!important;
+  box-shadow:none!important;
+  color:#67779d!important;
+  font-size:10px!important;
+  font-weight:1000!important;
+  transition:.16s ease!important;
+}
+.chapterOverview .tab:hover{
+  transform:translateY(-1px)!important;
+  background:#fff!important;
+  border-color:#c6d6f8!important;
+  color:#1e3976!important;
+}
+.chapterOverview .tab.active{
+  color:#18376f!important;
+  background:linear-gradient(135deg,#eef4ff,#fff1f8)!important;
+  border-color:#bfd1fb!important;
+  box-shadow:0 5px 14px rgba(31,54,111,.055)!important;
+}
+.chapterOverview .tabIcon{
+  width:22px!important;
+  height:22px!important;
+  flex:0 0 22px!important;
+  border-radius:7px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:#f1f5fd!important;
+  color:#356ce8!important;
+  font-size:9px!important;
+}
+.chapterOverview .tab.active .tabIcon{
+  background:#fff!important;
+}
+.chapterOverview .tabIconAI{
+  font-size:7px!important;
+}
+
+/* Any obsolete visual card is gone */
+.courseChapterVisual,
+.tagCloudCard,
+.chapterScene{
+  display:none!important;
+}
+
+/* panel gets the reclaimed height */
+.panel{
+  min-height:0!important;
+  height:100%!important;
+}
+
+/* Tablet */
+@media(min-width:768px) and (max-width:1180px){
+  .courseWorkspace{
+    grid-template-rows:106px minmax(0,1fr)!important;
+    gap:7px!important;
+  }
+  .chapterOverview{
+    min-height:106px!important;
+    padding:8px 9px!important;
+    grid-template-rows:minmax(0,1fr) 36px!important;
+    gap:6px!important;
+    border-radius:17px!important;
+  }
+  .chapterOverviewMain{
+    grid-template-columns:minmax(0,1fr) 250px!important;
+    gap:12px!important;
+  }
+  .chapterOverview .courseTitle h2{font-size:20px!important}
+  .chapterOverview .courseTitle p{font-size:9.2px!important}
+  .chapterOverview .courseProgress{padding-left:12px!important}
+  .chapterOverview .progressTopline b{font-size:17px!important}
+  .chapterOverview .progressLabel{font-size:8px!important}
+  .chapterOverview .progressChip{font-size:6.8px!important;padding:0 5px!important}
+  .chapterOverview .progressMeta{font-size:7.2px!important}
+  .chapterOverview .tab{height:36px!important;min-height:36px!important;font-size:9px!important;padding:0 7px!important}
+  .chapterOverview .tabIcon{width:20px!important;height:20px!important;flex-basis:20px!important}
+}
+
+/* Phone: only the title remains; bottom nav is the main mode switcher */
+@media(max-width:767px){
+  .courseWorkspace{
+    grid-template-rows:56px minmax(0,1fr)!important;
+    gap:6px!important;
+  }
+  .chapterOverview{
+    min-height:56px!important;
+    padding:5px 7px!important;
+    display:block!important;
+    border-radius:14px!important;
+  }
+  .chapterOverviewMain{
+    display:block!important;
+  }
+  .chapterOverview .courseTitle{
+    min-height:44px!important;
+    padding:0!important;
+  }
+  .chapterOverview .courseTitle .eyebrow{
+    min-height:0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    font-size:7.5px!important;
+  }
+  .chapterOverview .courseTitle h2{
+    font-size:18px!important;
+  }
+  .chapterOverview .courseTitle p{
+    font-size:8.5px!important;
+  }
+  .chapterOverview .courseProgress,
+  .chapterOverview .tabs{
+    display:none!important;
+  }
+}
