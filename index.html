@@ -333,12 +333,77 @@ function focusChapter(id){
   if(card)card.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'})
 }
 function renderChapterPath(){
-  const path=document.getElementById('chapterPath');if(!path)return;path.innerHTML='';
+  const path=document.getElementById('chapterPath');
+  if(!path)return;
+  path.innerHTML='';
   chapters.forEach(ch=>{
-    let unlocked=isChapterUnlocked(ch.id),complete=isChapterComplete(ch.id),bossed=state.bosses.has(ch.id),pct=chapterPct(ch.id);
+    let unlocked=isChapterUnlocked(ch.id);
+    let complete=isChapterComplete(ch.id);
+    let bossed=state.bosses.has(ch.id);
+    let pct=chapterPct(ch.id);
+    let status=!unlocked?'🔒':bossed?'★':complete?'⚔':pct+'%';
+    let label=ch.id===10?'Финал':ch.id===0?'Старт':'Уровень '+ch.id;
     let n=document.createElement('button');
     n.className='levelNode'+(!unlocked?' locked':'')+(complete?' complete':'')+(bossed?' bossed':'');
-    n.innerHTML=`<div class="lnTop"><span>${ch.id===10?'Финал':ch.id===0?'Старт':'Уровень '+ch.id}</span><span>${!unlocked?'🔒':bossed?'★':complete?'⚔':'${pct}%'.replace('
+    n.innerHTML=`<div class="lnTop"><span>${label}</span><span>${status}</span></div><span class="lnTitle">${ch.name}</span><div class="lnBar"><span style="width:${pct}%"></span></div>`;
+    n.onclick=()=>focusChapter(ch.id);
+    path.appendChild(n)
+  })
+}
+function renderAtlas(){
+  const rail=document.getElementById('chapterRail');
+  rail.innerHTML='';
+  renderChapterPath();
+  chapters.forEach(ch=>{
+    let arr=chapterTargets(ch.id);
+    let doneN=arr.filter(t=>state.done.has(t.id)).length;
+    let unlocked=isChapterUnlocked(ch.id);
+    let complete=isChapterComplete(ch.id);
+    let bossed=state.bosses.has(ch.id);
+    let card=document.createElement('article');
+    card.dataset.chapter=ch.id;
+    card.className='chapterCard'+(!unlocked?' locked':'');
+    card.style.setProperty('--accent',ch.accent);
+
+    let bossPart;
+    if(bossed)bossPart='<span class="bossSeal">★ Босс побеждён</span>';
+    else if(complete)bossPart=`<button class="bossBtn" onclick="startBoss(${ch.id})">⚔ Босс главы</button>`;
+    else bossPart=`<button class="bossBtn" disabled>Босс: ${doneN}/${arr.length}</button>`;
+
+    card.innerHTML=`
+      <div class="chapterTitle">
+        <div>
+          <h3>${ch.name}</h3>
+          <small>${ch.id===10?'Раздел II':ch.id===0?'Вводная часть':'Глава '+ch.id} · ${ch.range} · ${arr.length} точек</small>
+        </div>
+        <div class="chapterNum">${ch.id===10?'II':ch.id===0?'§':String(ch.id).padStart(2,'0')}</div>
+      </div>
+      <div class="articleGrid"></div>
+      <div class="chapterFoot">
+        <span>${unlocked?'Закройте точки → победите босса → откройте следующий уровень':'Уровень пока закрыт'}</span>
+        <span class="chapterFootRight"><span>${doneN}/${arr.length} · ${chapterPct(ch.id)}%</span>${bossPart}</span>
+      </div>`;
+
+    let grid=card.querySelector('.articleGrid');
+    arr.forEach(t=>{
+      let b=document.createElement('button');
+      b.className='articleChip'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+((t.article+'').includes('.')?' special':'');
+      b.textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II-'+t.article.split('.')[1]);
+      b.title=t.topic;
+      b.disabled=!unlocked;
+      b.onclick=()=>openArticle(t);
+      grid.appendChild(b)
+    });
+
+    if(!unlocked){
+      let lock=document.createElement('div');
+      lock.className='chapterLock';
+      lock.innerHTML='<div class="lockBadge">🔒 Победите босса предыдущей главы</div>';
+      card.appendChild(lock)
+    }
+    rail.appendChild(card)
+  })
+}
 function rail(dir){document.getElementById('chapterRail').scrollBy({left:dir*Math.min(innerWidth*.75,900),behavior:'smooth'})}
 function openArticle(t){currentArticle=t;document.getElementById('modalNum').textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II·'+t.article.split('.')[1]);let ch=chapters.find(c=>c.id===t.chapter);document.getElementById('modalEyebrow').textContent=t.chapter===0?'Преамбула':(t.type==='article'?`Глава ${t.chapter}`:'Раздел II');document.getElementById('modalChapter').textContent=ch.name;document.getElementById('modalTopic').textContent=t.topic;document.getElementById('modalState').textContent=state.done.has(t.id)?'Контрольная точка уже закрыта':'Ещё не проверено';document.getElementById('mission1').textContent=`Объясните своими словами, что означает: «${t.topic}». Назовите, кого или что эта норма связывает.`;document.getElementById('mission2').textContent=t.type==='article'?`Придумайте управленческую ситуацию, в которой статья ${t.article} станет юридически значимой. Укажите акторов и решение.`:'Объясните, зачем переходное правило было нужно в момент введения новой Конституции.';document.getElementById('articleModal').classList.add('open')}
 function closeModal(){document.getElementById('articleModal').classList.remove('open')}
