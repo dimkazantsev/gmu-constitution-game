@@ -2473,3 +2473,25 @@ body.modalOpen{overflow:hidden}
   .resetDialog{padding:18px;border-radius:18px}
   .resetDialogActions{grid-template-columns:1fr}
 }
+
+
+/* ===== CHAPTER MENU: VERTICAL NUMBERING BY COLUMN ===== */
+.chapterMenu.open{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:8px!important;
+}
+.chapterMenuColumn{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+  min-width:0!important;
+}
+.chapterMenuColumn button{
+  width:100%!important;
+}
+@media(max-width:767px){
+  .chapterMenu.open{
+    grid-template-columns:1fr!important;
+  }
+}
