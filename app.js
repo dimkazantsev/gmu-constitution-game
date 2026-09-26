@@ -320,9 +320,11 @@ function league(){
 }
 function bossUnlocked(id){return (state.doneTasks[id]?.length||0)>=taskBank[id].length&&(state.doneCases[id]?.length||0)>=caseBank[id].length}
 function modulePct(id){
-  const total=(taskBank[id]?.length||0)+(caseBank[id]?.length||0);
-  const done=(state.doneTasks[id]?.length||0)+(state.doneCases[id]?.length||0);
-  return total?Math.round(done/total*100):0
+  const blocks=moduleInfo[id]?.blocks||[],cases=caseBank[id]||[];
+  const learned=blocks.filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length;
+  const doneCases=state.doneCases[id]?.length||0;
+  const total=blocks.length+cases.length;
+  return total?Math.round((learned+doneCases)/total*100):0
 }
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id))}
 function toast(s){const t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500)}
@@ -402,24 +404,62 @@ function renderChapterNavigator(){
   });
   picker.onclick=()=>menu.classList.toggle("open");
 }
+
+let carouselIndex=0,carouselDrag=null;
+function chapterArt(id){
+  const arts={
+    0:['#246BFD','#FF4FA3','M90 250 C155 165 250 160 325 225 C390 280 465 265 535 165','§','НАРОД'],
+    1:['#246BFD','#765CFF','M105 270 L210 155 L315 270 M350 270 L455 155 L560 270','⚖','БАЛАНС'],
+    2:['#FF4FA3','#246BFD','M115 210 C150 125 260 110 305 195 C345 115 455 130 500 215 C445 305 350 335 305 360 C255 330 170 300 115 210','♥','ПРАВА'],
+    3:['#765CFF','#43A7FF','M95 275 L185 175 L275 275 L365 175 L455 275 L545 175','◇','ФЕДЕРАЦИЯ'],
+    4:['#246BFD','#FF4FA3','M120 285 C205 150 420 150 520 285 M320 125 L320 330','◎','ПРЕЗИДЕНТ'],
+    5:['#765CFF','#FF4FA3','M110 290 L110 180 L250 180 L250 290 M350 290 L350 180 L490 180 L490 290 M250 235 L350 235','▥','ПАРЛАМЕНТ'],
+    6:['#246BFD','#43A7FF','M115 280 L210 205 L305 280 L400 205 L495 280 M165 170 L450 170','▦','ПРАВИТЕЛЬСТВО'],
+    7:['#765CFF','#246BFD','M105 285 L510 285 M180 285 L180 190 M435 285 L435 190 M135 190 L480 190 M305 105 L305 190','⚖','СУД'],
+    8:['#FF4FA3','#765CFF','M105 285 L105 210 L190 160 L275 210 L275 285 M340 285 L340 185 L455 135 L520 185 L520 285','⌂','МЕСТНО'],
+    9:['#246BFD','#FF4FA3','M115 260 C190 160 250 320 325 220 C400 120 465 260 525 165','↻','ПОПРАВКИ'],
+    10:['#765CFF','#43A7FF','M105 250 L235 250 L285 195 L335 250 L525 250 M205 155 L205 315 M425 155 L425 315','II','ПЕРЕХОД']
+  };
+  const a=arts[id]||arts[0];
+  return '<svg viewBox="0 0 640 420" aria-hidden="true"><defs><linearGradient id="g'+id+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+a[0]+'"/><stop offset="1" stop-color="'+a[1]+'"/></linearGradient><filter id="blur'+id+'"><feGaussianBlur stdDeviation="26"/></filter></defs><circle cx="480" cy="100" r="105" fill="'+a[1]+'" opacity=".16" filter="url(#blur'+id+')"/><circle cx="160" cy="345" r="120" fill="'+a[0]+'" opacity=".12" filter="url(#blur'+id+')"/><path d="'+a[2]+'" fill="none" stroke="url(#g'+id+')" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity=".82"/><circle cx="320" cy="214" r="72" fill="white" opacity=".94"/><text x="320" y="233" text-anchor="middle" font-family="Arial,sans-serif" font-size="58" font-weight="900" fill="'+a[0]+'">'+a[3]+'</text><text x="320" y="382" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="900" letter-spacing="5" fill="#61729B">'+a[4]+'</text></svg>'
+}
+function setCarousel(index,animate=true){
+  const slides=[...document.querySelectorAll(".chapterSlide")],viewport=document.getElementById("carouselViewport");
+  if(!slides.length||!viewport)return;
+  carouselIndex=Math.max(0,Math.min(index,slides.length-1));
+  slides.forEach((x,i)=>x.classList.toggle("active",i===carouselIndex));
+  document.querySelectorAll(".carouselDot").forEach((x,i)=>x.classList.toggle("active",i===carouselIndex));
+  document.getElementById("carouselPrev").disabled=carouselIndex===0;
+  document.getElementById("carouselNext").disabled=carouselIndex===slides.length-1;
+  const slide=slides[carouselIndex];
+  const left=slide.offsetLeft-(viewport.clientWidth-slide.clientWidth)/2;
+  viewport.scrollTo({left,behavior:animate?"smooth":"auto"})
+}
+function bindCarousel(){
+  const viewport=document.getElementById("carouselViewport");if(!viewport)return;
+  document.getElementById("carouselPrev").onclick=()=>setCarousel(carouselIndex-1);
+  document.getElementById("carouselNext").onclick=()=>setCarousel(carouselIndex+1);
+  viewport.onpointerdown=e=>{carouselDrag={x:e.clientX,left:viewport.scrollLeft};viewport.setPointerCapture?.(e.pointerId)};
+  viewport.onpointermove=e=>{if(!carouselDrag)return;viewport.scrollLeft=carouselDrag.left-(e.clientX-carouselDrag.x)};
+  viewport.onpointerup=e=>{if(!carouselDrag)return;const dx=e.clientX-carouselDrag.x;carouselDrag=null;if(Math.abs(dx)>45)setCarousel(carouselIndex+(dx<0?1:-1));else setCarousel(carouselIndex)};
+  viewport.onpointercancel=()=>{carouselDrag=null;setCarousel(carouselIndex)};
+}
 function renderHome(){
   currentModule=null;
-  const continueId=chapters.find(ch=>modulePct(ch.id)<100)?.id ?? state.lastModule;
-  const ch=chapters.find(x=>x.id===continueId)||chapters[1],cp=modulePct(ch.id);
-  const cont=document.getElementById("continueCard");
-  cont.innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div><div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" id="continueBtn">Продолжить →</button></div>';
-  document.getElementById("continueBtn").onclick=()=>openModule(ch.id);
-
-  const trainer=document.getElementById("trainerTeaser");
-  trainer.innerHTML='<div class="aiOrb">AI</div><div><div class="eyebrow">Ситуационный тренер</div><h3>Свободный ответ</h3><p>Жизненная ситуация → ваш аргумент → подробный разбор.</p></div><div class="trainerStats"><span class="statChip">'+(state.coachSolved||0)+' ситуаций разобрано</span><button class="btn pink rippleHost" id="homeCoachBtn">Открыть тренер</button></div>';
-  document.getElementById("homeCoachBtn").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),30)};
-
-  const grid=document.getElementById("homeChapters");grid.innerHTML="";
-  chapters.forEach(c=>{
-    const b=document.createElement("button");b.className="homeChapterCard rippleHost";
-    b.innerHTML='<div class="homeChapterTop"><span class="homeChapterNum">'+(c.id===0?"§":c.id===10?"II":c.id)+'</span><span class="homeChapterPct">'+modulePct(c.id)+'%</span></div><h3>'+(c.id===0?"Преамбула":c.name)+'</h3><p>'+moduleInfo[c.id].desc+'</p>';
-    b.onclick=()=>openModule(c.id);grid.appendChild(b)
+  const track=document.getElementById("chapterCarouselTrack"),dots=document.getElementById("carouselDots");
+  track.innerHTML="";dots.innerHTML="";
+  chapters.forEach((c,i)=>{
+    const slide=document.createElement("article");slide.className="chapterSlide";
+    const blockCount=moduleInfo[c.id]?.blocks?.length||0,caseCount=caseBank[c.id]?.length||0,p=modulePct(c.id);
+    slide.innerHTML='<div class="chapterSlideText"><div class="slideNo">'+(c.id===0?"Вводная часть":c.id===10?"Раздел II":"Глава "+c.id)+'</div><h2>'+(c.id===0?"Преамбула":c.name)+'</h2><p>'+moduleInfo[c.id].desc+'</p><div class="slideMeta"><span>'+blockCount+' смысловых блока</span><span>'+caseCount+' жизненных кейса</span><span>Практика КС РФ</span></div><div class="slideProgress"><div class="bar"><span style="width:'+p+'%"></span></div><b>'+p+'%</b></div><div class="slideActions"><button class="btn primary openChapter">Открыть главу →</button><button class="btn ghost openCoach">ИИ‑тренер</button></div></div><div class="chapterSlideArt">'+chapterArt(c.id)+'</div>';
+    slide.querySelector(".openChapter").onclick=()=>openModule(c.id);
+    slide.querySelector(".openCoach").onclick=()=>{openModule(c.id);setTimeout(()=>switchTab("coach"),30)};
+    track.appendChild(slide);
+    const dot=document.createElement("button");dot.className="carouselDot";dot.setAttribute("aria-label","Открыть "+(c.id===0?"преамбулу":"главу "+c.id));dot.onclick=()=>setCarousel(i);dots.appendChild(dot)
   });
+  document.getElementById("trainerShortcut").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),30)};
+  const savedIndex=chapters.findIndex(x=>x.id===state.lastModule);carouselIndex=savedIndex>=0?savedIndex:0;
+  bindCarousel();requestAnimationFrame(()=>setCarousel(carouselIndex,false));
   syncSoundButton();bindRipple()
 }
 function showHome(){
@@ -451,7 +491,6 @@ document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
 function renderTab(){
   if(currentTab==="learn")renderLearn();
   else if(currentTab==="scheme")renderScheme();
-  else if(currentTab==="practice")renderPractice();
   else if(currentTab==="cases")renderCases();
   else renderCoach()
 }
@@ -476,29 +515,19 @@ function expandedOfficial(meta,bl){
 }
 function renderLearn(){
   const inf=moduleInfo[currentModule],bl=inf.blocks[blockIndex],meta=learnMeta[currentModule]?.[blockIndex]||{},ids=bl[3]||[],panel=document.getElementById("panel");
-  ids.forEach(id=>state.viewed.add(id));save();
+  ids.forEach(id=>state.viewed.add(id));save();updateProgress();
   const links=[...(meta.links||[])],detail=officialPracticeDetails[currentModule+"-"+blockIndex];
   (detail?.links||[]).forEach(x=>{if(!links.some(y=>y[1]===x[1]))links.push(x)});
   const officialLinks=links.map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+' ↗</a>').join("");
-  panel.innerHTML='<div class="lessonBoard">'+
-    '<div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · смысловой блок</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><div class="conceptCount">'+(blockIndex+1)+' / '+inf.blocks.length+'</div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
-    '<div class="lessonColumns">'+
-      '<article class="lessonCard quote"><div class="lessonCardHead"><h4>1. Точная формулировка</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
-      '<article class="lessonCard meaning"><div class="lessonCardHead"><h4>2. Что это означает</h4><span>учебный разбор</span></div><div class="lessonScroll lessonText">'+expandedMeaning(meta,bl)+'</div><div class="sourceRow"><button class="sourceChip rippleHost" id="learnToScheme">Показать схему →</button></div></article>'+
-      '<article class="lessonCard official"><div class="lessonCardHead"><h4>3. Практика Конституционного Суда</h4><span>официальные источники</span></div><div class="lessonScroll lessonText">'+expandedOfficial(meta,bl)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
-    '</div>'+
-    '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="practiceBottom">Проверить понимание</button></div></div>'+
-    '</div>';
+  panel.innerHTML='<div class="lessonBoard"><div class="conceptNav"><button class="conceptArrow rippleHost" id="prevConceptBtn">←</button><div class="conceptTitle"><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+bl[0]+'</h3><p>'+bl[1]+'</p></div><button class="conceptArrow rippleHost" id="nextConceptBtn">→</button></div>'+
+  '<div class="lessonColumns"><article class="lessonCard quote"><div class="lessonCardHead"><h4>Текст Конституции</h4><span>'+(meta.quoteRef||bl[2])+'</span></div><div class="lessonScroll"><div class="constQuote">'+(meta.quote||"Откройте официальный текст нормы по ссылке ниже.")+'</div><div class="quoteGuide"><b>На что смотреть:</b><p>'+chapterStudyTips[currentModule]+'</p></div></div><div class="sourceRow"><a class="sourceChip" target="_blank" rel="noopener" href="'+officialConstUrl+'">Официальная публикация ↗</a></div></article>'+
+  '<article class="lessonCard official"><div class="lessonCardHead"><h4>Смысл нормы и практика КС РФ</h4><span>развёрнутый разбор</span></div><div class="lessonScroll lessonText">'+expandedMeaning(meta,bl)+'<div class="officialDivider"><span>Практика Конституционного Суда</span></div>'+expandedOfficial(meta,bl)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article></div>'+
+  '<div class="lessonActions"><div class="left"><button class="btn ghost rippleHost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost rippleHost" id="nextTopicBottom">Следующая тема →</button></div><div class="right"><button class="btn ghost rippleHost" id="schemeBottom">Схема</button><button class="btn primary rippleHost" id="caseBottom">Перейти к кейсам →</button></div></div></div>';
   const prev=document.getElementById("prevConceptBtn"),next=document.getElementById("nextConceptBtn");
   prev.disabled=blockIndex===0;next.disabled=blockIndex===inf.blocks.length-1;
-  document.getElementById("prevTopicBottom").disabled=blockIndex===0;
-  document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
-  prev.onclick=prevConcept;next.onclick=nextConcept;
-  document.getElementById("prevTopicBottom").onclick=prevConcept;
-  document.getElementById("nextTopicBottom").onclick=nextConcept;
-  document.getElementById("learnToScheme").onclick=()=>switchTab("scheme");
-  document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");
-  document.getElementById("practiceBottom").onclick=()=>switchTab("practice");
+  document.getElementById("prevTopicBottom").disabled=blockIndex===0;document.getElementById("nextTopicBottom").disabled=blockIndex===inf.blocks.length-1;
+  prev.onclick=prevConcept;next.onclick=nextConcept;document.getElementById("prevTopicBottom").onclick=prevConcept;document.getElementById("nextTopicBottom").onclick=nextConcept;
+  document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");document.getElementById("caseBottom").onclick=()=>switchTab("cases");
   renderChapterNavigator();bindRipple()
 }
 function renderScheme(){
@@ -508,8 +537,8 @@ function renderScheme(){
   }else{
     body='<div class="lanes">'+d.lanes.map(l=>'<div class="lane"><h4>'+l[0]+'</h4>'+l[1].map(x=>'<div>'+x+'</div>').join("")+'</div>').join("")+'</div>'
   }
-  p.innerHTML='<div class="schemeBoard"><div class="schemeText"><div class="eyebrow">Визуальная модель</div><h3>'+d.title+'</h3><p>'+d.caption+'</p><p style="margin-top:12px"><b>Как пользоваться схемой:</b> сначала определите участников или уровни, затем проследите связи и только после этого сопоставляйте ситуацию с конституционным правилом.</p><div style="margin-top:14px"><button class="btn primary rippleHost" id="schemePractice">Применить на задаче →</button></div></div><div class="schemeStage">'+body+'</div></div>';
-  document.getElementById("schemePractice").onclick=()=>switchTab("practice");
+  p.innerHTML='<div class="schemeBoard"><div class="schemeText"><div class="eyebrow">Визуальная модель</div><h3>'+d.title+'</h3><p>'+d.caption+'</p><p style="margin-top:12px"><b>Как пользоваться схемой:</b> сначала определите участников или уровни, затем проследите связи и только после этого сопоставляйте ситуацию с конституционным правилом.</p><div style="margin-top:14px"><button class="btn primary rippleHost" id="schemePractice">Разобрать в кейсе →</button></div></div><div class="schemeStage">'+body+'</div></div>';
+  document.getElementById("schemePractice").onclick=()=>switchTab("cases");
   bindRipple()
 }
 function renderPractice(){
@@ -527,7 +556,7 @@ function renderPractice(){
   renderTaskInput(currentTask)
 }
 function restartPractice(){state.doneTasks[currentModule]=[];currentTask=null;save();updateProgress();renderPractice()}
-function switchTab(tab){currentTab=tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderTab()}
+function switchTab(tab){if(tab==="practice")tab="cases";currentTab=tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));renderTab()}
 function renderTaskInput(t){
   const z=document.getElementById('answerZone');z.innerHTML='';
   if(t.type==='single'||t.type==='case'||t.type==='multi'){
