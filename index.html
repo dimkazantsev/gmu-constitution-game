@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="description" content="Интерактивный учебный курс по Конституции Российской Федерации: полный текст статей, объяснения простым языком, практика Конституционного Суда РФ, схемы и кейсы.">\n<meta name="theme-color" content="#0b234a">\n<meta name="color-scheme" content="light">
 <title>ГМУ · Конституция РФ — интерактивный курс</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">\n<link rel="stylesheet" href="styles.css">\n<link rel="stylesheet" href="ui-2026-09.css">
 </head>
 <body>
 <header class="top">
@@ -16,7 +16,7 @@
     <div class="crumb" id="crumb" style="display:none"></div>
     <div class="topChapterNav" id="topChapterNav">
       <button class="chapterArrow" id="prevChapterBtn" aria-label="Предыдущая глава"><span>←</span></button>
-      <button class="chapterPicker" id="chapterPicker">
+      <button class="chapterPicker" id="chapterPicker" aria-controls="chapterMenu" aria-haspopup="true" aria-expanded="false">
         <span class="chapterPickerLabel" id="chapterPickerLabel"></span>
         <span class="chapterPickerHint">Сменить главу ▾</span>
       </button>
@@ -32,7 +32,7 @@
   </div>
 </header>
 
-<main class="stage">
+<main class="stage" id="mainContent" tabindex="-1">
   <section class="page home active" id="home">
     <div class="homeShell">
       <div class="homeIntro">
