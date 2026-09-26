@@ -288,7 +288,7 @@ function submitCoach(){
  const c=coachState.scenario,res=evaluateCoach(text,c);coachState.answered=true;coachState.score=res.score;state.coachSolved=(state.coachSolved||0)+1;state.coachPoints=(state.coachPoints||0)+res.score;save();
  const box=document.getElementById('coachResult');box.classList.add('show');const chips=c.labels.map((lab,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+lab+'</span>').join('');
  box.innerHTML='<div class="coachScore">'+res.score+'%</div><h4>'+coachLevelText(res.score)+'</h4><div class="detected">'+chips+'</div><p>Оценка показывает, какие смысловые элементы удалось обнаружить. Это не юридическая экспертиза.</p><div class="modelAnswer"><b>Сильный вариант ответа:</b><br>'+c.model+'<br><br><b>Правовое основание:</b> '+c.refs+'</div><div class="coachButtons" style="margin-top:10px"><button class="btn primary rippleHost" onclick="newCoachScenario()">Следующая комбинация →</button></div>';
- ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();renderHome();bindRipple()
+ ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();renderChapterNav();bindRipple()
 }
 const saved=JSON.parse(localStorage.getItem('gmu_const_v7')||localStorage.getItem('gmu_const_v6')||'{}');
 const state={
@@ -311,8 +311,7 @@ function mLabel(id){return id===0?'Преамбула':id===10?'Раздел II'
 function totalTaskDone(){return Object.values(state.doneTasks).reduce((a,v)=>a+(v?.length||0),0)}
 function totalCaseDone(){return Object.values(state.doneCases).reduce((a,v)=>a+(v?.length||0),0)}
 function rating(){
-  const scoreBonus=Object.values(state.scores).reduce((a,v)=>a+Math.floor((Number(v)||0)/5),0);
-  return 1000+totalTaskDone()*35+totalCaseDone()*55+(state.coachSolved||0)*30+Math.floor((state.coachPoints||0)/10)+scoreBonus
+  return 1000+totalTaskDone()*35+totalCaseDone()*55+(state.coachSolved||0)*30+Math.floor((state.coachPoints||0)/10)
 }
 function league(){
   const r=rating();
@@ -558,7 +557,7 @@ function succeed(el){
   document.getElementById('feedback').innerHTML='<b>Верно.</b> '+currentTask.why+' <span class="refs">Основание: '+currentTask.refs+'</span>';
   if(!state.doneTasks[currentModule])state.doneTasks[currentModule]=[];
   if(!state.doneTasks[currentModule].includes(currentTask.id))state.doneTasks[currentModule].push(currentTask.id);
-  save();updateProgress();setTimeout(()=>{currentTask=null;renderPractice()},1100)
+  save();updateProgress();const solvedModule=currentModule;setTimeout(()=>{if(currentModule===solvedModule&&currentTab==="practice"){currentTask=null;renderPractice()}},1100)
 }
 function answerSingle(i,b){i===currentTask.answer?succeed(b):fail('Выбранный вывод не следует из конституционной логики ситуации.',b)}
 function answerMulti(){
@@ -593,7 +592,7 @@ function renderCases(){
   panel.innerHTML='<div class="caseLayout"><aside class="caseVisual"><div><div class="eyebrow">Кейс '+(caseIndex+1)+' из '+bank.length+'</div><h3>'+c.title+'</h3><p>Схема показывает участников и конфликт, а не просто украшает карточку.</p></div><div class="scene">'+scene+'</div><div class="caseNav">'+bank.map((_,i)=>'<button class="'+(i===caseIndex?'active':'')+'" onclick="caseIndex='+i+';renderCases()"></button>').join('')+'</div></aside>'+
     '<div class="caseTask"><div class="tag">'+c.refs+'</div><div class="story">'+c.story+'</div><div class="caseQuestion">'+c.question+'</div><div class="answers" id="caseAnswers"></div><div class="caseExplain" id="caseExplain"></div></div></div>';
   const a=document.getElementById('caseAnswers');
-  c.options.forEach((x,i)=>{const b=document.createElement('button');b.className='ans';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>{document.querySelectorAll('#caseAnswers .ans').forEach(y=>y.disabled=true);const e=document.getElementById('caseExplain');e.style.display='block';if(i===c.answer){successSound();b.classList.add('correct');e.innerHTML='<b>Верно.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>';if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);save();updateProgress()}else{errorSound();b.classList.add('wrong');e.innerHTML='<b>Нет.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>'}};a.appendChild(b)})
+  c.options.forEach((x,i)=>{const b=document.createElement('button');b.className='ans';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>{const e=document.getElementById('caseExplain');e.style.display='block';if(i===c.answer){document.querySelectorAll('#caseAnswers .ans').forEach(y=>y.disabled=true);successSound();b.classList.add('correct','glowSuccess');confetti(b);e.innerHTML='<b>Верно.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>';if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);save();updateProgress()}else{errorSound();b.disabled=true;b.classList.add('wrong','shake');setTimeout(()=>b.classList.remove('shake'),350);e.innerHTML='<b>Не совсем.</b> Этот вариант не объясняет конституционный конфликт. Попробуйте другой ответ.'}};a.appendChild(b)})
 }
 function renderCheck(){
   const bank=checkBank[currentModule]||[],panel=document.getElementById('panel');
