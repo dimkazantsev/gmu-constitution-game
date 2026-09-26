@@ -111,7 +111,7 @@
 
   function buildShells(){
     $(".homeShell").innerHTML='<div class="appGrid"><div id="homeLeft"></div><main class="centerSurface homeCenter" id="homeCenter"></main><aside class="rightRail" id="homeRight"></aside></div>';
-    $(".courseWorkspace").innerHTML='<div class="appGrid"><div id="courseLeft"></div><main class="centerSurface courseCenter"><div class="panel" id="panel"></div><div class="legacyCompat" hidden><span id="crumb"></span><span id="courseKicker"></span><span id="courseTitle"></span><span id="courseDesc"></span><span id="coursePct"></span><span id="courseBar"></span><span id="progressTheory"></span><span id="progressCases"></span><span id="progressMeta"></span></div></main><aside class="rightRail" id="courseRight"></aside></div>';
+    $(".courseWorkspace").innerHTML='<div class="appGrid"><div id="courseLeft"></div><main class="centerSurface courseCenter"><div class="panel" id="panel"></div><div class="legacyCompat" hidden><span id="crumb"></span><span id="courseKicker"></span><span id="courseTitle"></span><span id="courseDesc"></span><span id="coursePct"></span><span id="courseBar"></span><span id="progressTheory"></span><span id="progressCases"></span><span id="progressMeta"></span></div></main><aside class="rightRail" id="courseRight"></aside></div><nav class="mobileCourseNav" aria-label="Разделы главы"><button class="mobileCourseBtn active" data-tab="learn"><span>§</span><b>Понять</b></button><button class="mobileCourseBtn" data-tab="scheme"><span>◇</span><b>Схема</b></button><button class="mobileCourseBtn" data-tab="cases"><span>▤</span><b>Кейсы</b></button><button class="mobileCourseBtn" data-tab="coach"><span>AI</span><b>Тренер</b></button></nav>';
   }
 
   const baseNavigator=renderChapterNavigator;
@@ -124,8 +124,9 @@
 
   function rightProgress(id){
     const p=id===null?Math.round(chapters.reduce((a,c)=>a+modulePct(c.id),0)/chapters.length):modulePct(id);
-    const blocks=id===null?0:(moduleInfo[id]?.blocks||[]).length;
-    const learned=id===null?state.viewed.size:(moduleInfo[id]?.blocks||[]).filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length;
+    const allBlocks=chapters.reduce((sum,c)=>sum+((moduleInfo[c.id]?.blocks||[]).length),0);
+    const blocks=id===null?allBlocks:(moduleInfo[id]?.blocks||[]).length;
+    const learned=id===null?chapters.reduce((sum,c)=>sum+(moduleInfo[c.id]?.blocks||[]).filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length,0):(moduleInfo[id]?.blocks||[]).filter(bl=>(bl[3]||[]).some(x=>state.viewed.has(x))).length;
     const cases=id===null?totalCaseDone():(state.doneCases[id]?.length||0);
     const tasks=id===null?totalTaskDone():(state.doneTasks[id]?.length||0);
     return '<section class="sideCard"><div class="sideProgressTop"><span>'+(id===null?'Общий прогресс':'Ваш прогресс по главе')+'</span><b>'+p+'%</b></div><div class="sideMeta"><span>'+(id===null?'Курс':'Глава '+id)+'</span><span>'+learned+' из '+blocks+' тем</span></div><div class="bar" style="margin-top:7px"><span style="width:'+p+'%"></span></div><div class="progressStats3"><div class="statMini"><span>Прочитано</span><b>'+learned+'</b></div><div class="statMini"><span>Кейсы</span><b>'+cases+'</b></div><div class="statMini"><span>Задания</span><b>'+tasks+'</b></div></div><button class="btn primary" id="continueSide">Продолжить →</button></section>'
@@ -133,8 +134,8 @@
 
   function rightCommon(){
     return '<section class="sideCard"><div class="aiCardHead"><span class="aiAvatar">AI</span><div><h3>ИИ‑тренер</h3><p>Разбирайте кейсы и объясняйте Конституцию своими словами.</p></div><span class="aiBadge">Beta</span></div><button class="btn ghost" id="openAiSide">Открыть чат с ИИ →</button></section>'+
-      '<section class="sideCard"><h3>Интерактивные материалы</h3><div class="sideList"><div class="sideListItem"><i>◇</i><b>Схема: устройство власти</b></div><div class="sideListItem"><i>▦</i><b>Карта: федеративное устройство</b></div><div class="sideListItem red"><i>▶</i><b>Кейсы из реальной жизни</b></div><div class="sideListItem purple"><i>▤</i><b>Практика Конституционного Суда</b></div></div></section>'+
-      '<section class="sideCard"><h3>Проверьте себя</h3><div class="sideList"><div class="sideListItem green"><i>✓</i><b>Тесты и задания</b></div><div class="sideListItem red"><i>◎</i><b>Практические ситуации</b></div><div class="sideListItem purple"><i>▶</i><b>Кейс из реальной жизни</b></div></div></section>'+
+      '<section class="sideCard"><h3>Интерактивные материалы</h3><div class="sideList"><button class="sideListItem sideActionItem" data-side-action="scheme"><i>◇</i><b>Схема: устройство власти</b></button><button class="sideListItem sideActionItem" data-side-action="federal"><i>▦</i><b>Федеративное устройство</b></button><button class="sideListItem sideActionItem red" data-side-action="cases"><i>▶</i><b>Кейсы из реальной жизни</b></button><button class="sideListItem sideActionItem purple" data-side-action="ks"><i>▤</i><b>Практика Конституционного Суда</b></button></div></section>'+
+      '<section class="sideCard"><h3>Проверьте себя</h3><div class="sideList"><button class="sideListItem sideActionItem green" data-side-action="cases"><i>✓</i><b>Тесты и задания</b></button><button class="sideListItem sideActionItem red" data-side-action="coach"><i>◎</i><b>Практические ситуации</b></button><button class="sideListItem sideActionItem purple" data-side-action="cases"><i>▶</i><b>Кейс из реальной жизни</b></button></div></section>'+
       '<div class="photoCredit">'+KREMLIN_CREDIT+' · <a href="'+KREMLIN_PAGE+'" target="_blank" rel="noopener">источник</a></div>';
   }
 
@@ -149,15 +150,41 @@
     $("#homeContinue").onclick=$("#continueSide").onclick=()=>openModule(overall===0?1:last.id);
     $("#homeStart").onclick=()=>openModule(1);
     $("#openAiSide").onclick=()=>{openModule(last.id);setTimeout(()=>activateCourseTab("coach"),0)};
-    $$(".chapterCard").forEach(b=>b.onclick=()=>openModule(+b.dataset.chapter));
+    $("[data-side-action]",$("#homeRight")).forEach(b=>b.onclick=()=>{
+      const a=b.dataset.sideAction;
+      const id=overall===0?1:last.id;
+      if(a==="federal"){openModule(3);return}
+      openModule(id);
+      if(a==="scheme")setTimeout(()=>activateCourseTab("scheme"),0);
+      if(a==="cases")setTimeout(()=>activateCourseTab("cases"),0);
+      if(a==="coach")setTimeout(()=>activateCourseTab("coach"),0);
+      if(a==="ks")setTimeout(()=>setLearnPane("official"),0);
+    });
+    $(".chapterCard").forEach(b=>b.onclick=()=>openModule(+b.dataset.chapter));
     renderChapterNavigator();syncSoundButton();bindRipple();
   };
+
+  function bindSideActions(scope=document){
+    const ai=$("#openAiSide",scope);if(ai)ai.onclick=()=>activateCourseTab("coach");
+    $("[data-side-action]",scope).forEach(b=>b.onclick=()=>{
+      const a=b.dataset.sideAction;
+      if(a==="scheme")activateCourseTab("scheme");
+      else if(a==="cases")activateCourseTab("cases");
+      else if(a==="coach")activateCourseTab("coach");
+      else if(a==="ks"){activateCourseTab("learn");setTimeout(()=>setLearnPane("official"),0)}
+      else if(a==="federal"){openModule(3)}
+    });
+  }
 
   function updateCourseRight(){
     const r=$("#courseRight");if(!r)return;
     r.innerHTML=rightProgress(currentModule)+rightCommon();
-    $("#continueSide").onclick=()=>{if(currentTab==="learn"&&blockIndex<moduleInfo[currentModule].blocks.length-1){blockIndex++;renderLearn()}else activateCourseTab("cases")};
-    $("#openAiSide").onclick=()=>activateCourseTab("coach");
+    const cont=$("#continueSide",r);if(cont)cont.onclick=()=>{if(currentTab==="learn"&&blockIndex<moduleInfo[currentModule].blocks.length-1){blockIndex++;renderLearn()}else activateCourseTab("cases")};
+    bindSideActions(r);
+    $(".mobileCourseBtn").forEach(b=>{
+      b.classList.toggle("active",b.dataset.tab===currentTab);
+      b.onclick=()=>activateCourseTab(b.dataset.tab);
+    });
   }
 
   function articleNumLabel(ids){
@@ -216,12 +243,29 @@
     updateCourseRight();
   };
 
-  const originalOpen=openModule;
   openModule=function(id){
-    originalOpen(id);
+    const ch=chapters.find(x=>x.id===id);if(!ch)return;
+    currentModule=id;
+    state.lastModule=id;
+    save();
+    currentTab="learn";
+    blockIndex=0;
+    learnMode="quote";
+    currentTask=null;
+    caseIndex=0;
+    checkState=null;
+    mobileLearnMode="meaning";
+    mobileCaseStep="situation";
+    mobileCoachStep="situation";
+    coachState={scenario:null,number:0,answered:false,score:0};
+    showPage("course");
     $(".page.active")?.classList.remove("mobileRailOpen");
     setTopActive("constitution");
+    renderLearn();
+    updateProgress();
+    renderChapterNavigator();
     updateCourseRight();
+    window.scrollTo({top:0,behavior:"auto"});
   };
 
   document.addEventListener("click",e=>{
@@ -232,5 +276,6 @@
   buildShells();
   renderChapterNavigator();
   syncSoundButton();
+  const sound=$("#soundBtn");if(sound){sound.innerHTML='<span class="utilityIcon">'+(state.sound?'◐':'○')+'</span>';sound.setAttribute("aria-label",state.sound?"Выключить звук":"Включить звук")}
   openModule(1);
 })();
