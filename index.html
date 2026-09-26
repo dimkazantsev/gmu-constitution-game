@@ -36,16 +36,22 @@
   <section class="page home active" id="home">
     <div class="homeShell">
       <div class="homeIntro">
-        <div>
+        <div class="homeCopy">
           <div class="eyebrow">Государственное и муниципальное управление</div>
           <h1>Конституция без зубрёжки</h1>
-          <p>Листайте главы как карточки. Внутри — точный текст нормы, понятное объяснение, практика Конституционного Суда, жизненные кейсы и свободные ответы.</p>
+          <p>Изучайте устройство Конституции через смысловые блоки, схемы, жизненные кейсы и свободные ответы.</p>
         </div>
-        <button class="trainerShortcut" id="trainerShortcut">
-          <span class="trainerShortcutIcon">AI</span>
-          <span><b>Ситуационный тренер</b><small>Свободный ответ на жизненную ситуацию</small></span>
-          <strong>→</strong>
-        </button>
+        <div class="homeControl">
+          <div class="homeProgress">
+            <div><span>Общий прогресс</span><b id="homeOverallPct">0%</b></div>
+            <div class="bar"><span id="homeOverallBar"></span></div>
+            <small id="homeContinueLabel">Начните с Преамбулы</small>
+          </div>
+          <div class="homeControlActions">
+            <button class="btn primary" id="continueCourse">Продолжить →</button>
+            <button class="btn ghost trainerShortcut" id="trainerShortcut"><span class="trainerShortcutIcon">AI</span><span>Тренер</span></button>
+          </div>
+        </div>
       </div>
 
       <div class="carouselShell">
@@ -65,35 +71,33 @@
 
   <section class="page course" id="course">
     <div class="courseWorkspace">
-      <div class="chapterOverview">
-        <div class="chapterOverviewMain">
-          <div class="courseTitle">
-            <div class="eyebrow" id="courseKicker"></div>
-            <h2 id="courseTitle"></h2>
-            <p id="courseDesc"></p>
-          </div>
-
-          <div class="courseProgress">
-            <div class="progressTopline">
-              <span class="progressLabel">Освоение главы</span>
-              <b id="coursePct">0%</b>
-            </div>
-            <div class="bar"><span id="courseBar"></span></div>
-            <div class="progressStats">
-              <span class="progressChip" id="progressTheory">Теория 0/0</span>
-              <span class="progressChip" id="progressCases">Кейсы 0/0</span>
-            </div>
-            <div class="progressMeta" id="progressMeta">Начните с разбора темы</div>
-          </div>
+      <aside class="courseSidebar">
+        <div class="courseIdentity">
+          <div class="eyebrow" id="courseKicker"></div>
+          <h2 id="courseTitle"></h2>
+          <p id="courseDesc"></p>
         </div>
 
-        <div class="tabs">
-          <button class="tab active" data-tab="learn"><span class="tabIcon">◉</span><span>Понять</span></button>
-          <button class="tab" data-tab="scheme"><span class="tabIcon">◇</span><span>Схема</span></button>
-          <button class="tab" data-tab="cases"><span class="tabIcon">▤</span><span>Кейсы</span></button>
-          <button class="tab" data-tab="coach"><span class="tabIcon tabIconAI">AI</span><span>ИИ‑тренер</span></button>
+        <div class="courseProgress">
+          <div class="progressTopline">
+            <span class="progressLabel">Освоение</span>
+            <b id="coursePct">0%</b>
+          </div>
+          <div class="bar"><span id="courseBar"></span></div>
+          <div class="progressStats">
+            <span class="progressChip" id="progressTheory">Теория 0/0</span>
+            <span class="progressChip" id="progressCases">Кейсы 0/0</span>
+          </div>
+          <div class="progressMeta" id="progressMeta">Начните с разбора темы</div>
         </div>
-      </div>
+
+        <nav class="tabs" aria-label="Режим обучения">
+          <button class="tab active" data-tab="learn"><span class="tabIcon">◉</span><span><b>Понять</b><small>Смысл и текст</small></span></button>
+          <button class="tab" data-tab="scheme"><span class="tabIcon">◇</span><span><b>Схема</b><small>Связи и механизмы</small></span></button>
+          <button class="tab" data-tab="cases"><span class="tabIcon">▤</span><span><b>Кейсы</b><small>Применение нормы</small></span></button>
+          <button class="tab" data-tab="coach"><span class="tabIcon tabIconAI">AI</span><span><b>ИИ‑тренер</b><small>Свободный ответ</small></span></button>
+        </nav>
+      </aside>
 
       <nav class="mobileCourseNav" aria-label="Навигация по режимам">
         <button class="mobileCourseBtn active" data-tab="learn"><span>◉</span><b>Понять</b></button>
