@@ -705,57 +705,150 @@ function fullArticleCards(ids){
     return '<section class="fullArticle"><div class="fullArticleHead"><span>'+articleLabel(id)+'</span><a href="'+source+'" target="_blank" rel="noopener">Проверить на сайте КС РФ ↗</a></div><div class="fullArticleBody">'+articlePlainText(id)+'</div></section>'
   }).join("")
 }
-function plainArticleExplanation(id){
-  if(id==="pre")return "Преамбула не выдаёт полномочия конкретному органу. Она объясняет, от чьего имени принята Конституция и какие ценности нужно учитывать, когда читаются её статьи.";
-  if(id[0]==="t")return "Это переходное правило. Оно было нужно, чтобы новая Конституция начала действовать без остановки уже существующих органов, судов и законов.";
-  const n=id.slice(1),topic=rawTopics[n]||"положение Конституции";
-  const open='<b>Статья '+n+'.</b> '+capRu(topic)+'. ';
-  const tails={
-    1:"На пальцах: это одно из правил, которыми связана сама публичная власть. Закон, указ или решение органа нельзя оправдать только удобством — они должны укладываться в эти базовые правила.",
-    2:"На пальцах: сначала найдите защищённую сферу человека, затем посмотрите, кто и как в неё вмешался. Если право ограничивают, нужны законное основание, понятная цель и соразмерность.",
-    3:"На пальцах: статья помогает понять, какой уровень публичной власти отвечает за вопрос. После этого уже можно решать, чей акт должен применяться и кто обязан действовать.",
-    4:"На пальцах: здесь описывается конкретная роль Президента. Важно отличать его собственное полномочие от процедуры, где решение появляется только вместе с парламентом, Правительством или другим органом.",
-    5:"На пальцах: это часть парламентского механизма. Смотрите, какая палата действует, какое большинство нужно и является ли действие промежуточным шагом или окончательным решением.",
-    6:"На пальцах: статья распределяет роли внутри исполнительной власти. Не смешивайте Президента, Председателя Правительства и Правительство как коллегиальный орган.",
-    7:"На пальцах: норма защищает сам механизм правосудия. Важно, кто рассматривает дело, независим ли суд, заранее ли определена процедура и может ли решение быть проверено вышестоящей инстанцией.",
-    8:"На пальцах: статья показывает, что именно жители и муниципальные органы решают сами, а где они выполняют государственную задачу. Это разные режимы полномочий и финансирования.",
-    9:"На пальцах: это не обычная законодательная процедура. Сначала определите, какую часть Конституции хотят изменить, и только потом выбирайте специальный маршрут.",
-    10:"На пальцах: эта норма описывает временный переход от старого порядка к новому. Она не должна автоматически превращаться в постоянное правило."
-  };
-  return open+(tails[currentModule]||"Смотрите, кто является адресатом нормы, что ему разрешено или запрещено и какая процедура обязательна.")
+function simpleArticleParts(id){
+  if(id==="pre"){
+    return {
+      what:"Преамбула объясняет, кто принимает Конституцию и ради каких базовых ценностей существует весь последующий конституционный порядок.",
+      simple:"Это как вступление к правилам игры: здесь ещё не написано, какой орган что делает, но уже сказано, от чьего имени приняты правила и ради чего они нужны.",
+      use:"К преамбуле обращаются, когда нужно понять общую ценностную логику Конституции: права человека, гражданский мир, единство страны, ответственность перед нынешними и будущими поколениями."
+    }
+  }
+  if(id[0]==="t"){
+    return {
+      what:"Это переходная норма: она объясняет, как страна переходила от прежней правовой системы к Конституции 1993 года.",
+      simple:"Нельзя было в один день выключить старые законы, суды и органы власти. Поэтому Конституция отдельно сказала, что продолжает работать и на каких условиях.",
+      use:"Эта норма нужна, когда спор касается именно переходного периода после принятия Конституции, а не обычного современного порядка."
+    }
+  }
+
+  const n=id.slice(1),topic=capRu(rawTopics[n]||"правило, закреплённое в этой статье");
+  const ch=chapterFor(n);
+  const what={
+    1:"Статья устанавливает одно из базовых правил устройства государства: "+topic+".",
+    2:"Статья защищает конкретную сферу жизни человека: "+topic+".",
+    3:"Статья помогает распределить полномочия между Федерацией и регионами: "+topic+".",
+    4:"Статья описывает конкретное полномочие или гарантию, связанную с Президентом: "+topic+".",
+    5:"Статья регулирует работу парламента или прохождение закона: "+topic+".",
+    6:"Статья регулирует формирование, работу или ответственность Правительства: "+topic+".",
+    7:"Статья закрепляет правило работы суда, прокуратуры или гарантию правосудия: "+topic+".",
+    8:"Статья объясняет, как устроено местное самоуправление: "+topic+".",
+    9:"Статья устанавливает специальный порядок изменения Конституции: "+topic+"."
+  }[ch]||("Статья закрепляет правило: "+topic+".");
+
+  const simple={
+    1:"На пальцах: власть не может сказать «нам так удобнее». Сначала нужно показать, какое именно конституционное правило даёт ей право действовать и какие границы она обязана соблюдать.",
+    2:"На пальцах: представьте конкретного человека. Что он вправе делать? Кто ему мешает? На каком основании? Конституция нужна именно для проверки такого вмешательства, а не только для красивой декларации.",
+    3:"На пальцах: сначала выясняем, чей это вопрос — федерального центра, центра и региона вместе или самого региона. И только потом смотрим, кто вправе издавать правила.",
+    4:"На пальцах: важно не то, что решение подписал Президент, а есть ли у него именно такое полномочие и нужна ли для него Государственная Дума, Совет Федерации, Правительство или иной участник.",
+    5:"На пальцах: парламент — не одна кнопка «принять закон». Нужно понимать, какая палата действует, на каком этапе находится решение и какое большинство требуется.",
+    6:"На пальцах: не смешиваем четыре роли — Президент, Государственная Дума, Председатель Правительства и Правительство как орган. У каждого своя часть процедуры.",
+    7:"На пальцах: суд должен решить дело по закону, а не по указанию начальника. Поэтому важны независимость, законный состав суда, процедура и возможность проверить решение.",
+    8:"На пальцах: жители и муниципалитет решают свои местные дела сами. Если государство передаёт им государственную задачу, это уже другой режим — с законом, ресурсами и контролем.",
+    9:"На пальцах: Конституцию нельзя менять так же легко, как обычный закон. Сначала определяем, какую главу или статью хотят изменить, затем выбираем специальную процедуру."
+  }[ch]||"На пальцах: смотрим, кому адресовано правило, что оно разрешает или запрещает и какая процедура обязательна.";
+
+  const use={
+    1:"Вспоминайте эту статью, когда орган власти принимает решение и нужно проверить саму основу его полномочий или конституционные пределы.",
+    2:"Применяйте её, когда право человека ограничили, отказали в его реализации или возник спор о том, насколько далеко может зайти государство.",
+    3:"Применяйте её в спорах между федеральным и региональным уровнем: кто принимает закон, кто финансирует, кто отвечает и чьи правила имеют приоритет.",
+    4:"Применяйте её, когда проверяете указ, назначение, кадровое решение, режим чрезвычайного характера или иную президентскую процедуру.",
+    5:"Применяйте её, когда нужно проверить законопроект, голосование, компетенцию палаты, парламентское решение или судьбу принятого закона.",
+    6:"Применяйте её, когда спор касается назначения членов Правительства, исполнения бюджета, правительственного акта, доверия или отставки.",
+    7:"Применяйте её, когда спор касается доступа к суду, независимости судьи, полномочий конкретного суда, конституционного контроля или прокуратуры.",
+    8:"Применяйте её, когда нужно отделить собственный местный вопрос от переданного государственного полномочия и понять пределы контроля государства.",
+    9:"Применяйте её, когда кто-то предлагает изменить текст Конституции и нужно понять, допустим ли выбранный способ."
+  }[ch]||"Применяйте статью, когда факты дела попадают в сферу, которую она регулирует.";
+
+  return {what,simple,use}
 }
+
+function plainArticleExplanation(id){
+  const p=simpleArticleParts(id);
+  return '<div class="plainArticleText">'+
+    '<p><b>Что это значит.</b> '+escHtml(p.what)+'</p>'+
+    '<p><b>На пальцах.</b> '+escHtml(p.simple)+'</p>'+
+    '<p><b>Когда применять.</b> '+escHtml(p.use)+'</p>'+
+  '</div>'
+}
+
 function expandedMeaning(meta,bl,ids){
   const guide=chapterPlainGuides[currentModule]||chapterPlainGuides[1];
-  const pieces=ids.map(id=>'<div class="plainArticle"><div class="plainArticleNo">'+articleLabel(id)+'</div><p>'+plainArticleExplanation(id)+'</p></div>').join("");
-  return '<div class="plainLead"><span>Если совсем просто</span><h4>'+escHtml(meta.meaning||bl[1])+'</h4><p>'+escHtml(guide.lead)+'</p></div>'+
-    '<div class="plainLife"><b>Как это выглядит в жизни</b><p>'+escHtml(guide.life)+'</p></div>'+
-    '<div class="plainQuestion"><b>Как себя проверить</b><p>'+escHtml(guide.question)+'</p></div>'+
-    '<div class="plainArticles"><div class="plainSectionTitle">Разбираем статьи по одной</div>'+pieces+'</div>'
+  const pieces=ids.map(id=>
+    '<article class="plainArticle"><div class="plainArticleNo">'+articleLabel(id)+'</div>'+plainArticleExplanation(id)+'</article>'
+  ).join("");
+
+  return '<div class="plainLead"><span>Сначала главное</span><h4>'+escHtml(meta.meaning||bl[1])+'</h4>'+
+    '<p>'+escHtml(guide.lead)+'</p></div>'+
+    '<div class="plainLife"><b>Пример из жизни</b><p>'+escHtml(guide.life)+'</p></div>'+
+    '<div class="plainQuestion"><b>Как проверить себя</b><p>'+escHtml(guide.question)+'</p></div>'+
+    '<div class="plainArticles"><div class="plainSectionTitle">Что означает каждая статья</div>'+pieces+'</div>'
 }
+
+function plainArticleApplication(id){
+  const p=simpleArticleParts(id);
+  return p.use
+}
+
 function practiceCasesFor(ids){
   const articleSet=new Set(ids.map(articleNo));
   const bank=ksPracticeCases[currentModule]||[];
   const direct=bank.filter(c=>(c.articles||[]).some(a=>articleSet.has(String(a))));
   const rest=bank.filter(c=>!direct.includes(c));
-  return [...direct,...rest].slice(0,Math.min(4,bank.length))
+  const ordered=[...direct,...rest];
+
+  const result=[],years=new Set();
+  for(const c of ordered){
+    if(result.length>=5)break;
+    const year=String(c.year||"");
+    if(!years.has(year)||result.length<2){
+      result.push(c);
+      years.add(year)
+    }
+  }
+  for(const c of ordered){
+    if(result.length>=5)break;
+    if(!result.includes(c))result.push(c)
+  }
+  return result
 }
+
 function expandedOfficial(meta,bl,ids){
   const guide=chapterPlainGuides[currentModule]||chapterPlainGuides[1];
   const cases=practiceCasesFor(ids);
   const detail=officialPracticeDetails[currentModule+"-"+blockIndex];
-  let body='<div class="practiceApply"><span>Как применять</span><h4>'+escHtml(meta.official||"Конституционный Суд проверяет не номер статьи, а то, что реально произошло из-за закона или решения власти.")+'</h4>'+
-    '<p><b>На пальцах:</b> Суд последовательно спрашивает: кто принял решение; имел ли он на это полномочие; какое право или принцип затронуты; соблюдена ли обязательная процедура; и не оказался ли результат для человека или другого органа чрезмерным.</p>'+
-    '<div class="practiceSteps"><div><b>1</b><span>Кто действует?</span></div><div><b>2</b><span>Откуда полномочие?</span></div><div><b>3</b><span>Что затронуто?</span></div><div><b>4</b><span>Соразмерен ли результат?</span></div></div>'+
-    '<p>'+escHtml(guide.question)+'</p></div>';
+
+  const applications=ids.map(id=>
+    '<div class="practiceArticleRow"><div class="practiceArticleNo">'+articleLabel(id)+'</div><p>'+escHtml(plainArticleApplication(id))+'</p></div>'
+  ).join("");
+
+  let body='<div class="practiceApply"><span>Как применять норму</span>'+
+    '<h4>'+escHtml(meta.official||"Конституционный Суд смотрит не на номер статьи сам по себе, а на реальный конфликт: кто действовал, на каком основании и к чему это привело.")+'</h4>'+
+    '<p><b>Если совсем просто:</b> сначала восстановите факты, затем найдите конституционную норму, после этого проверьте полномочие, процедуру и последствия. Только так статья превращается из текста в рабочий юридический инструмент.</p>'+
+    '<div class="practiceSteps"><div><b>1</b><span>Что произошло?</span></div><div><b>2</b><span>Кто принял решение?</span></div><div><b>3</b><span>Какое право или полномочие затронуто?</span></div><div><b>4</b><span>Что именно проверяет Конституция?</span></div></div>'+
+    '<p>'+escHtml(guide.question)+'</p></div>'+
+    '<div class="practiceArticleMap"><div class="plainSectionTitle">Как применять статьи этой темы</div>'+applications+'</div>';
+
   if(detail){
-    body+='<div class="practiceFeature"><div class="practiceFeatureLabel">Ключевой пример для этой темы</div><h4>'+escHtml(detail.title)+'</h4><p>'+escHtml(detail.text)+'</p><p>'+escHtml(detail.caseText)+'</p></div>'
+    body+='<div class="practiceFeature"><div class="practiceFeatureLabel">Ключевой пример для этой темы</div>'+
+      '<h4>'+escHtml(detail.title)+'</h4><p>'+escHtml(detail.text)+'</p><p>'+escHtml(detail.caseText)+'</p></div>'
   }
+
   if(cases.length){
-    body+='<div class="practiceTimeline"><div class="plainSectionTitle">Реальные дела КС РФ</div>'+cases.map(c=>
-      '<article class="practiceCase"><div class="practiceYear">'+escHtml(c.year)+'</div><div class="practiceCaseBody"><div class="practiceCaseTop"><b>'+escHtml(c.decision)+'</b><span>'+escHtml(c.date)+'</span></div><h5>'+escHtml(c.title)+'</h5><p>'+escHtml(c.gist)+'</p><div class="practiceCaseRefs">'+(c.articles||[]).map(a=>'<span>'+escHtml(a[0]==="t"?"Раздел II, п. "+a.slice(1):"ст. "+a)+'</span>').join("")+'</div><a href="'+c.url+'" target="_blank" rel="noopener">Открыть источник ↗</a></div></article>'
-    ).join("")+'</div>'
+    body+='<div class="practiceTimeline"><div class="plainSectionTitle">Реальные дела Конституционного Суда · разные годы</div>'+
+      cases.map(c=>{
+        const relevant=(c.articles||[]).filter(a=>new Set(ids.map(articleNo)).has(String(a)));
+        const relevance=relevant.length
+          ? 'В этой теме дело связано прежде всего с '+relevant.map(a=>'ст. '+a).join(", ")+'.'
+          : 'Дело показывает, как Суд применяет соседние нормы этой же главы в реальном споре.';
+        return '<article class="practiceCase"><div class="practiceYear">'+escHtml(c.year)+'</div>'+
+          '<div class="practiceCaseBody"><div class="practiceCaseTop"><b>'+escHtml(c.decision)+'</b><span>'+escHtml(c.date)+'</span></div>'+
+          '<h5>'+escHtml(c.title)+'</h5><p>'+escHtml(c.gist)+'</p>'+
+          '<div class="practiceWhy"><b>Почему это здесь.</b> '+escHtml(relevance)+'</div>'+
+          '<div class="practiceCaseRefs">'+(c.articles||[]).map(a=>'<span>'+escHtml(a[0]==="t"?"Раздел II, п. "+a.slice(1):"ст. "+a)+'</span>').join("")+'</div>'+
+          '<a href="'+c.url+'" target="_blank" rel="noopener">Открыть источник ↗</a></div></article>'
+      }).join("")+'</div>'
   }else{
-    body+='<div class="practiceEmpty">Для этой темы на сайте пока не привязан отдельный проверенный кейс. Официальный текст и поиск решений КС РФ доступны по ссылкам ниже.</div>'
+    body+='<div class="practiceEmpty">Для этой темы пока не привязан отдельный проверенный кейс КС РФ. Официальный текст главы и поиск решений доступны по ссылкам ниже.</div>'
   }
   return body
 }
@@ -782,7 +875,7 @@ function renderLearn(){
     '<aside class="topicRail"><div class="topicRailHead"><span>Темы главы</span><b>'+inf.blocks.length+'</b></div><div class="topicRailList">'+topicButtons+'</div></aside>'+
     '<section class="reader">'+
       '<header class="readerHeader"><div><div class="eyebrow">'+mLabel(currentModule)+' · тема '+(blockIndex+1)+' из '+inf.blocks.length+'</div><h3>'+capUi(bl[0])+'</h3><p>'+capUi(bl[1])+'</p></div><div class="readerNav"><button class="conceptArrow" id="prevConceptBtn" aria-label="Предыдущая тема">←</button><button class="conceptArrow" id="nextConceptBtn" aria-label="Следующая тема">→</button></div></header>'+
-      '<div class="readerTabs"><button class="readerTab" data-mode="meaning">Объяснение</button><button class="readerTab" data-mode="quote">Полный текст статей</button><button class="readerTab" data-mode="official">Практика КС РФ</button></div>'+
+      '<div class="readerTabs"><button class="readerTab" data-mode="quote">Полный текст</button><button class="readerTab" data-mode="meaning">Смысл</button><button class="readerTab" data-mode="official">Практика КС РФ</button></div>'+
       '<div class="readerBody">'+
         '<article class="readerPane paneMeaning"><div class="readerPaneContent">'+expandedMeaning(meta,bl,ids)+'</div></article>'+
         '<article class="readerPane paneQuote"><div class="readerPaneIntro"><div><span>Без сокращений</span><h4>'+escHtml(bl[2])+' · статьи приведены полностью</h4></div><a class="sourceChip" target="_blank" rel="noopener" href="'+(officialConstitutionUrls[currentModule]||officialConstUrl)+'">Официальный текст главы ↗</a></div><div class="fullArticles">'+fullArticleCards(ids)+'</div></article>'+
