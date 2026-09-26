@@ -98,6 +98,78 @@
   @media(max-width:1200px){.gameHud{grid-template-columns:1fr}.questCard{display:none}}
   @media(max-height:820px){.gameHud{margin-top:6px}.levelCard{min-height:92px;padding:11px}.levelBadge{width:38px;height:38px}.badgeShelf{margin-top:5px}.achievement{width:30px;height:30px}}
 
+
+  /* CAMPAIGN MODE · chapter map + bosses */
+  .atlas{grid-template-rows:auto auto 1fr}
+  .chapterPath{
+    display:flex;align-items:center;gap:8px;overflow-x:auto;overflow-y:hidden;
+    padding:4px 2px 9px;scrollbar-width:none
+  }
+  .chapterPath::-webkit-scrollbar{display:none}
+  .levelNode{
+    flex:0 0 auto;min-width:112px;height:68px;border-radius:18px;border:1px solid rgba(36,107,253,.14);
+    background:white;color:var(--navy);padding:9px 11px;cursor:pointer;text-align:left;position:relative;
+    box-shadow:0 8px 24px rgba(40,72,150,.06);transition:.2s
+  }
+  .levelNode:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(40,72,150,.12)}
+  .levelNode .lnTop{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+  .levelNode .lnTitle{display:block;margin-top:7px;font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .levelNode .lnBar{position:absolute;left:10px;right:10px;bottom:7px;height:4px;border-radius:99px;background:#E8EEFB;overflow:hidden}
+  .levelNode .lnBar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:99px}
+  .levelNode.current{outline:2px solid rgba(36,107,253,.26);outline-offset:2px}
+  .levelNode.complete{background:linear-gradient(135deg,#EEF4FF,#FFF0F7)}
+  .levelNode.bossed{background:linear-gradient(135deg,#EAF1FF,#FFE8F3);border-color:rgba(255,79,163,.24)}
+  .levelNode.locked{background:#F4F6FB;color:#98A1BA;cursor:not-allowed;box-shadow:none}
+  .levelNode.locked:hover{transform:none}
+  .levelNode.locked .lnBar span{background:#C9D1E1}
+  .chapterCard.locked{filter:saturate(.25);opacity:.74}
+  .chapterCard.locked .articleChip{cursor:not-allowed;pointer-events:none}
+  .chapterLock{
+    position:absolute;inset:0;z-index:4;display:grid;place-items:center;
+    background:linear-gradient(135deg,rgba(248,250,255,.68),rgba(255,245,250,.76));backdrop-filter:blur(3px)
+  }
+  .lockBadge{padding:12px 16px;border-radius:15px;background:white;border:1px solid rgba(36,107,253,.13);font-size:12px;font-weight:900;color:#7180A7;box-shadow:0 16px 35px rgba(40,72,150,.10)}
+  .chapterFoot{align-items:center}
+  .chapterFootRight{display:flex;align-items:center;gap:8px}
+  .bossBtn{
+    border:0;border-radius:12px;padding:9px 12px;font-size:11px;font-weight:900;cursor:pointer;color:white;
+    background:linear-gradient(135deg,var(--pink),#8A5BFF);box-shadow:0 9px 22px rgba(255,79,163,.20)
+  }
+  .bossBtn:disabled{background:#D9DFEB;color:#8A94AD;box-shadow:none;cursor:not-allowed}
+  .bossSeal{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#FFF0F7;color:#C72F79;font-size:10px;font-weight:900}
+  .bossModal .modalCard{width:min(960px,94vw);height:min(660px,86vh);grid-template-rows:auto auto 1fr auto}
+  .bossHead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+  .bossMark{width:70px;height:70px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--pink));color:white;font-size:31px;font-weight:1000;box-shadow:0 16px 35px rgba(86,75,220,.20)}
+  .bossHead h3{font-size:32px;letter-spacing:-.045em}
+  .bossHead p{color:var(--muted);font-size:12px;margin-top:7px}
+  .bossProgress{height:8px;background:#E9EEFA;border-radius:99px;overflow:hidden}
+  .bossProgress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));transition:.3s}
+  .bossBody{display:grid;align-content:center;gap:16px;overflow:hidden}
+  .bossQuestion{font-size:clamp(24px,3vw,38px);line-height:1.06;letter-spacing:-.04em}
+  .bossMeta{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+  .bossResult{text-align:center;padding:18px}
+  .bossScore{font-size:90px;font-weight:1000;letter-spacing:-.08em;line-height:.85;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .levelUpOverlay{
+    position:fixed;z-index:180;inset:0;display:none;place-items:center;background:rgba(241,246,255,.72);backdrop-filter:blur(18px)
+  }
+  .levelUpOverlay.show{display:grid;animation:fadeIn .28s ease}
+  .levelUpCard{
+    width:min(640px,90vw);border-radius:36px;background:white;border:1px solid rgba(36,107,253,.14);
+    padding:38px;text-align:center;box-shadow:0 40px 120px rgba(49,72,155,.20);position:relative;overflow:hidden
+  }
+  .levelUpCard:before,.levelUpCard:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(50px);opacity:.22}
+  .levelUpCard:before{background:var(--blue);left:-100px;top:-120px}.levelUpCard:after{background:var(--pink);right:-100px;bottom:-140px}
+  .levelUpCard>*{position:relative;z-index:1}
+  .levelUpKicker{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:1000;color:var(--pink)}
+  .levelUpNum{font-size:128px;font-weight:1000;line-height:.78;letter-spacing:-.10em;margin:24px 0 18px;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .levelUpCard h3{font-size:32px;letter-spacing:-.045em}.levelUpCard p{color:var(--muted);font-size:13px;margin-top:8px}
+  .campaignStatus{margin-top:10px;padding:10px 12px;border-radius:14px;background:linear-gradient(135deg,#EAF1FF,#FFF0F7);font-size:11px;color:#53638D}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @media(max-width:1050px){
+    .chapterPath{gap:6px}.levelNode{min-width:92px;height:62px}
+    .levelNode .lnTitle{font-size:10px}.bossModal .modalCard{height:min(700px,88vh)}
+  }
+
 </style>
 </head>
 <body>
@@ -117,7 +189,7 @@
 <div class="viewport"><main class="track" id="track">
 <section class="screen"><div class="screenInner hero">
   <div class="heroLeft">
-    <div><div class="eyebrow">Государственное и муниципальное управление</div><h1><span class="grad">Конституция</span><br>как система.</h1><p class="lead">Не листаем длинную страницу. Перемещаемся между полноценными экранами и изучаем Конституцию как карту институтов, прав, компетенций и процедур. Полное покрытие: все статьи, вставленные статьи с «.1» и заключительные положения.</p>
+    <div><div class="eyebrow">Государственное и муниципальное управление</div><h1><span class="grad">Конституция</span><br>как система.</h1><p class="lead">Не листаем длинную страницу. Перемещаемся между полноценными экранами и изучаем Конституцию как карту институтов, прав, компетенций и процедур. Полное покрытие превращено в кампанию: пройдите статьи главы, победите её босса и открывайте следующий уровень. В финале — вся Конституция, включая статьи с «.1» и заключительные положения.</p>
       <div class="heroActions"><button class="btn btnPrimary" onclick="go(2);setMode('coverage')">Начать полное прохождение →</button><button class="btn btnGhost" onclick="go(1)">Открыть карту статей</button></div></div>
     <div class="hintline"><span class="kbd">←</span><span class="kbd">→</span> экраны <span>·</span><span class="kbd">колесо</span> тоже перелистывает <span>·</span><span class="kbd">Esc</span> закрывает карточки</div>
   </div>
@@ -130,6 +202,7 @@
 </div></section>
 <section class="screen"><div class="screenInner atlas">
   <div class="sectionHead"><div><div class="eyebrow">Атлас Конституции</div><h2>Вся структура — одним маршрутом</h2></div><div><p>Каждая кнопка — отдельная учебная точка. Нажмите на статью, чтобы открыть её тему и задания.</p><div class="railControls" style="justify-content:flex-end;margin-top:10px"><button class="iconBtn" onclick="rail(-1)">←</button><button class="iconBtn" onclick="rail(1)">→</button></div></div></div>
+  <div class="chapterPath" id="chapterPath"></div>
   <div class="chapterRail" id="chapterRail"></div>
 </div></section>
 <section class="screen"><div class="screenInner trainer">
@@ -161,6 +234,30 @@
 <div class="swipeDots" id="swipeDots"></div>
 </div>
 <div class="modal" id="articleModal"><div class="modalCard"><button class="iconBtn close" onclick="closeModal()">×</button><div class="modalHero"><div class="modalNum" id="modalNum">1</div><div class="modalTitle"><div class="eyebrow" id="modalEyebrow">Глава 1</div><h3 id="modalChapter">Основы конституционного строя</h3><small id="modalState">Учебная карточка</small></div></div><div class="themeBox"><b>Смысловой фокус</b><p id="modalTopic"></p></div><div class="missions"><div class="mission"><b>Задание 1 · объяснить</b><p id="mission1"></p></div><div class="mission"><b>Задание 2 · применить</b><p id="mission2"></p></div></div><div class="sourceRow"><a href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальная публикация</a><a href="https://www.consultant.ru/document/cons_doc_LAW_28399/" target="_blank" rel="noopener">Текст по статьям</a><a href="https://minjust.gov.ru/ru/documents/8011/" target="_blank" rel="noopener">Минюст</a><button class="btn btnPrimary" style="margin-left:auto;padding:9px 12px" onclick="trainCurrent()">Проверить себя →</button></div></div></div>
+<div class="modal bossModal" id="bossModal">
+  <div class="modalCard">
+    <button class="iconBtn close" onclick="closeBoss()">×</button>
+    <div class="bossHead">
+      <div style="display:flex;gap:16px;align-items:center">
+        <div class="bossMark">★</div>
+        <div><div class="eyebrow" id="bossEyebrow">Босс главы</div><h3 id="bossTitle">Проверка</h3><p id="bossSubtitle"></p></div>
+      </div>
+      <div class="bossSeal" id="bossSeal">80% для победы</div>
+    </div>
+    <div class="bossProgress"><span id="bossBar"></span></div>
+    <div class="bossBody" id="bossBody"></div>
+    <div class="bossMeta"><span id="bossMetaLeft"></span><span id="bossMetaRight"></span></div>
+  </div>
+</div>
+<div class="levelUpOverlay" id="levelUpOverlay" onclick="closeLevelUp()">
+  <div class="levelUpCard" onclick="event.stopPropagation()">
+    <div class="levelUpKicker">Новый уровень</div>
+    <div class="levelUpNum" id="levelUpNum">2</div>
+    <h3 id="levelUpName">Младший аналитик</h3>
+    <p>Ранг повышен. Новые очки опыта уже засчитаны.</p>
+    <div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="closeLevelUp()">Продолжить кампанию →</button></div>
+  </div>
+</div>
 <div class="achievementPop" id="achievementPop"><small>Новое достижение</small><b id="achievementTitle"></b><span id="achievementDesc"></span></div><div class="toast" id="toast"></div>
 <script>
 const chapters=[
@@ -204,15 +301,174 @@ const cases=[
  {title:'Ограничение права',text:'Федеральный закон ограничивает право граждан, и требуется оценить допустимость самого ограничения.',prompt:'Какую общую «рамку» проверки применять?',answer:'Статья 55 задаёт общие основания и пределы ограничения прав федеральным законом.'},
  {title:'Поправка к главе 2',text:'Предлагается изменить одно из положений главы 2 обычной процедурой конституционной поправки, как для глав 3–8.',prompt:'Почему процедуры различаются?',answer:'Статьи 135 и 136 разводят режим пересмотра глав 1, 2 и 9 и режим поправок к главам 3–8.'}
 ];
-const state=JSON.parse(localStorage.getItem('gmu_const_v2')||localStorage.getItem('gmu_const_v1')||'{"done":[],"miss":[],"attempts":0,"correct":0,"streak":0,"xp":0,"bestStreak":0,"achievements":[],"daily":{}}');state.done=new Set(state.done||[]);state.miss=new Set(state.miss||[]);state.achievements=new Set(state.achievements||[]);state.xp=Number(state.xp||0);state.bestStreak=Number(state.bestStreak||0);state.daily=state.daily||{};
+const state=JSON.parse(localStorage.getItem('gmu_const_v3')||localStorage.getItem('gmu_const_v2')||localStorage.getItem('gmu_const_v1')||'{"done":[],"miss":[],"attempts":0,"correct":0,"streak":0,"xp":0,"bestStreak":0,"achievements":[],"daily":{},"bosses":[]}');
+state.done=new Set(state.done||[]);state.miss=new Set(state.miss||[]);state.achievements=new Set(state.achievements||[]);state.bosses=new Set(state.bosses||[]);state.xp=Number(state.xp||0);state.bestStreak=Number(state.bestStreak||0);state.daily=state.daily||{};
+chapters.forEach(ch=>{let arr=targets.filter(t=>t.chapter===ch.id);if(arr.length&&arr.every(t=>state.done.has(t.id))&&ch.id<10&&targets.filter(t=>t.chapter===ch.id+1).some(t=>state.done.has(t.id)))state.bosses.add(ch.id)});
 let currentScreen=0, currentMode='coverage', currentQ=null, qNo=1, currentArticle=null, caseIndex=0, examN=20, examPool=[], examIndex=0, examCorrect=0;
-function save(){localStorage.setItem('gmu_const_v2',JSON.stringify({done:[...state.done],miss:[...state.miss],attempts:state.attempts,correct:state.correct,streak:state.streak,xp:state.xp,bestStreak:state.bestStreak,achievements:[...state.achievements],daily:state.daily}))}
+let bossChapter=null,bossPool=[],bossIndex=0,bossCorrect=0,bossAnswered=false;
+function save(){localStorage.setItem('gmu_const_v3',JSON.stringify({done:[...state.done],miss:[...state.miss],attempts:state.attempts,correct:state.correct,streak:state.streak,xp:state.xp,bestStreak:state.bestStreak,achievements:[...state.achievements],daily:state.daily,bosses:[...state.bosses]}))}
 function go(i){currentScreen=Math.max(0,Math.min(4,i));document.getElementById('track').style.transform=`translateX(-${currentScreen*100}vw)`;document.querySelectorAll('.navBtn').forEach((b,j)=>b.classList.toggle('active',j===currentScreen));document.querySelectorAll('.sDot').forEach((d,j)=>d.classList.toggle('active',j===currentScreen));}
 document.querySelectorAll('.navBtn').forEach(b=>b.onclick=()=>go(+b.dataset.screen));
 for(let i=0;i<5;i++){let d=document.createElement('div');d.className='sDot'+(i===0?' active':'');d.onclick=()=>go(i);document.getElementById('swipeDots').appendChild(d)}
-let wheelLock=false;addEventListener('wheel',e=>{if(document.getElementById('articleModal').classList.contains('open'))return;if(Math.abs(e.deltaY)<18&&Math.abs(e.deltaX)<18)return;if(currentScreen===1){const r=document.getElementById('chapterRail');r.scrollBy({left:(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*1.4,behavior:'smooth'});return}if(wheelLock)return;wheelLock=true;go(currentScreen+(e.deltaY>0||e.deltaX>0?1:-1));setTimeout(()=>wheelLock=false,650)},{passive:true});
-addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();else if(e.key==='ArrowRight')go(currentScreen+1);else if(e.key==='ArrowLeft')go(currentScreen-1)});
-function renderAtlas(){const rail=document.getElementById('chapterRail');rail.innerHTML='';chapters.forEach(ch=>{let arr=targets.filter(t=>t.chapter===ch.id);let card=document.createElement('article');card.className='chapterCard';card.style.setProperty('--accent',ch.accent);card.innerHTML=`<div class="chapterTitle"><div><h3>${ch.name}</h3><small>${ch.id===10?'Раздел II':ch.id===0?'Вводная часть':`Глава ${ch.id}`} · ${ch.range} · ${arr.length} точек</small></div><div class="chapterNum">${ch.id===10?'II':ch.id===0?'§':String(ch.id).padStart(2,'0')}</div></div><div class="articleGrid"></div><div class="chapterFoot"><span>нажмите на статью → карточка и задания</span><span>${arr.filter(t=>state.done.has(t.id)).length}/${arr.length} закрыто</span></div>`;let grid=card.querySelector('.articleGrid');arr.forEach(t=>{let b=document.createElement('button');b.className='articleChip'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+((t.article+'').includes('.')?' special':'');b.textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II-'+t.article.split('.')[1]);b.title=t.topic;b.onclick=()=>openArticle(t);grid.appendChild(b)});rail.appendChild(card)})}
+let wheelLock=false;addEventListener('wheel',e=>{if(document.getElementById('articleModal').classList.contains('open')||document.getElementById('bossModal').classList.contains('open')||document.getElementById('levelUpOverlay').classList.contains('show'))return;if(Math.abs(e.deltaY)<18&&Math.abs(e.deltaX)<18)return;if(currentScreen===1){const r=document.getElementById('chapterRail');r.scrollBy({left:(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*1.4,behavior:'smooth'});return}if(wheelLock)return;wheelLock=true;go(currentScreen+(e.deltaY>0||e.deltaX>0?1:-1));setTimeout(()=>wheelLock=false,650)},{passive:true});
+addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeBoss();closeLevelUp()}else if(e.key==='ArrowRight')go(currentScreen+1);else if(e.key==='ArrowLeft')go(currentScreen-1)});
+function chapterTargets(id){return targets.filter(t=>t.chapter===id)}
+function isChapterComplete(id){let arr=chapterTargets(id);return arr.length>0&&arr.every(t=>state.done.has(t.id))}
+function isChapterUnlocked(id){return id===0||state.bosses.has(id-1)}
+function chapterPct(id){let arr=chapterTargets(id);return arr.length?Math.round(arr.filter(t=>state.done.has(t.id)).length/arr.length*100):0}
+function focusChapter(id){
+  if(!isChapterUnlocked(id)){toast('Сначала победите босса предыдущей главы');return}
+  let rail=document.getElementById('chapterRail'),card=rail.querySelector('[data-chapter="'+id+'"]');
+  if(card)card.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'})
+}
+function renderChapterPath(){
+  const path=document.getElementById('chapterPath');if(!path)return;path.innerHTML='';
+  chapters.forEach(ch=>{
+    let unlocked=isChapterUnlocked(ch.id),complete=isChapterComplete(ch.id),bossed=state.bosses.has(ch.id),pct=chapterPct(ch.id);
+    let n=document.createElement('button');
+    n.className='levelNode'+(!unlocked?' locked':'')+(complete?' complete':'')+(bossed?' bossed':'');
+    n.innerHTML=`<div class="lnTop"><span>${ch.id===10?'Финал':ch.id===0?'Старт':'Уровень '+ch.id}</span><span>${!unlocked?'🔒':bossed?'★':complete?'⚔':'${pct}%'.replace('
+function rail(dir){document.getElementById('chapterRail').scrollBy({left:dir*Math.min(innerWidth*.75,900),behavior:'smooth'})}
+function openArticle(t){currentArticle=t;document.getElementById('modalNum').textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II·'+t.article.split('.')[1]);let ch=chapters.find(c=>c.id===t.chapter);document.getElementById('modalEyebrow').textContent=t.chapter===0?'Преамбула':(t.type==='article'?`Глава ${t.chapter}`:'Раздел II');document.getElementById('modalChapter').textContent=ch.name;document.getElementById('modalTopic').textContent=t.topic;document.getElementById('modalState').textContent=state.done.has(t.id)?'Контрольная точка уже закрыта':'Ещё не проверено';document.getElementById('mission1').textContent=`Объясните своими словами, что означает: «${t.topic}». Назовите, кого или что эта норма связывает.`;document.getElementById('mission2').textContent=t.type==='article'?`Придумайте управленческую ситуацию, в которой статья ${t.article} станет юридически значимой. Укажите акторов и решение.`:'Объясните, зачем переходное правило было нужно в момент введения новой Конституции.';document.getElementById('articleModal').classList.add('open')}
+function closeModal(){document.getElementById('articleModal').classList.remove('open')}
+function trainCurrent(){if(currentArticle){currentQ=makeQ(currentArticle,true);renderQ();closeModal();go(2)}}
+function getDistractors(t,field){let pool;if(field==='chapter'){pool=targets.filter(x=>x.id!==t.id&&x.chapter!==t.chapter)}else{let same=targets.filter(x=>x.id!==t.id&&x.chapter===t.chapter&&x.topic!==t.topic);let rest=targets.filter(x=>x.id!==t.id&&x.chapter!==t.chapter&&x.topic!==t.topic);pool=same.length>=3?same:[...same,...shuffle(rest)]}return shuffle(pool).slice(0,3)}
+function makeQ(t,forceTopic=false){const useTopic=forceTopic || Math.random()<.7;if(useTopic){let ds=getDistractors(t,'topic');let opts=shuffle([{v:t.id,text:t.topic,ok:true},...ds.map(x=>({v:x.id,text:x.topic,ok:false}))]);return{target:t,kind:'topic',text:`Каков основной смысловой фокус ${t.label.toLowerCase()}?`,opts,answer:t.id,explain:`${t.label}: ${t.topic}.`}}else{let ch=chapters.find(c=>c.id===t.chapter);let other=shuffle(chapters.filter(c=>c.id!==t.chapter)).slice(0,3);let opts=shuffle([{v:String(ch.id),text:ch.name,ok:true},...other.map(c=>({v:String(c.id),text:c.name,ok:false}))]);return{target:t,kind:'chapter',text:`К какому структурному блоку относится ${t.label.toLowerCase()}?`,opts,answer:String(ch.id),explain:`${t.label} относится к ${t.chapter===10?'Разделу II':t.chapter===0?'Преамбуле':`главе ${t.chapter}`} — «${ch.name}».`}}}
+function chooseTarget(){
+  let unlockedTargets=targets.filter(t=>isChapterUnlocked(t.chapter));
+  let pool;
+  if(currentMode==='errors'&&state.miss.size)pool=unlockedTargets.filter(t=>state.miss.has(t.id));
+  else if(currentMode==='coverage'){let unseen=unlockedTargets.filter(t=>!state.done.has(t.id));pool=unseen.length?unseen:unlockedTargets}
+  else pool=unlockedTargets;
+  if(!pool.length)pool=targets.filter(t=>t.chapter===0);
+  return pool[Math.floor(Math.random()*pool.length)]
+}
+function nextQ(){currentQ=makeQ(chooseTarget());renderQ()}
+function renderQ(){if(!currentQ)nextQ();let q=currentQ;document.getElementById('questionText').textContent=q.text;document.getElementById('qCount').textContent='вопрос '+qNo;document.getElementById('qTag').textContent=currentMode==='coverage'?'полное покрытие':currentMode==='errors'?'работа над ошибками':'смешанный режим';let box=document.getElementById('answers');box.innerHTML='';q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${o.text}</span>`;b.onclick=()=>answerQ(o,b);box.appendChild(b)});document.getElementById('feedback').innerHTML='Выберите ответ. После ошибки можно отвечать снова — вопрос не исчезнет.';renderCoverageMap()}
+
+const levels=[
+ {min:0,name:'Стажёр публичного управления'},
+ {min:250,name:'Младший аналитик'},
+ {min:650,name:'Аналитик Конституции'},
+ {min:1200,name:'Советник по публичному праву'},
+ {min:2000,name:'Эксперт ГМУ'},
+ {min:3100,name:'Архитектор публичной власти'},
+ {min:4500,name:'Мастер Конституции'}
+];
+const achievements=[
+ {id:'first',icon:'✦',title:'Первый шаг',desc:'Закрыта первая контрольная точка.',test:()=>state.done.size>=1},
+ {id:'ten',icon:'10',title:'Десятка',desc:'Закрыто 10 положений Конституции.',test:()=>state.done.size>=10},
+ {id:'quarter',icon:'¼',title:'Четверть карты',desc:'Закрыто не менее 38 учебных точек.',test:()=>state.done.size>=38},
+ {id:'half',icon:'½',title:'Половина пути',desc:'Закрыта половина Конституционной карты.',test:()=>state.done.size>=76},
+ {id:'hundred',icon:'100',title:'Сотня',desc:'Закрыто 100 контрольных точек.',test:()=>state.done.size>=100},
+ {id:'streak5',icon:'×5',title:'Серия 5',desc:'Пять правильных ответов подряд.',test:()=>state.bestStreak>=5},
+ {id:'streak10',icon:'×10',title:'Серия 10',desc:'Десять правильных ответов подряд.',test:()=>state.bestStreak>=10},
+ {id:'boss1',icon:'⚔',title:'Первый босс',desc:'Побеждён первый босс кампании.',test:()=>state.bosses.size>=1},
+ {id:'boss5',icon:'V',title:'Пять глав',desc:'Побеждены боссы пяти структурных блоков.',test:()=>state.bosses.size>=5},
+ {id:'all',icon:'★',title:'Полная Конституция',desc:'Закрыты все учебные точки.',test:()=>state.done.size>=targets.length},
+ {id:'bossAll',icon:'♛',title:'Конституционный финал',desc:'Побеждены все боссы кампании.',test:()=>state.bosses.size>=chapters.length}
+];
+function getLevel(){let idx=0;for(let i=0;i<levels.length;i++)if(state.xp>=levels[i].min)idx=i;let cur=levels[idx],next=levels[idx+1]||{min:cur.min+1000,name:'∞'};return{index:idx+1,name:cur.name,min:cur.min,next:next.min,pct:Math.max(0,Math.min(100,(state.xp-cur.min)/(next.min-cur.min)*100))}}
+function comboMultiplier(){return 1+Math.min(Math.floor(state.streak/3),5)*.15}
+function awardRawXP(add,origin){
+  let before=getLevel();state.xp+=add;let after=getLevel();if(origin)xpFloat(add,origin);
+  if(after.index>before.index)setTimeout(()=>showLevelUp(after),320);
+  return add
+}
+function gainXP(base,origin){let mult=comboMultiplier();let add=Math.round(base*mult);awardRawXP(add,origin);return add}
+function showLevelUp(lv){document.getElementById('levelUpNum').textContent=lv.index;document.getElementById('levelUpName').textContent=lv.name;document.getElementById('levelUpOverlay').classList.add('show')}
+function closeLevelUp(){document.getElementById('levelUpOverlay').classList.remove('show')}
+function xpFloat(amount,origin){let el=document.createElement('div');el.className='xpFloat';el.textContent='+'+amount+' XP';let r=origin&&origin.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth*.55,top:innerHeight*.45,width:0};el.style.left=(r.left+r.width/2)+'px';el.style.top=r.top+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),950)}
+function unlockAchievements(){achievements.forEach(a=>{if(!state.achievements.has(a.id)&&a.test()){state.achievements.add(a.id);showAchievement(a)}})}
+function showAchievement(a){let pop=document.getElementById('achievementPop');document.getElementById('achievementTitle').textContent=a.title;document.getElementById('achievementDesc').textContent=a.desc;pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),2600)}
+function renderBadges(){let shelf=document.getElementById('badgeShelf');if(!shelf)return;shelf.innerHTML='';achievements.slice(0,6).forEach(a=>{let d=document.createElement('div');d.className='achievement'+(state.achievements.has(a.id)?' unlocked':'');d.textContent=a.icon;d.title=a.title+' — '+a.desc;shelf.appendChild(d)})}
+function dailyKey(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function updateDaily(newPoint){let key=dailyKey();if(!state.daily[key])state.daily[key]={start:state.done.size,count:0,claimed:false};if(newPoint)state.daily[key].count++;let q=state.daily[key],text=document.getElementById('dailyQuestText'),reward=document.getElementById('dailyQuestReward');if(text){text.textContent=q.claimed?'Миссия выполнена. Завтра появится новая.':`Закройте 5 новых контрольных точек: ${Math.min(q.count,5)} / 5.`;reward.textContent=q.claimed?'получено +100 XP':'+100 XP'}if(q.count>=5&&!q.claimed){q.claimed=true;awardRawXP(100);showAchievement({title:'Миссия дня',desc:'Пять новых контрольных точек закрыты. Начислено +100 XP.'})}}
+function updateGameUI(){let lv=getLevel();let ids={topLevel:lv.index,topXP:state.xp,levelBadge:lv.index,levelName:lv.name,xpValue:state.xp+' XP',xpCurrent:(state.xp-lv.min)+' / '+(lv.next-lv.min),trainerRank:'Уровень '+lv.index+' · '+lv.name,trainerXP:state.xp+' XP',comboValue:state.streak,comboMult:'×'+comboMultiplier().toFixed(2)};Object.entries(ids).forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.textContent=v});['xpLine','trainerXpLine'].forEach(id=>{let e=document.getElementById(id);if(e)e.style.width=lv.pct+'%'});renderBadges();updateDaily(false)}
+
+
+function bossQuestionCount(chId){let n=chapterTargets(chId).length;return n>=20?12:n>=8?10:Math.max(5,n*2)}
+function startBoss(chId){
+  if(!isChapterUnlocked(chId)){toast('Эта глава ещё закрыта');return}
+  if(!isChapterComplete(chId)){toast('Сначала закройте все контрольные точки главы');return}
+  bossChapter=chId;bossIndex=0;bossCorrect=0;bossAnswered=false;
+  let arr=chapterTargets(chId),n=bossQuestionCount(chId);bossPool=[];
+  for(let i=0;i<n;i++)bossPool.push(makeQ(arr[i%arr.length],i%3!==2));
+  shuffle(bossPool);
+  let ch=chapters.find(c=>c.id===chId);
+  document.getElementById('bossTitle').textContent=ch.name;
+  document.getElementById('bossSubtitle').textContent=(chId===10?'Финальный босс':'Глава '+chId)+' · '+n+' вопросов · одна попытка на каждый';
+  document.getElementById('bossModal').classList.add('open');renderBossQ()
+}
+function closeBoss(){document.getElementById('bossModal').classList.remove('open')}
+function renderBossQ(){
+  let body=document.getElementById('bossBody'),n=bossPool.length;
+  document.getElementById('bossBar').style.width=(bossIndex/n*100)+'%';
+  document.getElementById('bossMetaLeft').textContent='Верно: '+bossCorrect;
+  document.getElementById('bossMetaRight').textContent=bossIndex+' / '+n;
+  if(bossIndex>=n)return finishBoss();
+  let q=bossPool[bossIndex];bossAnswered=false;
+  body.innerHTML=`<div class="bossQuestion">${bossIndex+1}. ${q.text}</div><div class="answers" id="bossAnswers"></div>`;
+  let box=document.getElementById('bossAnswers');
+  q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${o.text}</span>`;b.onclick=()=>answerBoss(o,b);box.appendChild(b)})
+}
+function answerBoss(o,btn){
+  if(bossAnswered)return;bossAnswered=true;
+  let q=bossPool[bossIndex],ok=o.v===q.answer;if(ok)bossCorrect++;
+  btn.classList.add(ok?'correct':'wrong');
+  [...document.querySelectorAll('#bossAnswers .answer')].forEach(x=>x.disabled=true);
+  setTimeout(()=>{bossIndex++;renderBossQ()},520)
+}
+function finishBoss(){
+  let n=bossPool.length,pct=Math.round(bossCorrect/n*100),pass=pct>=80,ch=chapters.find(c=>c.id===bossChapter),body=document.getElementById('bossBody');
+  document.getElementById('bossBar').style.width='100%';
+  document.getElementById('bossMetaLeft').textContent='Результат: '+bossCorrect+' из '+n;
+  document.getElementById('bossMetaRight').textContent=pct+'%';
+  if(pass){
+    let first=!state.bosses.has(bossChapter);state.bosses.add(bossChapter);
+    let reward=first?(bossChapter===10?500:180):45;awardRawXP(reward);
+    unlockAchievements();save();updateStats();
+    body.innerHTML=`<div class="bossResult"><div class="bossScore">${pct}%</div><h3 style="font-size:30px;margin-top:18px">Босс побеждён</h3><p style="color:var(--muted);margin-top:8px">${bossChapter===10?'Кампания завершена: все структурные блоки Конституции открыты и пройдены.':'Следующая глава разблокирована.'} +${reward} XP.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="closeBoss();${bossChapter<10?'focusChapter('+(bossChapter+1)+')':'go(0)'}">Продолжить →</button></div></div>`
+  }else{
+    body.innerHTML=`<div class="bossResult"><div class="bossScore">${pct}%</div><h3 style="font-size:30px;margin-top:18px">Босс устоял</h3><p style="color:var(--muted);margin-top:8px">Для победы нужно не менее 80%. Повторная попытка соберёт новый набор вопросов.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="startBoss(${bossChapter})">Новая попытка</button><button class="btn btnGhost" onclick="closeBoss()">Вернуться к главе</button></div></div>`
+  }
+}
+
+function answerQ(o,btn){state.attempts++;if(o.v===currentQ.answer){let wasNew=!state.done.has(currentQ.target.id);state.correct++;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak);state.done.add(currentQ.target.id);state.miss.delete(currentQ.target.id);let gained=gainXP(wasNew?35:12,btn);if(wasNew)updateDaily(true);unlockAchievements();btn.classList.add('correct');document.getElementById('feedback').innerHTML=`<strong>Верно.</strong> ${currentQ.explain} +${gained} XP${state.streak>=3?` · серия ${state.streak}`:''}. Через мгновение — новый вопрос.`;save();updateStats();setTimeout(()=>{qNo++;currentQ=null;nextQ()},780)}else{state.streak=0;state.miss.add(currentQ.target.id);btn.classList.add('wrong');document.getElementById('feedback').innerHTML=`<strong>Пока нет.</strong> Этот вариант относится к другой норме. Сравните формулировки и попробуйте ещё раз — правильный ответ не раскрывается.`;save();updateStats();setTimeout(()=>btn.classList.remove('wrong'),520)}}
+function skipQ(){currentQ=null;qNo++;nextQ()}
+function setMode(m){currentMode=m;document.querySelectorAll('.modeBtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));currentQ=null;nextQ()}
+document.querySelectorAll('.modeBtn').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+function renderCoverageMap(){let m=document.getElementById('coverageMap');m.innerHTML='';targets.forEach(t=>{let d=document.createElement('div');d.className='cDot'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+(currentQ&&currentQ.target.id===t.id?' current':'');d.title=t.label;m.appendChild(d)})}
+function updateStats(){let done=state.done.size,pct=Math.round(done/targets.length*100),acc=state.attempts?Math.round(state.correct/state.attempts*100)+'%':'—';document.getElementById('topCoverage').textContent=`${done} / ${targets.length}`;document.getElementById('topStreak').textContent=state.streak;document.getElementById('ring').style.setProperty('--pct',pct);document.getElementById('ringPct').textContent=pct+'%';document.getElementById('mDone').textContent=done;document.getElementById('mErrors').textContent=state.miss.size;document.getElementById('mAccuracy').textContent=acc;document.getElementById('sideDone').textContent=done;updateGameUI();renderCoverageMap();renderAtlas()}
+function resetProgress(){if(!confirm('Сбросить учебный прогресс, XP, уровни и достижения на этом устройстве?'))return;state.done.clear();state.miss.clear();state.attempts=0;state.correct=0;state.streak=0;state.bestStreak=0;state.xp=0;state.achievements.clear();state.bosses.clear();state.daily={};save();updateStats();nextQ();toast('Прогресс и XP сброшены')}
+function renderCases(){let deck=document.getElementById('caseDeck');deck.querySelectorAll('.caseCard').forEach(x=>x.remove());cases.forEach((c,i)=>{let el=document.createElement('article');el.className='caseCard '+(i<caseIndex?'offLeft':i>caseIndex?'offRight':'');el.innerHTML=`<div><div class="caseNum">${String(i+1).padStart(2,'0')}</div><div class="caseLabel">управленческий кейс</div></div><div style="display:flex;flex-direction:column;justify-content:center"><h3>${c.title}</h3><p>${c.text}</p><div class="casePrompt" style="margin-top:18px"><b>ВОПРОС</b><p>${c.prompt}</p><div class="caseBtns"><button class="btn btnGhost" onclick="this.parentElement.nextElementSibling.hidden=false">Показать разбор</button></div><p hidden style="color:#D9E2EC;margin-top:10px">${c.answer}</p></div></div>`;deck.insertBefore(el,deck.querySelector('.caseControls'))})}
+function caseMove(d){caseIndex=(caseIndex+d+cases.length)%cases.length;renderCases()}
+document.querySelectorAll('.choice').forEach(c=>c.onclick=()=>{examN=+c.dataset.n;document.querySelectorAll('.choice').forEach(x=>x.classList.toggle('active',x===c))});
+function startExam(){examPool=shuffle([...targets]).slice(0,examN).map(t=>makeQ(t));examIndex=0;examCorrect=0;document.getElementById('examHero').style.display='none';document.getElementById('examQ').classList.add('show');renderExamQ()}
+function renderExamQ(){if(examIndex>=examPool.length)return finishExam();let q=examPool[examIndex];document.getElementById('examBar').style.width=(examIndex/examPool.length*100)+'%';document.getElementById('examText').textContent=`${examIndex+1}/${examPool.length}. ${q.text}`;let box=document.getElementById('examAnswers');box.innerHTML='';q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${o.text}</span>`;b.onclick=()=>{if(o.v===q.answer)examCorrect++;examIndex++;renderExamQ()};box.appendChild(b)})}
+function finishExam(){document.getElementById('examBar').style.width='100%';document.getElementById('examQ').classList.remove('show');let h=document.getElementById('examHero');h.style.display='block';let pct=Math.round(examCorrect/examPool.length*100);let examBonus=Math.round(25+(examCorrect/examPool.length)*75);awardRawXP(examBonus);unlockAchievements();save();updateStats();h.innerHTML=`<div class="scoreBig">${pct}%</div><h3>${examCorrect} из ${examPool.length}</h3><p>Экзамен завершён. +${examBonus} XP. Здесь учитывается только первая выбранная попытка на каждом вопросе; тренировочный режим остаётся без ограничения числа попыток.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="startExam()">Ещё вариант</button><button class="btn btnGhost" onclick="go(2)">Вернуться в тренажёр</button></div>`}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
+renderAtlas();renderCases();updateStats();nextQ();
+</script>
+</body>
+</html>,'')}</span></div><span class="lnTitle">${ch.name}</span><div class="lnBar"><span style="width:${pct}%"></span></div>`;
+    n.onclick=()=>focusChapter(ch.id);path.appendChild(n)
+  })
+}
+function renderAtlas(){
+  const rail=document.getElementById('chapterRail');rail.innerHTML='';renderChapterPath();
+  chapters.forEach(ch=>{
+    let arr=chapterTargets(ch.id),doneN=arr.filter(t=>state.done.has(t.id)).length,unlocked=isChapterUnlocked(ch.id),complete=isChapterComplete(ch.id),bossed=state.bosses.has(ch.id);
+    let card=document.createElement('article');card.dataset.chapter=ch.id;card.className='chapterCard'+(!unlocked?' locked':'');card.style.setProperty('--accent',ch.accent);
+    let bossPart=bossed?'<span class="bossSeal">★ Босс побеждён</span>':complete?`<button class="bossBtn" onclick="startBoss(${ch.id})">⚔ Босс главы</button>`:`<button class="bossBtn" disabled>Босс после ${arr.length}/${arr.length}</button>`;
+    card.innerHTML=`<div class="chapterTitle"><div><h3>${ch.name}</h3><small>${ch.id===10?'Раздел II':ch.id===0?'Вводная часть':`Глава ${ch.id}`} · ${ch.range} · ${arr.length} точек</small></div><div class="chapterNum">${ch.id===10?'II':ch.id===0?'§':String(ch.id).padStart(2,'0')}</div></div><div class="articleGrid"></div><div class="chapterFoot"><span>${unlocked?'закройте все точки → победите босса → откройте следующую главу':'уровень пока закрыт'}</span><span class="chapterFootRight"><span>${doneN}/${arr.length} · ${chapterPct(ch.id)}%</span>${bossPart}</span></div>`;
+    let grid=card.querySelector('.articleGrid');
+    arr.forEach(t=>{let b=document.createElement('button');b.className='articleChip'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+((t.article+'').includes('.')?' special':'');b.textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II-'+t.article.split('.')[1]);b.title=t.topic;b.disabled=!unlocked;b.onclick=()=>openArticle(t);grid.appendChild(b)});
+    if(!unlocked){let lock=document.createElement('div');lock.className='chapterLock';lock.innerHTML='<div class="lockBadge">🔒 Победите босса предыдущей главы</div>';card.appendChild(lock)}
+    rail.appendChild(card)
+  })
+}
 function rail(dir){document.getElementById('chapterRail').scrollBy({left:dir*Math.min(innerWidth*.75,900),behavior:'smooth'})}
 function openArticle(t){currentArticle=t;document.getElementById('modalNum').textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II·'+t.article.split('.')[1]);let ch=chapters.find(c=>c.id===t.chapter);document.getElementById('modalEyebrow').textContent=t.chapter===0?'Преамбула':(t.type==='article'?`Глава ${t.chapter}`:'Раздел II');document.getElementById('modalChapter').textContent=ch.name;document.getElementById('modalTopic').textContent=t.topic;document.getElementById('modalState').textContent=state.done.has(t.id)?'Контрольная точка уже закрыта':'Ещё не проверено';document.getElementById('mission1').textContent=`Объясните своими словами, что означает: «${t.topic}». Назовите, кого или что эта норма связывает.`;document.getElementById('mission2').textContent=t.type==='article'?`Придумайте управленческую ситуацию, в которой статья ${t.article} станет юридически значимой. Укажите акторов и решение.`:'Объясните, зачем переходное правило было нужно в момент введения новой Конституции.';document.getElementById('articleModal').classList.add('open')}
 function closeModal(){document.getElementById('articleModal').classList.remove('open')}
