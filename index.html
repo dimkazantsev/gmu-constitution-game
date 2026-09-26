@@ -21,19 +21,32 @@
 
 <main class="stage">
   <section class="page home active" id="home">
-    <div class="homeWorkspace">
-      <div class="homeTitle">
+    <div class="homeShell">
+      <div class="homeIntro">
         <div>
           <div class="eyebrow">Государственное и муниципальное управление</div>
-          <h1>Конституция РФ</h1>
+          <h1>Конституция без зубрёжки</h1>
+          <p>Листайте главы как карточки. Внутри — точный текст нормы, понятное объяснение, практика Конституционного Суда, жизненные кейсы и свободные ответы.</p>
         </div>
-        <p>Выберите главу, продолжите маршрут или откройте ситуационный тренер. Каждый раздел объясняет смысл нормы, показывает практику Конституционного Суда и проверяет понимание.</p>
+        <button class="trainerShortcut" id="trainerShortcut">
+          <span class="trainerShortcutIcon">AI</span>
+          <span><b>Ситуационный тренер</b><small>Свободный ответ на жизненную ситуацию</small></span>
+          <strong>→</strong>
+        </button>
       </div>
-      <div class="homeFocus">
-        <div class="continueCard" id="continueCard"></div>
-        <div class="trainerTeaser" id="trainerTeaser"></div>
+
+      <div class="carouselShell">
+        <button class="carouselArrow" id="carouselPrev" aria-label="Предыдущая глава">←</button>
+        <div class="carouselViewport" id="carouselViewport">
+          <div class="carouselTrack" id="chapterCarouselTrack"></div>
+        </div>
+        <button class="carouselArrow" id="carouselNext" aria-label="Следующая глава">→</button>
       </div>
-      <div class="homeChapters" id="homeChapters"></div>
+
+      <div class="carouselFooter">
+        <div class="carouselDots" id="carouselDots"></div>
+        <div class="carouselHint">Листайте ← → или перетаскивайте карточки</div>
+      </div>
     </div>
   </section>
 
@@ -65,7 +78,6 @@
       <div class="tabs">
         <button class="tab active" data-tab="learn">Понять</button>
         <button class="tab" data-tab="scheme">Схема</button>
-        <button class="tab" data-tab="practice">Практика</button>
         <button class="tab" data-tab="cases">Кейсы</button>
         <button class="tab" data-tab="coach">ИИ‑тренер</button>
       </div>
