@@ -473,11 +473,18 @@ function renderChapterNavigator(){
   prev.onclick=()=>{if(idx>0)openModule(chapters[idx-1].id)};
   next.onclick=()=>{if(idx<chapters.length-1)openModule(chapters[idx+1].id)};
   menu.innerHTML="";
-  chapters.forEach(c=>{
-    const b=document.createElement("button");
-    b.innerHTML='<span class="mnum">'+(c.id===0?"§":c.id===10?"II":c.id)+'</span><span class="mname">'+(c.id===0?"Преамбула":c.name)+'</span><span class="mpct">'+modulePct(c.id)+'%</span>';
-    b.onclick=()=>{menu.classList.remove("open");openModule(c.id)};
-    menu.appendChild(b)
+  const splitAt=Math.ceil(chapters.length/2);
+  const columns=[chapters.slice(0,splitAt),chapters.slice(splitAt)];
+  columns.forEach((items,colIndex)=>{
+    const col=document.createElement("div");
+    col.className="chapterMenuColumn chapterMenuColumn-"+(colIndex+1);
+    items.forEach(c=>{
+      const b=document.createElement("button");
+      b.innerHTML='<span class="mnum">'+(c.id===0?"§":c.id===10?"II":c.id)+'</span><span class="mname">'+(c.id===0?"Преамбула":c.name)+'</span><span class="mpct">'+modulePct(c.id)+'%</span>';
+      b.onclick=()=>{menu.classList.remove("open");openModule(c.id)};
+      col.appendChild(b)
+    });
+    menu.appendChild(col)
   });
   picker.onclick=()=>menu.classList.toggle("open");
 }
