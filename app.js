@@ -320,8 +320,8 @@ function league(){
 }
 function bossUnlocked(id){return (state.doneTasks[id]?.length||0)>=taskBank[id].length&&(state.doneCases[id]?.length||0)>=caseBank[id].length}
 function modulePct(id){
-  const total=(taskBank[id]?.length||0)+(caseBank[id]?.length||0)+(checkBank[id]?.length||0);
-  const done=(state.doneTasks[id]?.length||0)+(state.doneCases[id]?.length||0)+(state.scores[id]!==undefined?(checkBank[id]?.length||0):0);
+  const total=(taskBank[id]?.length||0)+(caseBank[id]?.length||0);
+  const done=(state.doneTasks[id]?.length||0)+(state.doneCases[id]?.length||0);
   return total?Math.round(done/total*100):0
 }
 function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id))}
