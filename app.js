@@ -262,6 +262,7 @@ const coachOrgs=["администрация","региональное ведо
 const coachQuestions=["Что здесь нарушено или поставлено под сомнение? Объясните своими словами.","Какую конституционную проблему вы здесь видите и почему?","Как бы вы объяснили участникам ситуации, в чём здесь конституционный конфликт?","Что здесь нужно проверить с точки зрения Конституции?"];
 const coachTemplates={"0":[{"topic":"Учредительная рамка","text":"{name} говорит, что преамбулу можно выкинуть из курса: «там нет конкретных полномочий органов».","keys":[["народ","многонациональн"],["ценност","права","свобод"],["цели","соглас","ответствен"]],"labels":["народ как субъект","ценностная рамка","цели принятия"],"model":"Преамбула важна не как перечень полномочий, а как учредительная и ценностная рамка: Конституция принимается многонациональным народом и связывается с правами и свободами, гражданским миром, единством и ответственностью перед поколениями.","refs":"Преамбула","actors":[["👤","{name}"],["§","Преамбула"],["✦","Ценности"]]}],"1":[{"topic":"Разделение властей","text":"{org} {place} создаёт комиссию, которая сама принимает обязательные правила, сама штрафует за их нарушение и сама окончательно рассматривает жалобы на собственные штрафы.","keys":[["разделен","ветв"],["суд","судеб"],["контрол","обжал"]],"labels":["разделение властей","судебная функция","независимый контроль"],"model":"Проблема в концентрации разных функций в одном административном органе. Конституционная модель разводит законодательную, исполнительную и судебную власть, а спор о законности решений не должен окончательно разрешаться тем же органом, который их принял.","refs":"ст. 10–11","actors":[["▦","{org}"],["⚠","Штраф"],["⚖","Жалоба"]]},{"topic":"Идеологическое многообразие","text":"{org} требует от всех подведомственных учреждений использовать только одну «правильную» политическую доктрину и запрещает сотрудникам публично придерживаться других взглядов.","keys":[["идеолог","многообраз"],["обязательн","государствен"],["свобод","взгляд"]],"labels":["идеологическое многообразие","запрет обязательной идеологии","свобода взглядов"],"model":"Нужно проверить запрет государственной или обязательной идеологии и принцип идеологического многообразия. Государство не вправе делать одну политическую доктрину обязательной для всех.","refs":"ст. 13","actors":[["▦","{org}"],["📄","Одна доктрина"],["⊘","Иные взгляды"]]}],"2":[{"topic":"Свобода и личная неприкосновенность","text":"{name} задержали {place}. Судебного решения нет, прошло уже больше двух суток, а вопрос о дальнейшем содержании суд не рассматривал.","keys":[["свобод","неприкоснов"],["48","двое суток","двух суток"],["суд","судеб"]],"labels":["личная свобода","48 часов","судебный контроль"],"model":"Затронута свобода и личная неприкосновенность. Без судебного решения задержание не может продолжаться сверх конституционно установленного срока; дальнейшее содержание требует судебного контроля.","refs":"ст. 22","actors":[["👤","{name}"],["◷","> 48 часов"],["⚖","Нет решения суда"]]},{"topic":"Свобода слова и запрет цензуры","text":"{name} работает в редакции. Перед публикацией {org} требует присылать каждый материал на предварительное согласование и запрещает выпускать текст без разрешения чиновника.","keys":[["цензур"],["свобод","слова","информац"],["предварительн","согласован","разрешен"]],"labels":["запрет цензуры","свобода слова/информации","предварительное согласование"],"model":"Ключевая проблема — предварительная цензура: государственный орган требует разрешения до публикации. Это затрагивает свободу мысли и слова и свободу массовой информации.","refs":"ст. 29","actors":[["📰","Редакция"],["▦","{org}"],["🔒","До публикации"]]},{"topic":"Ограничение прав","text":"{org} вводит ограничение права граждан внутренним письмом, объясняя это «удобством работы». Федерального закона с таким ограничением нет.","keys":[["федеральн","закон"],["ограничен","прав"],["цель","необходим","соразмер"]],"labels":["федеральный закон","ограничение права","допустимая цель/мера"],"model":"Ограничение конституционного права не может вводиться просто внутренним письмом ведомства. Нужно проверить наличие федерального закона, конституционно допустимую цель и необходимость ограничения.","refs":"ст. 55","actors":[["▦","{org}"],["📄","Внутреннее письмо"],["◇","Право граждан"]]}],"3":[{"topic":"Разграничение компетенций","text":"Федеральный орган и субъект спорят {place}: каждый утверждает, что только он вправе регулировать вопрос, который Конституция относит к совместному ведению.","keys":[["совместн","веден"],["федерац","субъект"],["полномоч","разгранич"]],"labels":["совместное ведение","Федерация и субъект","разграничение полномочий"],"model":"Это не исключительная компетенция одной стороны. Если вопрос относится к совместному ведению, нужно применять конституционную модель совместной компетенции и правила соотношения федерального и регионального регулирования.","refs":"ст. 72, 76","actors":[["◆","Федерация"],["⇄","Совместное ведение"],["◈","Субъект"]]},{"topic":"Единое экономическое пространство","text":"Субъект вводит отдельный сбор за ввоз товаров из соседнего региона, чтобы «защитить местных производителей».","keys":[["един","экономическ","пространств"],["барьер","тамож","сбор"],["перемещен","товар"]],"labels":["единое экономическое пространство","внутренний барьер","свобода перемещения товаров"],"model":"Нужно проверить принцип единого экономического пространства и запрет внутренних таможенных границ, пошлин и иных препятствий движению товаров, кроме конституционно допустимых исключений.","refs":"ст. 74","actors":[["▰","Товар"],["╳","Региональный сбор"],["↔","Единый рынок"]]}],"4":[{"topic":"Указ и федеральный закон","text":"Президентский указ устанавливает правило, которое прямо противоречит действующему федеральному закону. {name} утверждает: «указ Президента всё равно выше».","keys":[["указ"],["не должен","противореч"],["федеральн","закон"]],"labels":["указ Президента","непротиворечие","федеральный закон"],"model":"Указ Президента — правовой акт, но он не должен противоречить Конституции и федеральным законам. Поэтому тезис о безусловном приоритете указа неверен.","refs":"ст. 90","actors":[["◎","Президент"],["≠","Противоречие"],["▤","Федеральный закон"]]},{"topic":"Взаимодействие институтов","text":"После введения военного положения чиновник говорит, что это «исключительно президентский вопрос» и никакой другой конституционный орган в процедуре не участвует.","keys":[["совет федерац"],["утвержд"],["военн","положен"]],"labels":["Совет Федерации","утверждение","военное положение"],"model":"Введение военного положения связано не только с Президентом: соответствующий указ подлежит утверждению Советом Федерации. Это пример институционального взаимодействия.","refs":"ст. 87, 102","actors":[["◎","Президент"],["→","Указ"],["▥","Совет Федерации"]]}],"5":[{"topic":"Прохождение закона","text":"Законопроект прошёл Государственную Думу, и автор проекта говорит: «теперь это уже окончательно действующий федеральный закон — остальные стадии не важны».","keys":[["совет федерац"],["президент"],["подпис","обнарод"]],"labels":["Совет Федерации","Президент","подписание/обнародование"],"model":"Принятие Государственной Думой — не вся процедура. Далее действуют правила рассмотрения Советом Федерации, направления Президенту, подписания и обнародования либо отклонения.","refs":"ст. 105–107","actors":[["▤","Госдума"],["▥","Совет Федерации"],["◎","Президент"]]},{"topic":"Полномочия палат","text":"На совещании предлагают передать Государственной Думе решение вопроса, который Конституция относит к ведению Совета Федерации, только потому что «так быстрее».","keys":[["совет федерац"],["государственн","дума"],["компетен","полномоч"]],"labels":["Совет Федерации","Государственная Дума","разграничение компетенции"],"model":"Палаты Федерального Собрания не взаимозаменяемы. Конституция закрепляет за ними разные предметы ведения, поэтому удобство не позволяет одной палате присвоить полномочие другой.","refs":"ст. 102–103","actors":[["▥","Совет Федерации"],["⇄","Полномочие"],["▤","Госдума"]]}],"6":[{"topic":"Назначение Председателя Правительства","text":"Президент предлагает сразу назначить Председателя Правительства, не представляя кандидатуру Государственной Думе: «так будет быстрее».","keys":[["государственн","дума"],["утвержд","кандидат"],["президент","назнач"]],"labels":["Государственная Дума","утверждение кандидатуры","назначение Президентом"],"model":"Обычная конституционная процедура включает представление кандидатуры, её утверждение Государственной Думой и последующее назначение Президентом. Пропуск парламентского этапа меняет процедуру формирования Правительства.","refs":"ст. 111","actors":[["◎","Президент"],["▤","Госдума"],["●","Председатель"]]},{"topic":"Акты Правительства","text":"Правительство принимает постановление, которое противоречит федеральному закону, и объясняет: «мы исполнительная власть, поэтому можем уточнить закон как считаем нужным».","keys":[["постановлен","правительств"],["федеральн","закон"],["не противореч","подзакон"]],"labels":["акт Правительства","федеральный закон","подзаконность"],"model":"Постановления и распоряжения Правительства издаются на основе и во исполнение Конституции, федеральных законов и актов Президента. Они не могут произвольно противоречить федеральному закону.","refs":"ст. 115","actors":[["▦","Правительство"],["≠","Противоречие"],["▤","Федеральный закон"]]}],"7":[{"topic":"Независимость судьи","text":"{org} звонит судье и требует решить конкретное дело в пользу администрации, потому что «это важно для региона».","keys":[["независим","суд"],["давлен","вмешательств"],["конституц","закон"]],"labels":["независимость суда","вмешательство/давление","подчинение праву"],"model":"Главная проблема — вмешательство в независимость судьи. Решение должно основываться на Конституции и федеральном законе, а не на административном указании о желательном исходе дела.","refs":"ст. 120","actors":[["▦","{org}"],["→","Давление"],["⚖","Судья"]]},{"topic":"Правосудие только судом","text":"{org} создаёт внутреннюю комиссию и объявляет, что она будет выносить «судебные приговоры» гражданам за нарушения в отрасли.","keys":[["правосуд","только суд"],["комисс","административ"],["судебн","функц"]],"labels":["правосудие только судом","административная комиссия","судебная функция"],"model":"Административный орган не может присвоить себе функцию правосудия. Конституция закрепляет, что правосудие осуществляется только судом.","refs":"ст. 118","actors":[["▦","{org}"],["⚠","Комиссия"],["⚖","Правосудие"]]}],"8":[{"topic":"Переданные полномочия","text":"Регион передал муниципалитету государственное полномочие, но денег и имущества для его исполнения не передал. Потом муниципалитет наказали за неисполнение.","keys":[["материал","финанс","ресурс"],["передан","полномоч"],["местн","самоуправ"]],"labels":["ресурсы","переданное полномочие","местное самоуправление"],"model":"При передаче отдельных государственных полномочий должны передаваться необходимые материальные и финансовые средства. Нельзя отделять обязанность исполнить полномочие от ресурсов.","refs":"ст. 132","actors":[["▦","Регион"],["→","Полномочие"],["⌂","Муниципалитет"],["₽","Нет ресурсов"]]},{"topic":"Самостоятельность МСУ","text":"{org} требует от муниципалитета решать собственный вопрос местного значения строго по внутренней инструкции ведомства, хотя закон оставляет муниципалитету выбор способа решения.","keys":[["самостоятельн","местн"],["вопрос","местного значен"],["полномоч"]],"labels":["самостоятельность МСУ","вопрос местного значения","пределы полномочий"],"model":"Нужно проверить самостоятельность местного самоуправления в решении вопросов местного значения. Включённость в единую систему публичной власти не означает исчезновение собственной компетенции муниципалитета.","refs":"ст. 130–133","actors":[["▦","{org}"],["→","Указание"],["⌂","Муниципалитет"]]}],"9":[{"topic":"Пересмотр защищённых глав","text":"Депутаты предлагают изменить положение главы 2 обычным федеральным законом простым большинством: «это быстрее, чем специальная процедура».","keys":[["глава 2","прав","свобод"],["особ","пересмотр"],["135","конституц"]],"labels":["глава 2","особый пересмотр","повышенная защита"],"model":"Главы 1, 2 и 9 нельзя менять как обычный федеральный закон. Для них установлен особый режим пересмотра, обеспечивающий повышенную устойчивость фундаментальных положений.","refs":"ст. 135","actors":[["▤","Обычный закон"],["◇","Глава 2"],["⊘","Особая защита"]]},{"topic":"Разные процедуры изменения","text":"На семинаре предлагают использовать один и тот же порядок для изменения главы 4, главы 1 и наименования субъекта в статье 65.","keys":[["разн","процедур"],["глав 1","135"],["глав 3","136","65","137"]],"labels":["разные процедуры","главы 1/2/9","главы 3–8 или статья 65"],"model":"Конституция разводит эти случаи: главы 1, 2 и 9 имеют особый режим пересмотра; главы 3–8 меняются поправками; статья 65 изменяется по отдельному механизму.","refs":"ст. 135–137","actors":[["1","Глава 1"],["4","Глава 4"],["65","Статья 65"]]}],"10":[{"topic":"Старые акты","text":"После вступления новой Конституции в силу {org} продолжает применять старый нормативный акт целиком, хотя часть его правил прямо противоречит новой Конституции.","keys":[["не противореч","част"],["стар","акт"],["конституц","верховен"]],"labels":["непротиворечащая часть","старый акт","верховенство Конституции"],"model":"Прежние законы и иные правовые акты продолжают применяться только в части, не противоречащей новой Конституции. Переходные нормы сохраняют непрерывность, но не ставят старое право выше Конституции.","refs":"Раздел II, п. 2","actors":[["▤","Старый акт"],["⌁","Фильтр"],["§","Конституция"]]},{"topic":"Непрерывность институтов","text":"В день вступления новой Конституции в силу предлагают немедленно прекратить работу всех действующих органов до формирования новых — даже если это займёт месяцы.","keys":[["непрерыв","переход"],["орган","полномоч"],["вакуум"]],"labels":["институциональная непрерывность","переходные полномочия","предотвращение вакуума"],"model":"Переходные положения нужны для непрерывности: действующие институты не исчезают одномоментно, а продолжают работу по временным правилам до формирования новой системы.","refs":"Раздел II","actors":[["◌","Старая система"],["⇄","Переход"],["●","Новая система"]]}]};
 function coachFill(text,c){return text.replaceAll('{name}',c.name).replaceAll('{place}',c.place).replaceAll('{org}',c.org)}
+function capRu(text){text=String(text||"").trim();return text?text.charAt(0).toUpperCase()+text.slice(1):text}
 let coachState={scenario:null,number:0,answered:false,score:0};
 function coachContext(){return{name:coachNames[Math.floor(Math.random()*coachNames.length)],place:coachPlaces[Math.floor(Math.random()*coachPlaces.length)],org:coachOrgs[Math.floor(Math.random()*coachOrgs.length)]}}
 function coachHash(moduleId,t,c){return moduleId+'|'+t.topic+'|'+c.name+'|'+c.place+'|'+c.org}
@@ -269,7 +270,7 @@ function newCoachScenario(){
  const bank=coachTemplates[currentModule]||coachTemplates[1],seen=new Set(state.coachSeen?.[currentModule]||[]);let t,c,h,tries=0;
  do{t=bank[Math.floor(Math.random()*bank.length)];c=coachContext();h=coachHash(currentModule,t,c);tries++}while(seen.has(h)&&tries<60);
  if(!state.coachSeen)state.coachSeen={};const arr=state.coachSeen[currentModule]||[];arr.push(h);state.coachSeen[currentModule]=arr.slice(-30);save();
- coachState={scenario:{...t,text:coachFill(t.text,c),actors:t.actors.map(a=>[a[0],coachFill(a[1],c)]),question:coachQuestions[Math.floor(Math.random()*coachQuestions.length)]},number:coachState.number+1,answered:false,score:0};renderCoach()
+ coachState={scenario:{...t,text:capRu(coachFill(t.text,c)),actors:t.actors.map(a=>[a[0],capRu(coachFill(a[1],c))]),question:coachQuestions[Math.floor(Math.random()*coachQuestions.length)]},number:coachState.number+1,answered:false,score:0};renderCoach()
 }
 function normalizeAnswer(v){return v.toLowerCase().replace(/ё/g,'е').replace(/[.,!?;:()«»"]/g,' ').replace(/\s+/g,' ').trim()}
 function evaluateCoach(text,scenario){const n=normalizeAnswer(text),hits=scenario.keys.map(group=>group.some(k=>n.includes(normalizeAnswer(k))));return{score:Math.round(hits.filter(Boolean).length/hits.length*100),hits}}
@@ -288,7 +289,7 @@ function submitCoach(){
  const c=coachState.scenario,res=evaluateCoach(text,c);coachState.answered=true;coachState.score=res.score;state.coachSolved=(state.coachSolved||0)+1;state.coachPoints=(state.coachPoints||0)+res.score;save();
  const box=document.getElementById('coachResult');box.classList.add('show');const chips=c.labels.map((lab,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+lab+'</span>').join('');
  box.innerHTML='<div class="coachScore">'+res.score+'%</div><h4>'+coachLevelText(res.score)+'</h4><div class="detected">'+chips+'</div><p>Оценка показывает, какие смысловые элементы удалось обнаружить. Это не юридическая экспертиза.</p><div class="modelAnswer"><b>Сильный вариант ответа:</b><br>'+c.model+'<br><br><b>Правовое основание:</b> '+c.refs+'</div><div class="coachButtons" style="margin-top:10px"><button class="btn primary rippleHost" onclick="newCoachScenario()">Следующая комбинация →</button></div>';
- ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();renderChapterNav();bindRipple()
+ ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();renderChapterNavigator();bindRipple()
 }
 const saved=JSON.parse(localStorage.getItem('gmu_const_v7')||localStorage.getItem('gmu_const_v6')||'{}');
 const state={
@@ -382,42 +383,42 @@ const chapterStudyTips={
   9:"Перед анализом поправки сначала определите, какая часть Конституции меняется.",
   10:"Переходные нормы объясняют, как избежать правового и институционального вакуума."
 };
-function renderChapterNav(){
-  ["homeChapterNav","courseChapterNav"].forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    const lg=league();
-    el.innerHTML='<div class="navHead"><div class="eyebrow">Навигация</div><h3>Главы Конституции</h3><p>Любая глава доступна одним нажатием.</p></div><div class="navList"></div><div class="navFoot"><div class="navRating"><b>'+rating()+'</b><span>'+lg[0]+' · лига '+lg[1]+'</span></div><button class="navHome" onclick="showHome()">Карта</button></div>';
-    const list=el.querySelector(".navList");
-    chapters.forEach(ch=>{
-      const b=document.createElement("button");
-      b.className="navChapter"+(currentModule===ch.id?" active":"");
-      b.title=ch.id===0?"Преамбула":ch.name;
-      b.innerHTML='<span class="navNum">'+(ch.id===0?"§":ch.id===10?"II":ch.id)+'</span><span class="navName">'+(ch.id===0?"Преамбула":ch.name)+'</span><span class="navPct">'+modulePct(ch.id)+'%</span>';
-      b.onclick=()=>openModule(ch.id); list.appendChild(b)
-    })
-  })
+function renderChapterNavigator(){
+  if(currentModule===null)return;
+  const idx=chapters.findIndex(x=>x.id===currentModule),ch=chapters[idx];
+  const prev=document.getElementById("prevChapterBtn"),next=document.getElementById("nextChapterBtn");
+  const label=document.getElementById("chapterPickerLabel"),picker=document.getElementById("chapterPicker"),menu=document.getElementById("chapterMenu");
+  if(!prev||!next||!label||!picker||!menu)return;
+  label.textContent=mLabel(ch.id)+" · "+ch.name;
+  prev.disabled=idx<=0;next.disabled=idx>=chapters.length-1;
+  prev.onclick=()=>{if(idx>0)openModule(chapters[idx-1].id)};
+  next.onclick=()=>{if(idx<chapters.length-1)openModule(chapters[idx+1].id)};
+  menu.innerHTML="";
+  chapters.forEach(c=>{
+    const b=document.createElement("button");
+    b.innerHTML='<span class="mnum">'+(c.id===0?"§":c.id===10?"II":c.id)+'</span><span class="mname">'+(c.id===0?"Преамбула":c.name)+'</span><span class="mpct">'+modulePct(c.id)+'%</span>';
+    b.onclick=()=>{menu.classList.remove("open");openModule(c.id)};
+    menu.appendChild(b)
+  });
+  picker.onclick=()=>menu.classList.toggle("open");
 }
-
 function renderHome(){
   currentModule=null;
-  renderChapterNav();
   const continueId=chapters.find(ch=>modulePct(ch.id)<100)?.id ?? state.lastModule;
   const ch=chapters.find(x=>x.id===continueId)||chapters[1],cp=modulePct(ch.id);
-  document.getElementById("continueCard").innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div><div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" onclick="openModule('+ch.id+')">Продолжить →</button></div>';
-  document.getElementById("trainerTeaser").innerHTML='<div class="aiOrb">AI</div><div><div class="eyebrow">Ситуационный тренер</div><h3>Ответ своими словами</h3><p>Жизненная ситуация → ваш аргумент → подробный разбор.</p></div><div class="trainerStats"><span class="statChip">'+(state.coachSolved||0)+' ситуаций</span><span class="statChip">'+totalTaskDone()+' задач</span><button class="btn pink rippleHost" id="openCoachHome">Открыть тренер</button></div>';
-  document.getElementById("openCoachHome").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),40)};
-  const rg=document.getElementById("routes");rg.innerHTML="";
-  routes.forEach(route=>{
-    const d=document.createElement("section");d.className="routeCard";d.style.setProperty("--route",route.color);
-    d.innerHTML='<div class="routeTop"><div><h3>'+route.title+'</h3><p>'+route.subtitle+'</p></div><span>'+route.ids.length+' мод.</span></div><div class="chapterPills"></div>';
-    const pills=d.querySelector(".chapterPills");
-    route.ids.forEach(id=>{
-      const c=chapters.find(x=>x.id===id),p=modulePct(id),b=document.createElement("button");
-      b.className="chapterPill rippleHost";
-      b.innerHTML='<span>'+(id===0?"§":id===10?"II":id)+'</span><span>'+c.name+'</span><span class="miniPct">'+p+'%</span>';
-      b.onclick=()=>openModule(id);pills.appendChild(b)
-    });
-    rg.appendChild(d)
+  const cont=document.getElementById("continueCard");
+  cont.innerHTML='<div class="continueText"><small>Продолжить обучение</small><h3>'+mLabel(ch.id)+' · '+ch.name+'</h3><p>'+moduleInfo[ch.id].desc+'</p></div><div class="continueAction"><div class="continuePct">'+cp+'%</div><button class="btn primary rippleHost" id="continueBtn">Продолжить →</button></div>';
+  document.getElementById("continueBtn").onclick=()=>openModule(ch.id);
+
+  const trainer=document.getElementById("trainerTeaser");
+  trainer.innerHTML='<div class="aiOrb">AI</div><div><div class="eyebrow">Ситуационный тренер</div><h3>Свободный ответ</h3><p>Жизненная ситуация → ваш аргумент → подробный разбор.</p></div><div class="trainerStats"><span class="statChip">'+(state.coachSolved||0)+' ситуаций разобрано</span><button class="btn pink rippleHost" id="homeCoachBtn">Открыть тренер</button></div>';
+  document.getElementById("homeCoachBtn").onclick=()=>{openModule(state.lastModule);setTimeout(()=>switchTab("coach"),30)};
+
+  const grid=document.getElementById("homeChapters");grid.innerHTML="";
+  chapters.forEach(c=>{
+    const b=document.createElement("button");b.className="homeChapterCard rippleHost";
+    b.innerHTML='<div class="homeChapterTop"><span class="homeChapterNum">'+(c.id===0?"§":c.id===10?"II":c.id)+'</span><span class="homeChapterPct">'+modulePct(c.id)+'%</span></div><h3>'+(c.id===0?"Преамбула":c.name)+'</h3><p>'+moduleInfo[c.id].desc+'</p>';
+    b.onclick=()=>openModule(c.id);grid.appendChild(b)
   });
   syncSoundButton();bindRipple()
 }
@@ -433,13 +434,14 @@ function openModule(id){
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
-  updateProgress();renderChapterNav();renderTab();showPage("course")
+  updateProgress();renderChapterNavigator();renderTab();showPage("course")
 }
 function updateProgress(){
+  if(currentModule===null)return;
   const p=modulePct(currentModule);
   document.getElementById("coursePct").textContent=p+"%";
   document.getElementById("courseBar").style.width=p+"%";
-  renderChapterNav()
+  renderChapterNavigator()
 }
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
   currentTab=b.dataset.tab;
@@ -497,7 +499,7 @@ function renderLearn(){
   document.getElementById("learnToScheme").onclick=()=>switchTab("scheme");
   document.getElementById("schemeBottom").onclick=()=>switchTab("scheme");
   document.getElementById("practiceBottom").onclick=()=>switchTab("practice");
-  renderChapterNav();bindRipple()
+  renderChapterNavigator();bindRipple()
 }
 function renderScheme(){
   const d=moduleInfo[currentModule].diagram,p=document.getElementById("panel");let body="";
@@ -587,12 +589,40 @@ function answerClassify(){
 }
 
 function renderCases(){
-  const bank=caseBank[currentModule]||[],c=bank[caseIndex%bank.length],panel=document.getElementById('panel');
-  const scene=c.scene.map((n,i)=>'<div class="sceneActor"><div class="ico">'+n[0]+'</div><b>'+n[1]+'</b></div>'+(i<c.scene.length-1?'<div class="arrow">→</div>':'')).join('');
-  panel.innerHTML='<div class="caseLayout"><aside class="caseVisual"><div><div class="eyebrow">Кейс '+(caseIndex+1)+' из '+bank.length+'</div><h3>'+c.title+'</h3><p>Схема показывает участников и конфликт, а не просто украшает карточку.</p></div><div class="scene">'+scene+'</div><div class="caseNav">'+bank.map((_,i)=>'<button class="'+(i===caseIndex?'active':'')+'" onclick="caseIndex='+i+';renderCases()"></button>').join('')+'</div></aside>'+
-    '<div class="caseTask"><div class="tag">'+c.refs+'</div><div class="story">'+c.story+'</div><div class="caseQuestion">'+c.question+'</div><div class="answers" id="caseAnswers"></div><div class="caseExplain" id="caseExplain"></div></div></div>';
-  const a=document.getElementById('caseAnswers');
-  c.options.forEach((x,i)=>{const b=document.createElement('button');b.className='ans';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>{const e=document.getElementById('caseExplain');e.style.display='block';if(i===c.answer){document.querySelectorAll('#caseAnswers .ans').forEach(y=>y.disabled=true);successSound();b.classList.add('correct','glowSuccess');confetti(b);e.innerHTML='<b>Верно.</b> '+c.why+' <span class="refs">Основание: '+c.refs+'</span>';if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);save();updateProgress()}else{errorSound();b.disabled=true;b.classList.add('wrong','shake');setTimeout(()=>b.classList.remove('shake'),350);e.innerHTML='<b>Не совсем.</b> Этот вариант не объясняет конституционный конфликт. Попробуйте другой ответ.'}};a.appendChild(b)})
+  const bank=caseBank[currentModule]||[],c=bank[caseIndex%bank.length],panel=document.getElementById("panel");
+  const already=(state.doneCases[currentModule]||[]).includes(caseIndex);
+  panel.innerHTML='<div class="caseLayout"><div class="caseTask"><div class="tag">Кейс '+(caseIndex+1)+' из '+bank.length+' · '+c.refs+'</div><div class="story">'+c.story+'</div><div class="caseQuestion">'+c.question+'</div><div class="caseReasoning"><div class="caseStep"><b>Шаг 1. Сформулируйте проблему своими словами</b><textarea id="caseHypothesis" placeholder="Что здесь произошло? Какое право, принцип или полномочие затронуты?"></textarea></div><div class="caseStep"><b>Шаг 2. Выберите юридический вывод</b><div class="answers" id="caseAnswers"></div></div></div><div class="caseExplain" id="caseExplain"></div><div class="caseFooter"><div><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button> <button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button></div><button class="btn primary" id="revealCaseBtn">Показать полный разбор</button></div></div></div>';
+  const a=document.getElementById("caseAnswers");
+  c.options.forEach((x,i)=>{
+    const b=document.createElement("button");b.className="ans";
+    b.innerHTML='<span class="letter">'+("ABCD"[i])+'</span><span>'+x+'</span>';
+    b.onclick=()=>{
+      const e=document.getElementById("caseExplain");e.style.display="block";
+      if(i===c.answer){
+        document.querySelectorAll("#caseAnswers .ans").forEach(y=>y.disabled=true);
+        successSound();b.classList.add("correct","glowSuccess");
+        e.innerHTML='<b>Юридический вывод выбран верно.</b> Теперь откройте полный разбор и сравните его со своей формулировкой.';
+        if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];
+        if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);
+        save();updateProgress()
+      }else{
+        errorSound();b.disabled=true;b.classList.add("wrong","shake");setTimeout(()=>b.classList.remove("shake"),350);
+        e.innerHTML='<b>Этот вывод не раскрывает главный конституционный конфликт.</b> Попробуйте другой вариант.'
+      }
+    };
+    a.appendChild(b)
+  });
+  document.getElementById("revealCaseBtn").onclick=()=>{
+    const e=document.getElementById("caseExplain");e.style.display="block";
+    const hypothesis=(document.getElementById("caseHypothesis").value||"").trim();
+    e.innerHTML='<b>Полный разбор.</b> '+c.why+'<br><br><b>Правовое основание:</b> '+c.refs+(hypothesis?'<br><br><b>Ваша гипотеза:</b> '+hypothesis:"");
+  };
+  const prev=document.getElementById("prevCaseBtn"),next=document.getElementById("nextCaseBtn");
+  prev.disabled=caseIndex===0;next.disabled=caseIndex>=bank.length-1;
+  prev.onclick=()=>{if(caseIndex>0){caseIndex--;renderCases()}};
+  next.onclick=()=>{if(caseIndex<bank.length-1){caseIndex++;renderCases()}};
+  if(already){const e=document.getElementById("caseExplain");e.style.display="block";e.innerHTML='<b>Этот кейс уже пройден.</b> Можно разобрать его повторно или сразу открыть полный анализ.'}
+  bindRipple()
 }
 function renderCheck(){
   const bank=checkBank[currentModule]||[],panel=document.getElementById('panel');
