@@ -440,10 +440,32 @@ function bindCarousel(){
   const viewport=document.getElementById("carouselViewport");if(!viewport)return;
   document.getElementById("carouselPrev").onclick=()=>setCarousel(carouselIndex-1);
   document.getElementById("carouselNext").onclick=()=>setCarousel(carouselIndex+1);
-  viewport.onpointerdown=e=>{carouselDrag={x:e.clientX,left:viewport.scrollLeft};viewport.setPointerCapture?.(e.pointerId)};
-  viewport.onpointermove=e=>{if(!carouselDrag)return;viewport.scrollLeft=carouselDrag.left-(e.clientX-carouselDrag.x)};
-  viewport.onpointerup=e=>{if(!carouselDrag)return;const dx=e.clientX-carouselDrag.x;carouselDrag=null;if(Math.abs(dx)>45)setCarousel(carouselIndex+(dx<0?1:-1));else setCarousel(carouselIndex)};
-  viewport.onpointercancel=()=>{carouselDrag=null;setCarousel(carouselIndex)};
+
+  const isInteractive=el=>!!el?.closest?.("button,a,input,textarea,select,label,[role='button']");
+
+  viewport.onpointerdown=e=>{
+    if(isInteractive(e.target)){carouselDrag=null;return}
+    carouselDrag={x:e.clientX,left:viewport.scrollLeft,pointerId:e.pointerId,moved:false};
+    viewport.setPointerCapture?.(e.pointerId)
+  };
+  viewport.onpointermove=e=>{
+    if(!carouselDrag)return;
+    const dx=e.clientX-carouselDrag.x;
+    if(Math.abs(dx)>6)carouselDrag.moved=true;
+    viewport.scrollLeft=carouselDrag.left-dx
+  };
+  viewport.onpointerup=e=>{
+    if(!carouselDrag)return;
+    const dx=e.clientX-carouselDrag.x,moved=carouselDrag.moved;
+    try{viewport.releasePointerCapture?.(carouselDrag.pointerId)}catch(_){}
+    carouselDrag=null;
+    if(moved&&Math.abs(dx)>45)setCarousel(carouselIndex+(dx<0?1:-1));
+    else setCarousel(carouselIndex)
+  };
+  viewport.onpointercancel=()=>{
+    if(carouselDrag){try{viewport.releasePointerCapture?.(carouselDrag.pointerId)}catch(_){}}
+    carouselDrag=null;setCarousel(carouselIndex)
+  };
 }
 function renderHome(){
   currentModule=null;
