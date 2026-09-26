@@ -2825,3 +2825,257 @@ body.modalOpen{overflow:hidden}
     transition:none!important
   }
 }
+
+
+/* ===== COURSE STRIP V4: AMBIENT CHAPTER ART + FULL-WIDTH TABS ===== */
+.courseWorkspace{
+  grid-template-rows:104px 44px minmax(0,1fr)!important;
+  gap:7px!important;
+}
+.courseHead{
+  grid-template-columns:minmax(0,1.4fr) minmax(300px,.82fr) minmax(260px,.7fr)!important;
+  min-height:104px!important;
+  gap:10px!important;
+}
+.courseTitle,
+.courseChapterVisual,
+.courseProgress{
+  min-height:104px!important;
+  border-radius:20px!important;
+}
+.courseTitle{
+  padding:14px 18px!important;
+  gap:4px!important;
+}
+.courseTitle .eyebrow{
+  min-height:23px!important;
+  font-size:8.8px!important;
+}
+.courseTitle h2{
+  font-size:clamp(24px,1.7vw,31px)!important;
+}
+.courseTitle p{
+  font-size:11.5px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* center card is now pure ambient chapter art */
+.courseChapterVisual.chapterScene{
+  position:relative!important;
+  height:104px!important;
+  min-height:104px!important;
+  cursor:default!important;
+  transform:none!important;
+  outline:none!important;
+  background:
+    linear-gradient(135deg,rgba(241,246,255,.98),rgba(255,244,250,.98))!important;
+  overflow:hidden!important;
+}
+.courseChapterVisual.chapterScene:hover{
+  transform:none!important;
+}
+.courseChapterVisual.chapterScene .visualGlow,
+.courseChapterVisual.chapterScene .visualNode,
+.courseChapterVisual.chapterScene .visualLine,
+.courseChapterVisual.chapterScene .visualBadge,
+.courseChapterVisual.chapterScene .visualCore,
+.courseChapterVisual.chapterScene .visualCaption,
+.courseChapterVisual.chapterScene .visualMeta,
+.courseChapterVisual.chapterScene .visualAction{
+  display:none!important;
+}
+.sceneAura{
+  position:absolute;
+  width:150px;height:150px;border-radius:50%;
+  filter:blur(26px);opacity:.20;pointer-events:none
+}
+.sceneAura.auraA{
+  left:-38px;top:-48px;
+  background:radial-gradient(circle,rgba(36,107,253,.58),transparent 66%);
+  animation:sceneAuraA 8s ease-in-out infinite
+}
+.sceneAura.auraB{
+  right:-40px;bottom:-56px;
+  background:radial-gradient(circle,rgba(255,79,163,.52),transparent 66%);
+  animation:sceneAuraB 9s ease-in-out infinite
+}
+.sceneCore{
+  position:absolute;left:50%;top:50%;z-index:5;
+  transform:translate(-50%,-50%);
+  width:54px;height:54px;border-radius:17px;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(204,217,244,.96);
+  color:#2b66ef;font-size:23px;font-weight:1000;
+  box-shadow:0 13px 28px rgba(49,78,151,.13);
+  animation:sceneCoreFloat 5.6s ease-in-out infinite
+}
+.sceneKicker{
+  position:absolute;left:13px;top:11px;z-index:6;
+  min-height:22px;padding:0 8px;border-radius:999px;
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(207,220,246,.9);
+  color:#6077aa;font-size:8px;font-weight:1000;
+  letter-spacing:.09em;text-transform:uppercase
+}
+.sceneLabel{
+  position:absolute;right:13px;top:13px;z-index:6;
+  max-width:43%;text-align:right;
+  color:#6e7ea5;font-size:9px;font-weight:1000;
+  letter-spacing:.11em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.sceneMeta{
+  position:absolute;left:13px;right:13px;bottom:10px;z-index:6;
+  color:#6a7ba2;font-size:9px;font-weight:800;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.sceneParticle{
+  position:absolute;z-index:3;
+  width:12px;height:12px;border-radius:50%;
+  background:linear-gradient(135deg,#4779ff,#ff5da3);
+  box-shadow:0 0 14px rgba(86,102,255,.16)
+}
+.sceneParticle.p1{left:12%;top:28%;animation:sceneParticle1 6.2s ease-in-out infinite}
+.sceneParticle.p2{left:25%;bottom:20%;animation:sceneParticle2 7.1s ease-in-out infinite}
+.sceneParticle.p3{right:24%;top:22%;animation:sceneParticle3 6.8s ease-in-out infinite}
+.sceneParticle.p4{right:11%;bottom:24%;animation:sceneParticle4 7.4s ease-in-out infinite}
+.sceneParticle.p5{left:46%;top:16%;width:8px;height:8px;opacity:.65;animation:sceneParticle5 6.4s ease-in-out infinite}
+.sceneRail{
+  position:absolute;z-index:2;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,rgba(59,105,244,.08),rgba(255,79,163,.34),rgba(59,105,244,.08));
+  opacity:.65;transform-origin:left center
+}
+.sceneRail.railA{left:14%;top:36%;width:34%;transform:rotate(8deg);animation:sceneRailPulse 6s ease-in-out infinite}
+.sceneRail.railB{right:14%;top:34%;width:31%;transform:rotate(-8deg);animation:sceneRailPulse 6.8s ease-in-out infinite reverse}
+.sceneRail.railC{left:56%;bottom:24%;width:24%;transform:rotate(-9deg);animation:sceneRailPulse 7.2s ease-in-out infinite}
+
+/* Different visual personalities */
+.scene-preamble .sceneParticle{border-radius:50%}
+.scene-foundations .sceneRail{height:3px}
+.scene-rights .sceneCore{color:#e74691}
+.scene-rights .sceneAura.auraB{opacity:.28}
+.scene-federal .sceneParticle{border-radius:4px}
+.scene-president .sceneParticle.p5{width:10px;height:10px}
+.scene-assembly .sceneRail.railA,
+.scene-assembly .sceneRail.railB{width:28%}
+.scene-government .sceneParticle{border-radius:3px;width:11px;height:11px}
+.scene-justice .sceneRail{opacity:.42}
+.scene-municipal .sceneParticle{width:13px;height:10px;border-radius:3px 3px 6px 6px}
+.scene-amendments .sceneCore{animation:sceneCoreSpin 12s linear infinite}
+.scene-transition .sceneRail{height:3px}
+
+/* compact progress card */
+.courseProgress{
+  min-height:104px!important;
+  padding:12px 14px!important;
+  grid-template-rows:auto 8px auto 30px!important;
+  gap:7px!important;
+}
+.progressTopline b{font-size:22px!important}
+.progressLabel{font-size:9.8px!important}
+.progressMeta{
+  min-height:22px!important;
+  font-size:9.3px!important;
+}
+.progressAction{
+  min-height:30px!important;
+  font-size:8.8px!important;
+}
+
+/* fill the entire row with the 4 tabs */
+.tabs{
+  width:100%!important;
+  min-height:44px!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:8px!important;
+  align-items:stretch!important;
+}
+.tab{
+  width:100%!important;
+  min-width:0!important;
+  min-height:44px!important;
+  padding:0 12px!important;
+  border-radius:14px!important;
+  font-size:11px!important;
+}
+.tabIcon{
+  width:25px!important;height:25px!important;
+  flex:0 0 25px!important
+}
+
+/* motion */
+@keyframes sceneAuraA{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(16px,8px,0) scale(1.10)}
+}
+@keyframes sceneAuraB{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-14px,-7px,0) scale(1.08)}
+}
+@keyframes sceneCoreFloat{
+  0%,100%{transform:translate(-50%,-50%) translateY(0) rotate(0deg)}
+  50%{transform:translate(-50%,-50%) translateY(-4px) rotate(.8deg)}
+}
+@keyframes sceneCoreSpin{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes sceneParticle1{0%,100%{transform:translate(0,0)}50%{transform:translate(8px,-5px)}}
+@keyframes sceneParticle2{0%,100%{transform:translate(0,0)}50%{transform:translate(-7px,-5px)}}
+@keyframes sceneParticle3{0%,100%{transform:translate(0,0)}50%{transform:translate(6px,5px)}}
+@keyframes sceneParticle4{0%,100%{transform:translate(0,0)}50%{transform:translate(-6px,6px)}}
+@keyframes sceneParticle5{0%,100%{transform:translate(0,0);opacity:.5}50%{transform:translate(4px,7px);opacity:.95}}
+@keyframes sceneRailPulse{0%,100%{opacity:.28}50%{opacity:.72}}
+
+/* tablet keeps all 3 cards, but tighter */
+@media(min-width:768px) and (max-width:1180px){
+  .courseWorkspace{
+    grid-template-rows:92px 42px minmax(0,1fr)!important;
+    gap:6px!important
+  }
+  .courseHead{
+    grid-template-columns:minmax(0,1.18fr) minmax(190px,.74fr) minmax(190px,.7fr)!important;
+    min-height:92px!important;
+    gap:8px!important
+  }
+  .courseTitle,.courseChapterVisual,.courseProgress{min-height:92px!important}
+  .courseTitle{padding:11px 13px!important}
+  .courseTitle h2{font-size:21px!important}
+  .courseTitle p{font-size:9.8px!important}
+  .courseChapterVisual.chapterScene{height:92px!important;min-height:92px!important}
+  .sceneCore{width:46px;height:46px;font-size:19px!important}
+  .sceneKicker{display:none!important}
+  .sceneLabel{font-size:7.8px!important;max-width:48%!important}
+  .sceneMeta{font-size:7.8px!important}
+  .courseProgress{min-height:92px!important;padding:9px 10px!important;gap:5px!important;grid-template-rows:auto 6px auto 27px!important}
+  .progressTopline b{font-size:18px!important}
+  .progressMeta{font-size:8px!important}
+  .progressAction{min-height:27px!important;font-size:8px!important}
+  .tabs{gap:6px!important}
+  .tab{min-height:42px!important;font-size:10px!important;padding:0 8px!important}
+  .tabIcon{width:23px!important;height:23px!important;flex-basis:23px!important}
+}
+
+/* phone remains separate product */
+@media(max-width:767px){
+  .courseWorkspace{
+    grid-template-rows:48px minmax(0,1fr)!important;
+    gap:6px!important
+  }
+  .courseChapterVisual.chapterScene{display:none!important}
+  .tabs{display:none!important}
+}
+
+/* respect reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .chapterScene *,
+  .chapterScene{
+    animation:none!important;
+    transition:none!important
+  }
+}
