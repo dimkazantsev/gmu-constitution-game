@@ -2282,3 +2282,139 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   }
   .resetProgressBtn>span{display:none!important}
 }
+
+
+/* ===== HEADER HOTFIX: NEVER WRAP / NEVER OVERLAY CONTENT ===== */
+@media (min-width:1181px){
+  .top{
+    height:62px!important;
+    padding:0 14px!important;
+    display:grid!important;
+    grid-template-columns:minmax(250px,330px) minmax(420px,1fr) auto!important;
+    gap:10px!important;
+    align-items:center!important;
+    overflow:visible!important;
+  }
+  .stage{inset:62px 0 0!important}
+
+  .brand{
+    min-width:0!important;
+    max-width:330px!important;
+    overflow:hidden!important;
+  }
+  .brand>div:last-child{
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+  .brand b{
+    display:block!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .brand small{
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+
+  .topCenter{
+    min-width:0!important;
+    width:100%!important;
+  }
+  .topChapterNav{
+    width:100%!important;
+    max-width:700px!important;
+    margin:0 auto!important;
+    grid-template-columns:42px minmax(220px,1fr) 42px 88px!important;
+    gap:8px!important;
+  }
+  .topChapterNav .chapterPicker{
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+  .topChapterNav .chapterPickerLabel{
+    min-width:0!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+
+  .topActions{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    min-width:0!important;
+    gap:6px!important;
+    white-space:nowrap!important;
+  }
+  .topActions>*{
+    flex:0 0 auto!important;
+  }
+
+  .resetProgressBtn{
+    min-width:40px!important;
+    width:40px!important;
+    padding:0!important;
+    gap:0!important;
+    font-size:16px!important;
+  }
+  .resetProgressBtn>span{
+    display:none!important;
+  }
+
+  .topActions #soundBtn{
+    min-width:76px!important;
+    padding:0 10px!important;
+    font-size:10px!important;
+  }
+  .topActions .sourceBtn{
+    min-width:118px!important;
+    padding:0 11px!important;
+    font-size:10px!important;
+  }
+}
+
+/* 1366–1500 px: extra compact desktop header */
+@media (min-width:1181px) and (max-width:1500px){
+  .top{
+    grid-template-columns:minmax(230px,300px) minmax(390px,1fr) auto!important;
+  }
+  .topChapterNav{
+    max-width:650px!important;
+    grid-template-columns:40px minmax(210px,1fr) 40px 82px!important;
+  }
+  .topChapterNav .chapterPickerHint{
+    display:none!important;
+  }
+  .topActions #soundBtn{
+    width:40px!important;
+    min-width:40px!important;
+    padding:0!important;
+    font-size:0!important;
+  }
+  .topActions #soundBtn::before{
+    content:"🔊";
+    font-size:15px;
+  }
+  .topActions .sourceBtn{
+    width:72px!important;
+    min-width:72px!important;
+    padding:0 8px!important;
+    font-size:0!important;
+  }
+  .topActions .sourceBtn::before{
+    content:"Текст ↗";
+    font-size:9.5px;
+    font-weight:900;
+  }
+}
+
+/* Home hero must always begin below fixed header */
+.homeIntro{
+  min-width:0!important;
+}
+.homeShell{
+  min-height:0!important;
+}
