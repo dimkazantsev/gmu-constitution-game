@@ -2247,3 +2247,38 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
 @media(max-width:767px){
   .resetProgressBtn{display:none!important}
 }
+
+
+/* ===== RESET BUTTON: SINGLE-LINE HEADER CONTROL ===== */
+.resetProgressBtn{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:row!important;
+  min-width:104px!important;
+  width:auto!important;
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 13px!important;
+  gap:7px!important;
+  line-height:1!important;
+  border-radius:12px!important;
+}
+.resetProgressBtn>span{
+  display:inline!important;
+  font-size:10.5px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+.resetProgressBtn::first-letter{
+  font-size:16px;
+}
+@media(max-width:1180px){
+  .resetProgressBtn{
+    min-width:40px!important;
+    width:40px!important;
+    padding:0!important;
+    gap:0!important;
+  }
+  .resetProgressBtn>span{display:none!important}
+}
