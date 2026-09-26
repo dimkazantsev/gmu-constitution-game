@@ -2198,3 +2198,52 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
 @media (prefers-reduced-motion: reduce){
   .courseChapterVisual *{animation:none!important}
 }
+
+
+/* ===== CENTERED HEADER ARROWS + RESET BUTTON ===== */
+.topChapterNav .chapterArrow{
+  position:relative!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  line-height:1!important;
+  overflow:hidden!important;
+}
+.topChapterNav .chapterArrow span{
+  display:grid!important;
+  place-items:center!important;
+  width:100%!important;
+  height:100%!important;
+  font-size:19px!important;
+  line-height:1!important;
+  transform:translateY(-1px)!important;
+  pointer-events:none!important;
+}
+.topChapterNav .chapterArrow:not(:disabled):hover span{
+  transform:translateY(-1px) scale(1.08)!important;
+}
+.resetProgressBtn{
+  gap:6px!important;
+  white-space:nowrap!important;
+  background:linear-gradient(135deg,#f8faff,#fff6fa)!important;
+}
+.resetProgressBtn:hover{
+  border-color:#f0bfd4!important;
+  background:linear-gradient(135deg,#f3f7ff,#fff0f7)!important;
+}
+.resetProgressBtn span{
+  font-size:10px!important;
+  font-weight:900!important;
+}
+@media(max-width:1180px){
+  .resetProgressBtn span{display:none!important}
+  .resetProgressBtn{
+    width:38px!important;
+    min-width:38px!important;
+    padding:0!important;
+    font-size:16px!important;
+  }
+}
+@media(max-width:767px){
+  .resetProgressBtn{display:none!important}
+}
