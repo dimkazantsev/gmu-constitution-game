@@ -276,3 +276,296 @@ h1,h2,h3,h4,h5,p{margin:0}
 }
 @media(max-width:430px){.homeHeroActions{grid-template-columns:1fr}.practiceSteps{grid-template-columns:1fr}.articleHero h1{font-size:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.rippleFx,.confetti,.xpPop{display:none!important}}
+
+
+/* ==========================================================
+   V6.1 — NORMAL DOCUMENT SCROLL + FUNCTIONAL NAVIGATION
+   One vertical scroll for the page. Side rails stay visible.
+   ========================================================== */
+html{
+  height:auto;
+  min-height:100%;
+  overflow-x:hidden;
+  overflow-y:auto;
+  scroll-padding-top:128px;
+}
+body{
+  width:100%;
+  height:auto;
+  min-height:100vh;
+  overflow-x:hidden;
+  overflow-y:visible;
+}
+.stage{
+  position:relative;
+  inset:auto;
+  width:100%;
+  height:auto;
+  min-height:calc(100vh - 118px);
+  margin-top:118px;
+  overflow:visible;
+}
+.page{
+  position:relative;
+  inset:auto;
+  display:none;
+  width:100%;
+  min-height:calc(100vh - 118px);
+  height:auto;
+  opacity:1;
+  pointer-events:auto;
+}
+.page.active{
+  display:block;
+}
+.home,.course,
+.homeShell,.courseWorkspace{
+  height:auto;
+  min-height:calc(100vh - 118px);
+  overflow:visible;
+}
+.appGrid{
+  height:auto;
+  min-height:calc(100vh - 138px);
+  overflow:visible;
+  align-items:start;
+}
+.leftRail{
+  position:sticky;
+  top:128px;
+  height:calc(100vh - 138px);
+  max-height:calc(100vh - 138px);
+  align-self:start;
+}
+.rightRail{
+  position:sticky;
+  top:128px;
+  max-height:calc(100vh - 138px);
+  align-self:start;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:#b4c4d8 transparent;
+}
+.centerSurface,
+.homeCenter,
+.courseCenter,
+.panel{
+  height:auto;
+  min-height:calc(100vh - 138px);
+  overflow:visible;
+}
+.homeCenter{
+  overflow:visible;
+}
+.learningStudio,
+.reader,
+.readerBody{
+  height:auto;
+  min-height:calc(100vh - 138px);
+  overflow:visible;
+}
+.reader{
+  display:block;
+}
+.readerPane{
+  height:auto;
+  min-height:calc(100vh - 138px);
+  overflow:visible;
+}
+.articleChrome{
+  position:relative;
+  top:auto;
+}
+.schemeLab,
+.caseWorkbench,
+.coachWorkbench,
+.practice,
+.finish,
+.bossPanel{
+  height:auto;
+  min-height:calc(100vh - 138px);
+}
+.schemeWorkspace,
+.caseGrid,
+.coachGrid{
+  min-height:560px;
+}
+.caseBrief,.caseAnalysis,.coachSituation,.coachResponse{
+  min-height:520px;
+}
+.sideActionItem{
+  width:100%;
+  border:0;
+  cursor:pointer;
+  text-align:left;
+}
+.sideActionItem:hover{
+  background:#e9f1fb;
+}
+.mobileCourseNav{
+  display:none;
+}
+
+/* make every clickable card visually honest */
+.sideListItem{
+  transition:background .14s ease,transform .14s ease;
+}
+button.sideListItem:hover{
+  transform:translateY(-1px);
+}
+button.sideListItem:active{
+  transform:translateY(0);
+}
+
+/* keep fixed header from covering anchors */
+.plainArticles,.plainLife,.practiceApply,.practiceTimeline{
+  scroll-margin-top:128px;
+}
+
+@media(max-width:1280px) and (min-width:768px){
+  .stage{
+    margin-top:118px;
+    min-height:calc(100vh - 118px);
+  }
+  .page,.home,.course,.homeShell,.courseWorkspace{
+    min-height:calc(100vh - 118px);
+  }
+  .appGrid,
+  .centerSurface,.homeCenter,.courseCenter,.panel,
+  .learningStudio,.reader,.readerBody,.readerPane{
+    min-height:calc(100vh - 138px);
+  }
+  .leftRail{
+    top:128px;
+    height:calc(100vh - 138px);
+    max-height:calc(100vh - 138px);
+  }
+}
+
+@media(max-width:767px){
+  html{
+    scroll-padding-top:72px;
+  }
+  body{
+    min-height:100dvh;
+    overflow-y:auto;
+  }
+  .stage{
+    position:relative;
+    inset:auto;
+    margin-top:64px;
+    min-height:calc(100dvh - 64px);
+    height:auto;
+    overflow:visible;
+  }
+  .page{
+    min-height:calc(100dvh - 64px);
+    height:auto;
+    padding-bottom:74px;
+  }
+  .home,.course,.homeShell,.courseWorkspace{
+    min-height:calc(100dvh - 64px);
+    height:auto;
+  }
+  .appGrid{
+    display:block;
+    min-height:calc(100dvh - 78px);
+    height:auto;
+    overflow:visible;
+  }
+  .centerSurface,
+  .homeCenter,
+  .courseCenter,
+  .panel,
+  .learningStudio,
+  .reader,
+  .readerBody,
+  .readerPane{
+    min-height:calc(100dvh - 78px);
+    height:auto;
+    overflow:visible;
+  }
+  .leftRail{
+    position:static;
+    height:auto;
+    max-height:none;
+  }
+  .page.mobileRailOpen .leftRail{
+    position:fixed;
+    top:70px;
+    bottom:70px;
+    height:auto;
+    max-height:none;
+    overflow:hidden;
+  }
+  .page.mobileRailOpen .leftRailList{
+    overflow-y:auto;
+  }
+  .articleChrome{
+    position:relative;
+    top:auto;
+  }
+  .plainArticles,.plainLife,.practiceApply,.practiceTimeline{
+    scroll-margin-top:72px;
+  }
+  .schemeLab,
+  .caseWorkbench,
+  .coachWorkbench,
+  .practice,
+  .finish,
+  .bossPanel{
+    min-height:calc(100dvh - 142px);
+    height:auto;
+  }
+  .schemeWorkspace,.caseGrid,.coachGrid{
+    min-height:0;
+  }
+  .caseBrief,.caseAnalysis,.coachSituation,.coachResponse{
+    min-height:calc(100dvh - 210px);
+  }
+  .mobileCourseNav{
+    position:fixed;
+    z-index:115;
+    left:8px;
+    right:8px;
+    bottom:max(8px,env(safe-area-inset-bottom));
+    height:58px;
+    padding:4px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:4px;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:rgba(255,255,255,.98);
+    box-shadow:0 14px 34px rgba(5,39,74,.18);
+    backdrop-filter:blur(10px);
+  }
+  .mobileCourseBtn{
+    min-width:0;
+    border-radius:10px;
+    background:transparent;
+    color:#687a93;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
+  }
+  .mobileCourseBtn span{
+    font-size:12px;
+    line-height:1;
+    font-weight:900;
+  }
+  .mobileCourseBtn b{
+    max-width:100%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:8px;
+  }
+  .mobileCourseBtn.active{
+    background:#eaf3ff;
+    color:#0e5dbb;
+  }
+}
