@@ -726,3 +726,98 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .schemeToolbox{max-height:260px}
   .schemeChipPool{grid-template-columns:1fr 1fr}
 }
+
+
+/* ===== BALANCED COACH WORKBENCH ===== */
+.coachWorkbench{
+  height:100%;display:grid;grid-template-rows:58px minmax(0,1fr);gap:12px;padding:14px;
+  background:
+    radial-gradient(circle at 10% 12%,rgba(36,107,253,.06),transparent 24%),
+    radial-gradient(circle at 90% 88%,rgba(255,79,163,.06),transparent 25%)
+}
+.coachTopbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 4px}
+.coachTopbar .coachIdentity{display:flex;align-items:center;gap:10px}
+.coachTopbar .coachIdentity h3{font-size:20px}
+.coachTopbar .coachIdentity p{font-size:11px;color:var(--muted);margin-top:2px}
+.coachGrid{min-height:0;display:grid;grid-template-columns:.9fr 1.1fr;gap:12px}
+.coachSituation,.coachResponse{
+  min-height:0;border:1px solid var(--line);border-radius:20px;background:#fff;
+  box-shadow:0 14px 34px rgba(42,69,135,.06)
+}
+.coachSituation{
+  padding:18px;display:grid;grid-template-rows:auto auto auto auto 1fr;gap:13px;
+  background:
+    radial-gradient(circle at 88% 12%,rgba(255,79,163,.08),transparent 26%),
+    linear-gradient(145deg,#fff,#fbfcff)
+}
+.coachSituation .scenarioLabel{font-size:11px}
+.coachSituation .scenarioText{
+  font-size:clamp(20px,1.6vw,27px);line-height:1.35;letter-spacing:-.025em;margin:0
+}
+.coachSituation .scenarioScene{margin:0;gap:8px}
+.coachSituation .miniActor{font-size:11px;padding:7px 9px}
+.coachQuestionBox{
+  border:1px solid #dce5f7;border-radius:15px;background:linear-gradient(135deg,#f7faff,#fff8fb);
+  padding:13px 14px
+}
+.coachQuestionBox span{
+  display:block;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--pink);font-weight:1000
+}
+.coachQuestionBox h4{font-size:15px;line-height:1.38;margin-top:4px}
+.coachChecklist{align-self:end;border-top:1px solid var(--line);padding-top:12px}
+.coachChecklist>b{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#53658f}
+.coachChecklist>div{display:flex;align-items:center;gap:8px;font-size:11.5px;color:#4f5f86;margin-top:7px}
+.coachChecklist>div span{
+  width:23px;height:23px;border-radius:8px;background:linear-gradient(135deg,var(--soft),var(--softpink));
+  display:grid;place-items:center;font-size:10px;font-weight:1000;color:var(--blue)
+}
+
+.coachResponse{
+  padding:18px;display:grid;grid-template-rows:auto minmax(150px,220px) auto minmax(0,1fr);gap:12px
+}
+.coachResponseHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.coachResponseHead h4{font-size:17px;margin-top:3px}
+.coachNoArticle{
+  flex:0 0 auto;padding:6px 8px;border-radius:999px;background:#f5f8ff;border:1px solid var(--line);
+  font-size:9.5px;color:var(--muted);font-weight:900
+}
+.coachResponse .freeAnswer{
+  height:100%;min-height:150px;max-height:220px;font-size:14px;line-height:1.5;padding:13px 14px;
+  background:#fbfcff
+}
+.coachResponse .coachActions{display:flex;justify-content:flex-end;gap:8px}
+.coachResponse .coachActions .btn{min-width:150px}
+.coachResult{
+  display:block!important;min-height:0;border:1px solid var(--line);border-radius:15px;background:#fbfcff;
+  padding:12px 13px;overflow:auto
+}
+.coachResultPlaceholder{height:100%;min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#7886a7}
+.coachResultPlaceholder b{font-size:12px;color:#4e5f87}
+.coachResultPlaceholder span{font-size:10.5px;line-height:1.4;margin-top:4px;max-width:520px}
+.coachResultHead{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center}
+.coachResultHead .coachScore{font-size:46px;line-height:.95}
+.coachResultHead h4{font-size:14px;margin:0}
+.coachResultHead p{font-size:10.5px;line-height:1.4;color:var(--muted);margin-top:3px}
+.modelAnswer{padding:11px 12px}
+.modelAnswer>b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)}
+.modelAnswer p{font-size:12px!important;line-height:1.5!important;color:#43557f!important;margin-top:6px!important}
+.legalBase{
+  margin-top:10px;padding-top:9px;border-top:1px solid rgba(36,107,253,.12);
+  display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.legalBase span{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.legalBase b{font-size:11px}
+
+@media(max-width:1100px){
+  .coachGrid{grid-template-columns:1fr}
+  .coachSituation{display:none}
+  .coachResponse{grid-template-rows:auto minmax(160px,220px) auto minmax(0,1fr)}
+}
+@media(max-width:760px){
+  .coachWorkbench{padding:9px;grid-template-rows:50px minmax(0,1fr)}
+  .coachTopbar .coachIdentity p{display:none}
+  .coachResponse{padding:12px}
+  .coachResponseHead{display:block}.coachNoArticle{display:inline-flex;margin-top:7px}
+  .coachResponse .coachActions{display:grid;grid-template-columns:1fr 1fr}
+  .coachResponse .coachActions .btn{min-width:0}
+}
