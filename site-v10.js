@@ -45,6 +45,7 @@
   const overall = () => Math.round(chapters.reduce((s, c) => s + modulePct(c.id), 0) / chapters.length);
   const last = () => chapters.find(c => c.id === (lastLocation?.chapter ?? state.lastModule)) || chapters[1];
   const allTopics = () => chapters.reduce((n, c) => n + moduleInfo[c.id].blocks.length, 0);
+  const topicCount = n => n + ' ' + (n%100>=11&&n%100<=14?'тем':n%10===1?'тема':n%10>=2&&n%10<=4?'темы':'тем');
   const chapterFromArticle = num => chapterFor(num);
   const blockForArticle = (ch, id) => Math.max(0, moduleInfo[ch].blocks.findIndex(b => b[3].includes(id)));
   function setRoute() {
@@ -69,6 +70,7 @@
     $('#navPractice').onclick = () => openModule(last().id, 0, 'practice');
     $('#soundBtn').onclick = toggleSound;
     $('#searchTrigger').onclick = openSearch;
+    $('#searchTrigger kbd').textContent=/Mac|iPhone|iPad/.test(navigator.platform)?'⌘ K':'Ctrl K';
   }
   function buildShells() {
     $('.homeShell').innerHTML = '<div class="homeInner" id="homeMain"></div>';
@@ -172,6 +174,8 @@
     originalCoachRenderer();
     const orb=$('.aiOrb');if(orb)orb.innerHTML=icons.coach;
     $('#coachAnswer')?.setAttribute('aria-label','Ваш ответ на ситуацию');
+    const result=$('#coachResult');
+    if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Тренер ищет ключевые элементы ответа. Оценка ориентировочная: сравните свою аргументацию с разбором.</p>');
   };
   const originalCaseRenderer=renderCases;
   renderCases=function(){originalCaseRenderer();$('#caseHypothesis')?.setAttribute('aria-label','Ваша гипотеза о ситуации');};
@@ -246,7 +250,7 @@
       '<section class="studyStrip" aria-label="Возможности курса"><div class="studyStripIntro">Один текст.<br><b>Разные способы понять.</b></div><button data-feature="quote">'+icons.book+'<span>Читать статьи<small>Полный текст Конституции</small></span></button><button data-feature="official">'+icons.court+'<span>Разбирать практику<small>Дела Конституционного Суда</small></span></button><button data-feature="practice">'+icons.tasks+'<span>Проверять себя<small>Ситуации и задания</small></span></button></section>'+
       '<section class="contents" id="chaptersSection"><div class="sectionHeading"><div><span class="quietLabel">Содержание учебника</span><h2>Вся Конституция.<br>Глава за главой.</h2></div><p>Начните с основ или выберите то,<br>что интересно сейчас.</p></div>'+
       '<button class="introChapter" data-chapter="0"><span class="introSymbol">§</span><span><b>С чего всё начинается</b><small>Преамбула Конституции</small></span><span class="introDesc">'+moduleInfo[0].desc+'</span>'+icons.arrow+'</button>'+
-      '<div class="chapterIndex">'+chapterList.map(ch=>'<button class="chapterEntry" data-chapter="'+ch.id+'"><span class="entryNumber">'+number(ch)+'</span><span class="entryText"><small>'+range(ch)+'</small><h3>'+title(ch)+'</h3><span class="entryMeta">'+moduleInfo[ch.id].blocks.length+' тем'+(modulePct(ch.id)?'<i class="entryProgress">'+modulePct(ch.id)+'% пройдено</i>':'')+'</span></span><span class="entryArrow">'+icons.arrow+'</span></button>').join('')+'</div>'+
+      '<div class="chapterIndex">'+chapterList.map(ch=>'<button class="chapterEntry" data-chapter="'+ch.id+'"><span class="entryNumber">'+number(ch)+'</span><span class="entryText"><small>'+range(ch)+'</small><h3>'+title(ch)+'</h3><span class="entryMeta">'+topicCount(moduleInfo[ch.id].blocks.length)+' '+(modulePct(ch.id)?'<i class="entryProgress">'+modulePct(ch.id)+'% пройдено</i>':'')+'</span></span><span class="entryArrow">'+icons.arrow+'</span></button>').join('')+'</div>'+
       '<button class="introChapter outroChapter" data-chapter="10"><span class="introSymbol">II</span><span><b>Заключительные и переходные положения</b><small>Раздел второй · пункты 1–9</small></span>'+icons.arrow+'</button></section>'+
       '<section class="continueCard"><div class="continueIcon">'+icons.book+'</div><div><span class="quietLabel">Ваш маршрут</span><h2>'+(resume?'Продолжим с того же места?':'Первый шаг — понять основы.')+'</h2><p>'+(resume?title(c):'Начните с первой главы. Остальные можно открыть в любой момент.')+'</p></div><div class="continueAction"><span>'+pct+'% курса пройдено</span><button class="btn primary" id="resumeBottom">'+(resume?'Продолжить':'Открыть главу 1')+icons.arrow+'</button></div></section>'+
       '<footer class="siteFooter"><div><b>§ Конституция РФ</b><span>Учебный курс</span></div><a href="'+officialConstUrl+'" target="_blank" rel="noopener">Официальный текст'+icons.external+'</a><span>9 глав · '+allTopics()+' тем</span></footer>';
