@@ -449,3 +449,22 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .caseTask .story{font-size:18px}
   .scenarioText{font-size:18px}
 }
+
+.caseReasoning{display:grid;grid-template-columns:.78fr 1.22fr;gap:12px;min-height:0}
+.caseStep{
+  min-height:0;border:1px solid var(--line);border-radius:15px;background:#fff;padding:13px 14px;
+  display:grid;grid-template-rows:auto minmax(0,1fr);gap:9px
+}
+.caseStep>b{font-size:12px}
+.caseStep textarea{
+  width:100%;height:100%;min-height:104px;resize:none;border:1px solid var(--line);border-radius:12px;
+  background:#fbfcff;padding:11px 12px;font:inherit;font-size:12px;line-height:1.45;outline:none
+}
+.caseStep textarea:focus{background:#fff;border-color:#acc5ff;box-shadow:0 0 0 4px rgba(36,107,253,.06)}
+.caseStep .answers{align-content:start}
+.caseFooter{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.caseFooter .btn:disabled{opacity:.3;cursor:default}
+@media(max-width:900px){
+  .caseReasoning{grid-template-columns:1fr}
+  .caseFooter{align-items:stretch;flex-direction:column}
+}
