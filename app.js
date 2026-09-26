@@ -423,7 +423,7 @@ function renderChapterNavigator(){
   picker.onclick=()=>menu.classList.toggle("open");
 }
 
-let carouselIndex=0,carouselDrag=null;
+let carouselIndex=0,carouselDrag=null,carouselResizeObserver=null;
 function chapterArt(id){
   const arts={
     0:['#246BFD','#FF4FA3','M90 250 C155 165 250 160 325 225 C390 280 465 265 535 165','§','НАРОД'],
@@ -483,6 +483,18 @@ function bindCarousel(){
     if(carouselDrag){try{viewport.releasePointerCapture?.(carouselDrag.pointerId)}catch(_){}}
     carouselDrag=null;setCarousel(carouselIndex)
   };
+
+  viewport.tabIndex=0;
+  viewport.onkeydown=e=>{
+    if(e.key==="ArrowLeft"){e.preventDefault();setCarousel(carouselIndex-1)}
+    if(e.key==="ArrowRight"){e.preventDefault();setCarousel(carouselIndex+1)}
+  };
+
+  if(carouselResizeObserver)carouselResizeObserver.disconnect();
+  if("ResizeObserver" in window){
+    carouselResizeObserver=new ResizeObserver(()=>requestAnimationFrame(()=>setCarousel(carouselIndex,false)));
+    carouselResizeObserver.observe(viewport)
+  }
 }
 function renderHome(){
   currentModule=null;
