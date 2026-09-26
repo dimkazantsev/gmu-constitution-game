@@ -2418,3 +2418,58 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
 .homeShell{
   min-height:0!important;
 }
+
+
+/* ===== RESET MODAL — REMOVE FROM NORMAL PAGE FLOW ===== */
+.resetOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  place-items:center;
+  padding:20px;
+  background:rgba(16,35,79,.28);
+  backdrop-filter:blur(8px);
+}
+.resetOverlay[aria-hidden="false"]{
+  display:grid;
+}
+.resetDialog{
+  width:min(460px,calc(100vw - 32px));
+  border:1px solid rgba(203,216,243,.95);
+  border-radius:22px;
+  background:rgba(255,255,255,.98);
+  box-shadow:0 28px 90px rgba(23,42,88,.24);
+  padding:22px;
+  text-align:center;
+  animation:resetDialogIn .18s ease-out;
+}
+.resetIcon{
+  width:54px;height:54px;margin:0 auto 10px;border-radius:17px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--soft),var(--softpink));
+  color:var(--blue);font-size:24px;font-weight:1000
+}
+.resetDialog h3{font-size:20px;margin:0}
+.resetDialog p{
+  margin:8px auto 0;max-width:390px;
+  font-size:12px;line-height:1.5;color:var(--muted)
+}
+.resetDialogActions{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px
+}
+.resetDialogActions .btn{min-height:42px}
+.resetDanger{
+  border:0;border-radius:11px;
+  background:linear-gradient(135deg,#ff4f8d,#ff5a74);
+  color:#fff;font-weight:1000
+}
+body.modalOpen{overflow:hidden}
+@keyframes resetDialogIn{
+  from{opacity:0;transform:translateY(8px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+@media(max-width:560px){
+  .resetDialog{padding:18px;border-radius:18px}
+  .resetDialogActions{grid-template-columns:1fr}
+}
