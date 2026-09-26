@@ -277,19 +277,36 @@ function normalizeAnswer(v){return v.toLowerCase().replace(/ё/g,'е').replace(/
 function evaluateCoach(text,scenario){const n=normalizeAnswer(text),hits=scenario.keys.map(group=>group.some(k=>n.includes(normalizeAnswer(k))));return{score:Math.round(hits.filter(Boolean).length/hits.length*100),hits}}
 function coachLevelText(score){if(score>=90)return'Отлично: вы увидели почти всю конституционную конструкцию.';if(score>=65)return'Хорошо: основная проблема найдена, но ответ можно сделать точнее.';if(score>=35)return'Направление верное, но вы заметили не все ключевые элементы.';return'Пока слишком общо. Сравните ответ с разбором и попробуйте следующую ситуацию.'}
 function renderCoach(){
- const panel=document.getElementById('panel');if(!coachState.scenario){newCoachScenario();return}const c=coachState.scenario;
- panel.innerHTML='<div class="coach"><section class="coachMain"><div class="coachHead"><div class="coachIdentity"><div class="aiOrb">AI</div><div><h3>Ситуационный тренер</h3><p>Локальный генератор кейсов · свободный ответ · без угадывания номера статьи</p></div></div><div class="coachCounter">ситуация '+coachState.number+'</div></div>'+
- '<div class="scenarioCard"><div class="scenarioLabel">'+c.topic+'</div><div class="scenarioText">'+c.text+'</div><div class="scenarioScene">'+c.actors.map(a=>'<div class="miniActor"><i>'+a[0]+'</i>'+a[1]+'</div>').join('<span class="arrow">→</span>')+'</div></div>'+
- '<div class="answerComposer"><div><div class="coachAsk">'+c.question+'</div><textarea class="freeAnswer" id="coachAnswer" placeholder="Напишите своими словами: что нарушено, какой принцип или право затронуты, что следовало бы проверить…"></textarea></div><div class="coachActions"><div class="coachHint">Номер статьи писать не требуется.</div><div class="coachButtons"><button class="btn ghost rippleHost" onclick="newCoachScenario()">Другая ситуация</button><button class="btn primary rippleHost" onclick="submitCoach()">Разобрать ответ →</button></div></div></div>'+
- '<div class="coachResult" id="coachResult"></div></section><aside class="coachSide"><div><div class="eyebrow">Тренировка аргументации</div><h3>Не тест. Объясните.</h3><p>Оценка ищет смысловые элементы, а не точное совпадение фразы.</p></div><div><div class="ratingLabel">Игровой рейтинг</div><div class="ratingValue">'+rating()+'</div></div><div class="skillMeter"><div class="skill"><span>Практика</span><b>'+totalTaskDone()+'</b><div class="skillBar"><span style="width:'+Math.min(100,totalTaskDone()*8)+'%"></span></div></div><div class="skill"><span>Кейсы</span><b>'+totalCaseDone()+'</b><div class="skillBar"><span style="width:'+Math.min(100,totalCaseDone()*12)+'%"></span></div></div><div class="skill"><span>Свободные ответы</span><b>'+(state.coachSolved||0)+'</b><div class="skillBar"><span style="width:'+Math.min(100,(state.coachSolved||0)*10)+'%"></span></div></div></div><div class="coachFoot">Это локальный генератор, не облачная LLM: GitHub Pages не хранит API‑ключ. Сценарии комбинируются из проверенных конституционных конструкций.</div></aside></div>';
- bindRipple();setTimeout(()=>document.getElementById('coachAnswer')?.focus(),80)
+  const panel=document.getElementById("panel");
+  if(!coachState.scenario){newCoachScenario();return}
+  const c=coachState.scenario;
+  panel.innerHTML='<div class="coachWorkbench">'+
+    '<div class="coachTopbar"><div class="coachIdentity"><div class="aiOrb">AI</div><div><h3>Ситуационный тренер</h3><p>Свободный ответ · жизненная ситуация · разбор аргументации</p></div></div><div class="coachCounter">Ситуация '+coachState.number+'</div></div>'+
+    '<div class="coachGrid">'+
+      '<section class="coachSituation">'+
+        '<div class="scenarioLabel">'+c.topic+'</div>'+
+        '<div class="scenarioText">'+c.text+'</div>'+
+        '<div class="scenarioScene">'+c.actors.map(a=>'<div class="miniActor"><i>'+a[0]+'</i>'+a[1]+'</div>').join('<span class="arrow">→</span>')+'</div>'+
+        '<div class="coachQuestionBox"><span>Вопрос</span><h4>'+c.question+'</h4></div>'+
+        '<div class="coachChecklist"><b>Как рассуждать</b><div><span>1</span>Кто действует?</div><div><span>2</span>Какое право или принцип затронуты?</div><div><span>3</span>Что нужно проверить юридически?</div></div>'+
+      '</section>'+
+      '<section class="coachResponse">'+
+        '<div class="coachResponseHead"><div><span class="eyebrow">Ваш ответ</span><h4>Объясните ситуацию своими словами</h4></div><span class="coachNoArticle">Номер статьи не нужен</span></div>'+
+        '<textarea class="freeAnswer" id="coachAnswer" placeholder="Например: здесь затронуто право…, проблема состоит в том, что…, нужно проверить…"></textarea>'+
+        '<div class="coachActions"><button class="btn ghost rippleHost" onclick="newCoachScenario()">Другая ситуация</button><button class="btn primary rippleHost" onclick="submitCoach()">Разобрать ответ →</button></div>'+
+        '<div class="coachResult" id="coachResult"><div class="coachResultPlaceholder"><b>После ответа здесь появится разбор.</b><span>Вы увидите найденные смысловые элементы, сильный вариант ответа и правовое основание.</span></div></div>'+
+      '</section>'+
+    '</div>'+
+  '</div>';
+  bindRipple();
+  setTimeout(()=>document.getElementById("coachAnswer")?.focus(),80)
 }
 function submitCoach(){
  if(coachState.answered)return;const ta=document.getElementById('coachAnswer'),text=ta?.value.trim()||'';
  if(text.length<20){errorSound();ta?.classList.add('shake');setTimeout(()=>ta?.classList.remove('shake'),350);toast('Напишите хотя бы одно содержательное предложение');return}
  const c=coachState.scenario,res=evaluateCoach(text,c);coachState.answered=true;coachState.score=res.score;state.coachSolved=(state.coachSolved||0)+1;state.coachPoints=(state.coachPoints||0)+res.score;save();
  const box=document.getElementById('coachResult');box.classList.add('show');const chips=c.labels.map((lab,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+lab+'</span>').join('');
- box.innerHTML='<div class="coachScore">'+res.score+'%</div><h4>'+coachLevelText(res.score)+'</h4><div class="detected">'+chips+'</div><p>Оценка показывает, какие смысловые элементы удалось обнаружить. Это не юридическая экспертиза.</p><div class="modelAnswer"><b>Сильный вариант ответа:</b><br>'+c.model+'<br><br><b>Правовое основание:</b> '+c.refs+'</div><div class="coachButtons" style="margin-top:10px"><button class="btn primary rippleHost" onclick="newCoachScenario()">Следующая комбинация →</button></div>';
+ box.innerHTML='<div class="coachResultHead"><div class="coachScore">'+res.score+'%</div><div><h4>'+coachLevelText(res.score)+'</h4><p>Оценка показывает смысловые элементы, которые удалось обнаружить в вашем ответе.</p></div></div><div class="detected">'+chips+'</div><div class="modelAnswer"><b>Сильный вариант ответа</b><p>'+c.model+'</p><div class="legalBase"><span>Правовое основание</span><b>'+c.refs+'</b></div></div><div class="coachButtons" style="margin-top:10px"><button class="btn primary rippleHost" onclick="newCoachScenario()">Следующая ситуация →</button></div>';
  ta.disabled=true;if(res.score>=65){successSound();confetti(box);xpPop(Math.max(20,Math.round(res.score/2)),box)}else errorSound();renderChapterNavigator();bindRipple()
 }
 const saved=JSON.parse(localStorage.getItem('gmu_const_v7')||localStorage.getItem('gmu_const_v6')||'{}');
