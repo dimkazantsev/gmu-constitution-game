@@ -1197,3 +1197,38 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
     grid-template-rows:auto minmax(320px,1fr)!important;
   }
 }
+
+
+/* ===== ALIGN CHAPTER PROGRESS TO RIGHT EDGE ===== */
+.chapterNavigator{
+  grid-template-columns:44px minmax(320px,600px) 44px 96px minmax(0,1fr)!important;
+}
+.chapterNavigator .courseProgress{
+  justify-self:end!important;
+  width:320px!important;
+  max-width:100%!important;
+  margin-left:auto!important;
+}
+.chapterNavigator .courseProgress .pTop{
+  padding:0 2px!important;
+}
+.chapterNavigator .courseProgress .bar{
+  width:100%!important;
+}
+
+@media(max-width:1400px){
+  .chapterNavigator{
+    grid-template-columns:42px minmax(280px,520px) 42px 92px minmax(0,1fr)!important;
+  }
+  .chapterNavigator .courseProgress{
+    width:280px!important;
+  }
+}
+@media(max-width:1100px){
+  .chapterNavigator{
+    grid-template-columns:40px minmax(240px,1fr) 40px 86px 220px!important;
+  }
+  .chapterNavigator .courseProgress{
+    width:220px!important;
+  }
+}
