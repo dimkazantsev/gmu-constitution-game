@@ -596,38 +596,47 @@ function showHome(){
 }
 
 function renderCourseChapterVisual(id){
-  const el=document.getElementById("courseChapterVisual");if(!el)return;
+  const el=document.getElementById("courseChapterVisual");
+  if(!el)return;
+
   const scenes={
-    0:{icon:"§",label:"Преамбула",shape:"rings"},
-    1:{icon:"⚖",label:"Баланс власти",shape:"balance"},
-    2:{icon:"♥",label:"Права и свободы",shape:"pulse"},
-    3:{icon:"◇",label:"Федерация",shape:"federal"},
-    4:{icon:"◎",label:"Президент",shape:"orbit"},
-    5:{icon:"▥",label:"Парламент",shape:"chambers"},
-    6:{icon:"▦",label:"Правительство",shape:"steps"},
-    7:{icon:"⚖",label:"Правосудие",shape:"columns"},
-    8:{icon:"⌂",label:"Самоуправление",shape:"homes"},
-    9:{icon:"↻",label:"Поправки",shape:"cycle"},
-    10:{icon:"II",label:"Переход",shape:"bridge"}
+    0:{icon:"§",label:"Учредительная воля",meta:"Народ · ценности · легитимность",shape:"preamble"},
+    1:{icon:"⚖",label:"Архитектура государства",meta:"Народ · власть · пределы власти",shape:"foundations"},
+    2:{icon:"♥",label:"Пространство прав",meta:"Человек · достоинство · защита",shape:"rights"},
+    3:{icon:"◇",label:"Федеральные связи",meta:"Федерация · субъекты · полномочия",shape:"federal"},
+    4:{icon:"◎",label:"Президентский узел",meta:"Глава государства · координация · гарантии",shape:"president"},
+    5:{icon:"▥",label:"Парламентский контур",meta:"Две палаты · представительство · закон",shape:"assembly"},
+    6:{icon:"▦",label:"Исполнительный контур",meta:"Управление · исполнение · ответственность",shape:"government"},
+    7:{icon:"⚖",label:"Контур правосудия",meta:"Суд · независимость · законность",shape:"justice"},
+    8:{icon:"⌂",label:"Уровень сообщества",meta:"Население · территория · местные вопросы",shape:"municipal"},
+    9:{icon:"↻",label:"Механизм изменения",meta:"Стабильность · поправки · пересмотр",shape:"amendments"},
+    10:{icon:"II",label:"Правовая преемственность",meta:"Переход · непрерывность · ввод в действие",shape:"transition"}
   };
+
   const sc=scenes[id]||scenes[0];
-  el.className="courseChapterVisual visual-"+sc.shape;
-  const blockCount=moduleInfo[id]?.blocks?.length||0;
-  const caseCount=caseBank[id]?.length||0;
-  el.removeAttribute("aria-hidden");
-  el.setAttribute("role","button");
-  el.setAttribute("tabindex","0");
-  el.setAttribute("aria-label","Открыть интерактивную схему главы");
-  el.onclick=()=>switchTab("scheme");
-  el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();switchTab("scheme")}};
-  el.innerHTML='<div class="visualGlow g1"></div><div class="visualGlow g2"></div>'+
-    '<div class="visualNode n1"></div><div class="visualNode n2"></div><div class="visualNode n3"></div>'+
-    '<div class="visualLine l1"></div><div class="visualLine l2"></div>'+
-    '<div class="visualBadge">Живая схема</div>'+
-    '<div class="visualCore">'+sc.icon+'</div>'+
-    '<div class="visualCaption">'+sc.label+'</div>'+
-    '<div class="visualMeta">'+blockCount+' блока · '+caseCount+' кейс'+(caseCount===1?'':'а')+'</div>'+
-    '<div class="visualAction">Открыть схему →</div>';
+  el.className="courseChapterVisual chapterScene scene-"+sc.shape;
+  el.setAttribute("aria-hidden","true");
+  el.removeAttribute("role");
+  el.removeAttribute("tabindex");
+  el.removeAttribute("aria-label");
+  el.onclick=null;
+  el.onkeydown=null;
+
+  el.innerHTML=
+    '<div class="sceneAura auraA"></div>'+
+    '<div class="sceneAura auraB"></div>'+
+    '<div class="sceneRail railA"></div>'+
+    '<div class="sceneRail railB"></div>'+
+    '<div class="sceneRail railC"></div>'+
+    '<div class="sceneParticle p1"></div>'+
+    '<div class="sceneParticle p2"></div>'+
+    '<div class="sceneParticle p3"></div>'+
+    '<div class="sceneParticle p4"></div>'+
+    '<div class="sceneParticle p5"></div>'+
+    '<div class="sceneCore">'+sc.icon+'</div>'+
+    '<div class="sceneKicker">Смысл главы</div>'+
+    '<div class="sceneLabel">'+sc.label+'</div>'+
+    '<div class="sceneMeta">'+sc.meta+'</div>';
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
