@@ -627,7 +627,7 @@ function showHome(){
 
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
-  mobileLearnMode="meaning";mobileCaseStep="situation";mobileCoachStep="situation";
+  mobileLearnMode="quote";mobileCaseStep="situation";mobileCoachStep="situation";
   coachState={scenario:null,number:0,answered:false,score:0};
   const ch=chapters.find(x=>x.id===id);
   document.getElementById("crumb").textContent=mLabel(id)+" · "+ch.name;
@@ -697,8 +697,16 @@ function articlePlainText(id){
   const text=constitutionFullText[id]||"";
   return escHtml(text).replace(/\n/g,"<br>")
 }
+function officialSourceForIds(ids){
+  if(currentModule===2){
+    const nums=ids.filter(id=>id[0]==="a").map(id=>parseFloat(id.slice(1))).filter(Number.isFinite);
+    if(nums.length&&Math.max(...nums)<=39)return "https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_1.php";
+    if(nums.length&&Math.min(...nums)>=40)return "https://www.ksrf.ru/about/legalbases/ConstitutionRF/Chapter2_2.php";
+  }
+  return officialConstitutionUrls[currentModule]||officialConstUrl
+}
 function fullArticleCards(ids){
-  const source=officialConstitutionUrls[currentModule]||officialConstitutionUrls[0];
+  const source=officialSourceForIds(ids);
   return ids.map(id=>{
     const body=constitutionFullText[id];
     if(!body)return "";
@@ -878,7 +886,7 @@ function renderLearn(){
       '<div class="readerTabs"><button class="readerTab" data-mode="quote">Полный текст</button><button class="readerTab" data-mode="meaning">Смысл</button><button class="readerTab" data-mode="official">Практика КС РФ</button></div>'+
       '<div class="readerBody">'+
         '<article class="readerPane paneMeaning"><div class="readerPaneContent">'+expandedMeaning(meta,bl,ids)+'</div></article>'+
-        '<article class="readerPane paneQuote"><div class="readerPaneIntro"><div><span>Без сокращений</span><h4>'+escHtml(bl[2])+' · статьи приведены полностью</h4></div><a class="sourceChip" target="_blank" rel="noopener" href="'+(officialConstitutionUrls[currentModule]||officialConstUrl)+'">Официальный текст главы ↗</a></div><div class="fullArticles">'+fullArticleCards(ids)+'</div></article>'+
+        '<article class="readerPane paneQuote"><div class="readerPaneIntro"><div><span>Без сокращений</span><h4>'+escHtml(bl[2])+' · статьи приведены полностью</h4></div><a class="sourceChip" target="_blank" rel="noopener" href="'+officialSourceForIds(ids)+'">Официальный текст главы ↗</a></div><div class="fullArticles">'+fullArticleCards(ids)+'</div></article>'+
         '<article class="readerPane paneOfficial"><div class="readerPaneContent">'+expandedOfficial(meta,bl,ids)+'</div><div class="sourceRow">'+officialLinks+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ ↗</a></div></article>'+
       '</div>'+
       '<footer class="readerFooter"><div><button class="btn ghost" id="prevTopicBottom">← Предыдущая тема</button><button class="btn ghost" id="nextTopicBottom">Следующая тема →</button></div><div><button class="btn ghost" id="schemeBottom">Перейти к схеме</button><button class="btn primary" id="caseBottom">К кейсам →</button></div></footer>'+
