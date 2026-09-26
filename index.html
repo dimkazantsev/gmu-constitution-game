@@ -1,297 +1,79 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>ГМУ · Конституция РФ — интерактивный тренажёр</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ГМУ · Конституция РФ — курс по разделам</title>
 <style>
-  :root{
-    --bg:#070A10; --panel:#0E1420; --panel2:#121B2A; --ink:#F5F7FB; --muted:#8F9DB0;
-    --line:rgba(255,255,255,.09); --cyan:#33E6D0; --lime:#C8FF5A; --violet:#A77BFF; --red:#FF6B7A;
-    --shadow:0 28px 80px rgba(0,0,0,.38); --r:24px;
-  }
-  *{box-sizing:border-box} html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif}
-  body{letter-spacing:-.01em}
-  button,input{font:inherit}
-  button{color:inherit}
-  .noise{position:fixed;inset:0;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E")}
-  .orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.12;pointer-events:none;animation:float 12s ease-in-out infinite alternate}.o1{width:460px;height:460px;background:var(--violet);left:-120px;top:-160px}.o2{width:540px;height:540px;background:var(--cyan);right:-170px;bottom:-240px;animation-delay:-4s}.o3{width:320px;height:320px;background:var(--lime);left:44%;top:35%;opacity:.05;animation-delay:-7s}@keyframes float{to{transform:translate3d(50px,30px,0) scale(1.12)}}
-  #app{position:relative;width:100%;height:100%;overflow:hidden}
-  .topbar{position:fixed;z-index:50;top:0;left:0;right:0;height:78px;background:#090E17;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:24px;padding:0 26px;box-shadow:0 10px 40px rgba(0,0,0,.24)}
-  .brand{display:flex;align-items:center;gap:12px;min-width:260px}.brandMark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--violet));box-shadow:0 0 34px rgba(51,230,208,.24);position:relative}.brandMark:after{content:"§";position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:#071019;font-size:23px}.brand b{font-size:15px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
-  nav{display:flex;gap:6px;flex:1;justify-content:center}.navBtn{border:0;background:transparent;color:#AAB6C6;padding:10px 13px;border-radius:11px;cursor:pointer;transition:.25s}.navBtn:hover{background:rgba(255,255,255,.05);color:white}.navBtn.active{background:#151F2E;color:white;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
-  .topStats{display:flex;align-items:center;gap:10px;min-width:260px;justify-content:flex-end}.pill{height:38px;padding:0 13px;border-radius:12px;border:1px solid var(--line);background:#0E1622;display:flex;align-items:center;gap:8px;color:#C8D1DE;font-size:12px}.dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px rgba(51,230,208,.75)}
-  .viewport{position:absolute;inset:78px 0 0 0;overflow:hidden}.track{height:100%;display:flex;transition:transform .68s cubic-bezier(.2,.8,.18,1);will-change:transform}.screen{height:100%;min-width:100vw;padding:28px 30px 24px;position:relative;overflow:hidden}.screenInner{height:100%;max-width:1680px;margin:auto;display:grid;gap:18px}
-  h1,h2,h3,p{margin:0}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-weight:800;font-size:11px;color:var(--cyan)}
-  .hero{grid-template-columns:1.2fr .8fr;align-items:stretch}.heroLeft,.heroRight,.panel{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,rgba(18,27,42,.96),rgba(12,18,28,.96));box-shadow:var(--shadow);overflow:hidden;position:relative}
-  .heroLeft{padding:34px;display:flex;flex-direction:column;justify-content:space-between}.heroLeft h1{font-size:clamp(48px,6vw,96px);line-height:.88;letter-spacing:-.065em;max-width:1050px}.grad{background:linear-gradient(95deg,#fff 0%,#dffcff 44%,var(--cyan) 69%,var(--violet) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{font-size:17px;line-height:1.55;color:#B7C2D1;max-width:820px;margin-top:20px}
-  .heroActions{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:800;cursor:pointer;transition:.25s;display:inline-flex;gap:9px;align-items:center;justify-content:center}.btnPrimary{background:var(--lime);color:#10140A}.btnPrimary:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(200,255,90,.18)}.btnGhost{background:#172232;border:1px solid var(--line);color:white}.btnGhost:hover{background:#1D2B3E}.btnDanger{background:rgba(255,107,122,.12);color:#ff9fab;border:1px solid rgba(255,107,122,.2)}
-  .heroRight{padding:22px;display:grid;grid-template-rows:auto 1fr auto}.coverageRing{width:min(38vh,300px);aspect-ratio:1;margin:auto;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--cyan) calc(var(--pct)*1%),#1A2432 0);position:relative;filter:drop-shadow(0 0 30px rgba(51,230,208,.12))}.coverageRing:before{content:"";position:absolute;inset:17px;border-radius:50%;background:#0C131F;border:1px solid var(--line)}.ringText{position:relative;text-align:center}.ringText strong{font-size:56px;letter-spacing:-.06em}.ringText span{display:block;color:var(--muted);font-size:12px;margin-top:5px}.miniMetrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{background:#0B121C;border:1px solid var(--line);border-radius:15px;padding:13px}.metric b{font-size:24px}.metric span{display:block;color:var(--muted);font-size:10px;margin-top:3px}
-  .kbd{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 7px;border:1px solid rgba(255,255,255,.13);border-bottom-color:rgba(255,255,255,.24);border-radius:7px;background:#121B28;color:#D9E1EB;font-size:11px}
-  .hintline{color:var(--muted);font-size:12px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-  .sectionHead{display:flex;justify-content:space-between;align-items:end}.sectionHead h2{font-size:clamp(28px,3.2vw,48px);letter-spacing:-.045em}.sectionHead p{color:var(--muted);font-size:13px;max-width:560px;text-align:right;line-height:1.45}
-  .atlas{grid-template-rows:auto 1fr}.chapterRail{height:100%;display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:2px 2px 10px;scrollbar-width:none}.chapterRail::-webkit-scrollbar{display:none}.chapterCard{min-width:min(82vw,920px);scroll-snap-align:center;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:#0D151F;display:grid;grid-template-rows:auto 1fr auto;gap:16px;position:relative;overflow:hidden}.chapterCard:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-120px;top:-130px;background:var(--accent);filter:blur(80px);opacity:.12}.chapterTitle{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;position:relative;z-index:2}.chapterTitle h3{font-size:28px;letter-spacing:-.04em}.chapterTitle small{color:var(--muted);display:block;margin-top:6px}.chapterNum{font-weight:900;font-size:12px;color:#0B1119;background:var(--accent);padding:8px 10px;border-radius:9px}.articleGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));grid-auto-rows:minmax(45px,1fr);gap:7px;align-content:center;position:relative;z-index:2}.articleChip{border:1px solid var(--line);background:#111B28;color:#D6DFEA;border-radius:11px;cursor:pointer;font-weight:800;font-size:12px;transition:.18s;position:relative}.articleChip:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.25)}.articleChip.done{background:rgba(51,230,208,.12);border-color:rgba(51,230,208,.26);color:#AFFFF3}.articleChip.miss{box-shadow:inset 0 0 0 1px rgba(255,107,122,.35)}.articleChip.special{background:rgba(167,123,255,.12);color:#D9C7FF}.chapterFoot{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;position:relative;z-index:2}.railControls{display:flex;gap:8px}.iconBtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#111A26;cursor:pointer}.iconBtn:hover{background:#182434}
-  .trainer{grid-template-columns:1.1fr .9fr;grid-template-rows:auto 1fr}.trainer>.sectionHead{grid-column:1/-1}.questionBox,.sidePanel{border:1px solid var(--line);border-radius:var(--r);background:#0C141F;padding:24px;overflow:hidden}.questionBox{display:flex;flex-direction:column}.qMeta{display:flex;justify-content:space-between;gap:10px;align-items:center}.tag{display:inline-flex;padding:7px 10px;border-radius:999px;background:rgba(51,230,208,.1);color:#8BFFF0;border:1px solid rgba(51,230,208,.18);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.qCount{font-size:11px;color:var(--muted)}.questionText{font-size:clamp(24px,3vw,42px);line-height:1.06;letter-spacing:-.045em;margin:22px 0 18px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto}.answer{min-height:76px;border:1px solid var(--line);background:#121D2B;border-radius:16px;padding:13px 14px;cursor:pointer;text-align:left;display:flex;gap:11px;align-items:flex-start;transition:.18s}.answer:hover{background:#172536;transform:translateY(-1px)}.answer .letter{flex:0 0 28px;height:28px;border-radius:8px;background:#0A111A;display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--muted)}.answer span:last-child{font-size:13px;line-height:1.35}.answer.correct{border-color:rgba(51,230,208,.58);background:rgba(51,230,208,.12)}.answer.wrong{border-color:rgba(255,107,122,.6);background:rgba(255,107,122,.1)}.feedback{min-height:52px;margin-top:12px;border-radius:14px;border:1px solid var(--line);background:#09111A;padding:11px 13px;color:#B9C5D4;font-size:12px;line-height:1.42}.feedback strong{color:white}.sidePanel{display:grid;grid-template-rows:auto auto 1fr auto;gap:14px}.modeTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.modeBtn{border:1px solid var(--line);background:#111A26;padding:10px 8px;border-radius:11px;font-size:11px;cursor:pointer;color:#A8B5C6}.modeBtn.active{background:var(--violet);color:white;border-color:transparent}.bigStat{padding:18px;border-radius:18px;background:linear-gradient(135deg,#142133,#0E1723);border:1px solid var(--line)}.bigStat b{font-size:46px;letter-spacing:-.06em}.bigStat span{display:block;color:var(--muted);font-size:11px;margin-top:3px}.coverageMap{display:grid;grid-template-columns:repeat(16,1fr);gap:4px;align-content:start}.cDot{aspect-ratio:1;border-radius:4px;background:#1B2635;border:1px solid rgba(255,255,255,.04)}.cDot.done{background:var(--cyan)}.cDot.miss{background:var(--red)}.cDot.current{outline:2px solid var(--lime);outline-offset:1px}.trainerActions{display:flex;gap:8px}.trainerActions .btn{flex:1;padding:11px}
-  .cases{grid-template-rows:auto 1fr}.caseDeck{position:relative;height:100%;display:grid;place-items:center}.caseCard{position:absolute;width:min(1100px,82vw);height:min(560px,65vh);border-radius:30px;border:1px solid var(--line);background:linear-gradient(145deg,#111B29,#0C121C);box-shadow:0 30px 80px rgba(0,0,0,.42);padding:30px;display:grid;grid-template-columns:.86fr 1.14fr;gap:26px;transition:.5s cubic-bezier(.2,.8,.2,1)}.caseCard.offLeft{transform:translateX(-120%) rotate(-4deg);opacity:0}.caseCard.offRight{transform:translateX(120%) rotate(4deg);opacity:0}.caseNum{font-size:100px;letter-spacing:-.08em;line-height:.85;color:rgba(255,255,255,.08);font-weight:900}.caseLabel{color:var(--cyan);font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.12em}.caseCard h3{font-size:34px;letter-spacing:-.045em;margin:8px 0 12px}.caseCard p{color:#B5C1D0;font-size:15px;line-height:1.55}.casePrompt{background:#09111A;border:1px solid var(--line);border-radius:18px;padding:18px}.casePrompt b{font-size:12px;color:var(--lime)}.casePrompt p{margin-top:8px;font-size:13px}.caseBtns{display:flex;gap:8px;margin-top:14px}.caseControls{position:absolute;bottom:12px;display:flex;gap:10px;z-index:8}
-  .exam{grid-template-columns:.82fr 1.18fr;grid-template-rows:auto 1fr}.exam>.sectionHead{grid-column:1/-1}.examConfig,.examBoard{border:1px solid var(--line);border-radius:var(--r);background:#0D151F;padding:22px}.examConfig{display:grid;grid-template-rows:auto auto 1fr auto;gap:14px}.examConfig h3{font-size:26px}.examChoices{display:grid;gap:8px}.choice{padding:13px;border-radius:13px;background:#111B28;border:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;font-size:12px}.choice.active{border-color:rgba(200,255,90,.45);background:rgba(200,255,90,.08)}.examBoard{display:grid;place-items:center;position:relative;overflow:hidden}.examHero{text-align:center;max-width:620px}.examHero .scoreBig{font-size:clamp(76px,10vw,150px);font-weight:900;letter-spacing:-.08em;line-height:.8}.examHero h3{font-size:28px;margin:16px 0 8px}.examHero p{color:var(--muted);line-height:1.45;font-size:13px}.examProgress{position:absolute;left:22px;right:22px;top:22px;height:7px;background:#172232;border-radius:999px;overflow:hidden}.examProgress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--lime));transition:.3s}.examQ{display:none;width:100%;max-width:740px}.examQ.show{display:block}.examQ h3{font-size:30px;line-height:1.08;margin-bottom:18px}.examQ .answers{margin-top:0}
-  .modal{position:fixed;z-index:100;inset:0;background:rgba(2,5,10,.72);backdrop-filter:blur(12px);display:none;place-items:center;padding:28px}.modal.open{display:grid}.modalCard{width:min(900px,92vw);height:min(610px,82vh);border:1px solid var(--line);border-radius:28px;background:#0D151F;box-shadow:0 40px 120px rgba(0,0,0,.55);padding:26px;display:grid;grid-template-rows:auto auto 1fr auto;gap:16px;position:relative;overflow:hidden}.close{position:absolute;right:18px;top:18px}.modalHero{display:flex;gap:18px;align-items:flex-end}.modalNum{font-size:100px;font-weight:900;line-height:.78;letter-spacing:-.08em;color:var(--cyan)}.modalTitle h3{font-size:28px}.modalTitle small{color:var(--muted)}.themeBox{border:1px solid var(--line);background:#101A27;border-radius:18px;padding:16px}.themeBox b{font-size:11px;color:var(--lime);text-transform:uppercase;letter-spacing:.1em}.themeBox p{margin-top:8px;font-size:16px;line-height:1.42}.missions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mission{border:1px solid var(--line);background:#0A111A;border-radius:16px;padding:14px}.mission b{font-size:11px;color:#D7C9FF}.mission p{font-size:12px;color:#B2C0CF;line-height:1.4;margin-top:6px}.sourceRow{display:flex;gap:8px;align-items:center}.sourceRow a{color:#BDEAFF;text-decoration:none;font-size:11px;border:1px solid var(--line);padding:9px 11px;border-radius:10px;background:#111A27}.sourceRow a:hover{background:#182638}.toast{position:fixed;z-index:120;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#F5F7FB;color:#0A1018;padding:11px 15px;border-radius:12px;font-size:12px;font-weight:800;transition:.3s}.toast.show{opacity:1;transform:translate(-50%,0)}
-  .swipeDots{position:fixed;z-index:60;right:18px;top:50%;transform:translateY(-50%);display:grid;gap:7px}.sDot{width:6px;height:18px;border-radius:999px;background:#2A3544;transition:.3s}.sDot.active{height:34px;background:var(--cyan)}
-  @media(max-width:1050px){.topStats{display:none}.brand{min-width:auto}.hero,.trainer,.exam{grid-template-columns:1fr}.heroRight{display:none}.trainer>.sectionHead,.exam>.sectionHead{grid-column:1}.sidePanel,.examConfig{display:none}.navBtn{padding:9px}.navBtn span{display:none}.caseCard{grid-template-columns:1fr;height:min(600px,70vh)}.caseCard>div:first-child{display:none}.screen{padding:20px}.articleGrid{grid-template-columns:repeat(10,1fr)}}
-  @media(max-height:760px){.topbar{height:66px}.viewport{inset:66px 0 0}.screen{padding:18px 24px}.heroLeft{padding:26px}.heroLeft h1{font-size:64px}.lead{font-size:14px}.questionText{font-size:30px;margin:14px 0}.answer{min-height:62px}.feedback{min-height:44px}.chapterCard{padding:17px}.caseCard{height:520px;padding:22px}}
-
-  /* BLUE · PINK · WHITE — 2026 game theme */
-  :root{
-    --bg:#F4F7FF; --panel:#FFFFFF; --panel2:#F7F9FF; --ink:#11204A; --muted:#6C78A0;
-    --line:rgba(35,76,180,.13); --cyan:#246BFD; --lime:#FF4FA3; --violet:#7A5CFF; --red:#FF4F7A;
-    --blue:#246BFD; --pink:#FF4FA3; --navy:#11204A; --softBlue:#EAF1FF; --softPink:#FFF0F7;
-    --shadow:0 24px 70px rgba(40,72,150,.12);
-  }
-  html,body{background:
-    radial-gradient(circle at 12% 8%,rgba(36,107,253,.10),transparent 28%),
-    radial-gradient(circle at 88% 78%,rgba(255,79,163,.11),transparent 30%),
-    linear-gradient(135deg,#F9FBFF 0%,#F2F6FF 48%,#FFF7FB 100%);color:var(--ink)}
-  .noise{opacity:.018}.orb{opacity:.16;filter:blur(110px)}
-  .o1{background:var(--blue)}.o2{background:var(--pink)}.o3{background:#B8C7FF;opacity:.12}
-  .topbar{background:rgba(255,255,255,.96);border-bottom-color:rgba(36,107,253,.12);box-shadow:0 12px 36px rgba(42,72,145,.10);backdrop-filter:blur(18px)}
-  .brandMark{background:linear-gradient(135deg,var(--blue),var(--pink));box-shadow:0 8px 26px rgba(36,107,253,.22)}
-  .brandMark:after{color:white}.brand b{color:var(--navy)}.brand small{color:var(--muted)}
-  .navBtn{color:#7480A5}.navBtn:hover{background:var(--softBlue);color:var(--blue)}.navBtn.active{background:linear-gradient(135deg,#EAF1FF,#FFF0F7);color:var(--navy);box-shadow:inset 0 0 0 1px rgba(36,107,253,.10)}
-  .pill{background:white;color:var(--navy);box-shadow:0 8px 24px rgba(40,72,150,.06)}.dot{background:var(--pink);box-shadow:0 0 16px rgba(255,79,163,.45)}
-  .heroLeft,.heroRight,.panel,.chapterCard,.questionBox,.sidePanel,.caseCard,.examConfig,.examBoard,.modalCard{background:rgba(255,255,255,.94);border-color:rgba(36,107,253,.12);box-shadow:var(--shadow)}
-  .heroLeft:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;right:-190px;top:-210px;background:linear-gradient(135deg,rgba(36,107,253,.15),rgba(255,79,163,.15));filter:blur(10px)}
-  .heroLeft>*{position:relative;z-index:1}
-  .grad{background:linear-gradient(98deg,#11204A 0%,#246BFD 46%,#FF4FA3 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lead{color:#657197}.eyebrow{color:var(--blue)}
-  .btnPrimary{background:linear-gradient(135deg,var(--blue),#5C7CFF);color:white;box-shadow:0 12px 28px rgba(36,107,253,.20)}.btnPrimary:hover{box-shadow:0 16px 38px rgba(36,107,253,.28)}
-  .btnGhost{background:white;border-color:rgba(36,107,253,.15);color:var(--navy)}.btnGhost:hover{background:var(--softBlue)}
-  .btnDanger{background:var(--softPink);color:#D52E7E;border-color:rgba(255,79,163,.18)}
-  .coverageRing{background:conic-gradient(var(--blue) calc(var(--pct)*1%),#E9EEFA 0);filter:drop-shadow(0 18px 28px rgba(36,107,253,.12))}.coverageRing:before{background:white}.ringText strong{color:var(--navy)}
-  .metric{background:linear-gradient(180deg,#FFFFFF,#F7F9FF);border-color:rgba(36,107,253,.10)}.metric b{color:var(--navy)}
-  .kbd{background:white;color:var(--navy);border-color:rgba(36,107,253,.16)}
-  .chapterCard{background:rgba(255,255,255,.95)}.chapterNum{color:white;background:linear-gradient(135deg,var(--blue),var(--pink))}.articleChip{background:#F7F9FF;color:#43527D;border-color:rgba(36,107,253,.11)}.articleChip:hover{background:var(--softBlue);border-color:rgba(36,107,253,.26)}.articleChip.done{background:#EAF1FF;border-color:rgba(36,107,253,.28);color:#1452D1}.articleChip.miss{box-shadow:inset 0 0 0 1px rgba(255,79,163,.50)}.articleChip.special{background:#FFF0F7;color:#C32B78}
-  .iconBtn{background:white;color:var(--navy);border-color:rgba(36,107,253,.14)}.iconBtn:hover{background:var(--softBlue)}
-  .tag{background:#EAF1FF;color:#1755D5;border-color:rgba(36,107,253,.16)}
-  .answer{background:#F8FAFF;border-color:rgba(36,107,253,.12);color:var(--navy)}.answer:hover{background:#EEF4FF;border-color:rgba(36,107,253,.24)}.answer .letter{background:white;color:var(--blue);box-shadow:inset 0 0 0 1px rgba(36,107,253,.12)}.answer.correct{border-color:rgba(36,107,253,.55);background:#EAF1FF}.answer.wrong{border-color:rgba(255,79,163,.60);background:#FFF0F7}
-  .feedback{background:#F8FAFF;color:#637093;border-color:rgba(36,107,253,.11)}.feedback strong{color:var(--navy)}
-  .modeBtn{background:#F6F8FE!important;color:#7A85A8!important}.modeBtn.active{background:linear-gradient(135deg,#EAF1FF,#FFF0F7)!important;color:var(--navy)!important}
-  .bigStat,.casePrompt,.themeBox,.mission,.examHero{background:#F8FAFF!important;border-color:rgba(36,107,253,.11)!important;color:var(--navy)!important}
-  .cDot{background:#E6EBF6!important}.cDot.done{background:var(--blue)!important}.cDot.miss{background:var(--pink)!important}.cDot.current{box-shadow:0 0 0 3px rgba(122,92,255,.25)!important}
-  .caseNum,.scoreBig{background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .choice{background:#F8FAFF!important;border-color:rgba(36,107,253,.12)!important;color:var(--navy)!important}.choice.active{background:linear-gradient(135deg,#EAF1FF,#FFF0F7)!important;border-color:rgba(36,107,253,.28)!important}
-  .examProgress{background:#E9EEFA!important}.examProgress span{background:linear-gradient(90deg,var(--blue),var(--pink))!important}
-  .modal{background:rgba(17,32,74,.28)}.sourceRow a{color:var(--blue)!important}
-  .swipeDots button{background:#CDD6EC!important}.swipeDots button.active{background:linear-gradient(90deg,var(--blue),var(--pink))!important}
-
-  /* gamification */
-  .gameHud{display:grid;grid-template-columns:1.05fr .95fr;gap:10px;margin-top:10px}
-  .levelCard,.questCard{border:1px solid rgba(36,107,253,.12);border-radius:18px;background:linear-gradient(135deg,#F7FAFF 0%,#FFF7FB 100%);padding:14px;min-height:112px;position:relative;overflow:hidden}
-  .levelCard:after,.questCard:after{content:"";position:absolute;width:110px;height:110px;border-radius:50%;right:-45px;top:-48px;background:rgba(255,79,163,.10)}
-  .levelTop{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1}.levelBadge{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--pink));color:white;font-weight:1000;font-size:17px;box-shadow:0 10px 24px rgba(36,107,253,.18)}
-  .levelName{flex:1}.levelName small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em}.levelName b{display:block;margin-top:3px;font-size:15px}
-  .xpLine{height:8px;background:#E7ECF7;border-radius:999px;overflow:hidden;margin-top:13px;position:relative;z-index:1}.xpLine span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:inherit;transition:width .35s ease}
-  .xpMeta{display:flex;justify-content:space-between;margin-top:6px;color:var(--muted);font-size:10px;position:relative;z-index:1}
-  .questCard b{font-size:12px;position:relative;z-index:1}.questCard p{font-size:11px;color:var(--muted);line-height:1.35;margin-top:5px;position:relative;z-index:1}.questReward{display:inline-flex;margin-top:10px;padding:6px 8px;border-radius:9px;background:white;color:var(--pink);font-size:10px;font-weight:900;border:1px solid rgba(255,79,163,.15);position:relative;z-index:1}
-  .badgeShelf{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.achievement{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#F1F4FB;border:1px solid rgba(36,107,253,.10);filter:grayscale(1);opacity:.38;font-size:16px}.achievement.unlocked{filter:none;opacity:1;background:linear-gradient(135deg,#EAF1FF,#FFF0F7);box-shadow:0 8px 18px rgba(36,107,253,.09)}
-  .trainerGame{border:1px solid rgba(36,107,253,.11);border-radius:16px;padding:12px;background:linear-gradient(135deg,#F8FAFF,#FFF7FB)}.trainerGameTop{display:flex;justify-content:space-between;align-items:center}.trainerGameTop b{font-size:13px}.trainerGameTop span{font-size:11px;color:var(--pink);font-weight:900}.combo{display:flex;align-items:center;gap:7px;margin-top:7px;color:var(--muted);font-size:11px}.combo strong{color:var(--navy)}
-  .achievementPop{position:fixed;right:24px;top:92px;z-index:90;min-width:260px;max-width:340px;padding:15px 16px;border-radius:17px;background:white;border:1px solid rgba(36,107,253,.13);box-shadow:0 22px 58px rgba(40,72,150,.18);transform:translateY(-20px);opacity:0;pointer-events:none;transition:.32s ease}.achievementPop.show{transform:translateY(0);opacity:1}.achievementPop small{display:block;color:var(--pink);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.13em}.achievementPop b{display:block;color:var(--navy);margin-top:4px}.achievementPop span{display:block;color:var(--muted);font-size:11px;margin-top:3px;line-height:1.35}
-  .xpFloat{position:fixed;z-index:95;pointer-events:none;font-weight:1000;color:var(--pink);text-shadow:0 6px 18px rgba(255,79,163,.18);animation:xpFly .9s ease forwards}@keyframes xpFly{0%{transform:translateY(0) scale(.9);opacity:0}20%{opacity:1}100%{transform:translateY(-55px) scale(1.08);opacity:0}}
-  @media(max-width:1200px){.gameHud{grid-template-columns:1fr}.questCard{display:none}}
-  @media(max-height:820px){.gameHud{margin-top:6px}.levelCard{min-height:92px;padding:11px}.levelBadge{width:38px;height:38px}.badgeShelf{margin-top:5px}.achievement{width:30px;height:30px}}
-
-
-  /* CAMPAIGN MODE · chapter map + bosses */
-  .atlas{grid-template-rows:auto auto 1fr}
-  .chapterPath{
-    display:flex;align-items:center;gap:8px;overflow-x:auto;overflow-y:hidden;
-    padding:4px 2px 9px;scrollbar-width:none
-  }
-  .chapterPath::-webkit-scrollbar{display:none}
-  .levelNode{
-    flex:0 0 auto;min-width:112px;height:68px;border-radius:18px;border:1px solid rgba(36,107,253,.14);
-    background:white;color:var(--navy);padding:9px 11px;cursor:pointer;text-align:left;position:relative;
-    box-shadow:0 8px 24px rgba(40,72,150,.06);transition:.2s
-  }
-  .levelNode:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(40,72,150,.12)}
-  .levelNode .lnTop{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
-  .levelNode .lnTitle{display:block;margin-top:7px;font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .levelNode .lnBar{position:absolute;left:10px;right:10px;bottom:7px;height:4px;border-radius:99px;background:#E8EEFB;overflow:hidden}
-  .levelNode .lnBar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:99px}
-  .levelNode.current{outline:2px solid rgba(36,107,253,.26);outline-offset:2px}
-  .levelNode.complete{background:linear-gradient(135deg,#EEF4FF,#FFF0F7)}
-  .levelNode.bossed{background:linear-gradient(135deg,#EAF1FF,#FFE8F3);border-color:rgba(255,79,163,.24)}
-  .levelNode.locked{background:#F4F6FB;color:#98A1BA;cursor:not-allowed;box-shadow:none}
-  .levelNode.locked:hover{transform:none}
-  .levelNode.locked .lnBar span{background:#C9D1E1}
-  .chapterCard.locked{filter:saturate(.25);opacity:.74}
-  .chapterCard.locked .articleChip{cursor:not-allowed;pointer-events:none}
-  .chapterLock{
-    position:absolute;inset:0;z-index:4;display:grid;place-items:center;
-    background:linear-gradient(135deg,rgba(248,250,255,.68),rgba(255,245,250,.76));backdrop-filter:blur(3px)
-  }
-  .lockBadge{padding:12px 16px;border-radius:15px;background:white;border:1px solid rgba(36,107,253,.13);font-size:12px;font-weight:900;color:#7180A7;box-shadow:0 16px 35px rgba(40,72,150,.10)}
-  .chapterFoot{align-items:center}
-  .chapterFootRight{display:flex;align-items:center;gap:8px}
-  .bossBtn{
-    border:0;border-radius:12px;padding:9px 12px;font-size:11px;font-weight:900;cursor:pointer;color:white;
-    background:linear-gradient(135deg,var(--pink),#8A5BFF);box-shadow:0 9px 22px rgba(255,79,163,.20)
-  }
-  .bossBtn:disabled{background:#D9DFEB;color:#8A94AD;box-shadow:none;cursor:not-allowed}
-  .bossSeal{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#FFF0F7;color:#C72F79;font-size:10px;font-weight:900}
-  .bossModal .modalCard{width:min(960px,94vw);height:min(660px,86vh);grid-template-rows:auto auto 1fr auto}
-  .bossHead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
-  .bossMark{width:70px;height:70px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--pink));color:white;font-size:31px;font-weight:1000;box-shadow:0 16px 35px rgba(86,75,220,.20)}
-  .bossHead h3{font-size:32px;letter-spacing:-.045em}
-  .bossHead p{color:var(--muted);font-size:12px;margin-top:7px}
-  .bossProgress{height:8px;background:#E9EEFA;border-radius:99px;overflow:hidden}
-  .bossProgress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--pink));transition:.3s}
-  .bossBody{display:grid;align-content:center;gap:16px;overflow:hidden}
-  .bossQuestion{font-size:clamp(24px,3vw,38px);line-height:1.06;letter-spacing:-.04em}
-  .bossMeta{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
-  .bossResult{text-align:center;padding:18px}
-  .bossScore{font-size:90px;font-weight:1000;letter-spacing:-.08em;line-height:.85;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .levelUpOverlay{
-    position:fixed;z-index:180;inset:0;display:none;place-items:center;background:rgba(241,246,255,.72);backdrop-filter:blur(18px)
-  }
-  .levelUpOverlay.show{display:grid;animation:fadeIn .28s ease}
-  .levelUpCard{
-    width:min(640px,90vw);border-radius:36px;background:white;border:1px solid rgba(36,107,253,.14);
-    padding:38px;text-align:center;box-shadow:0 40px 120px rgba(49,72,155,.20);position:relative;overflow:hidden
-  }
-  .levelUpCard:before,.levelUpCard:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(50px);opacity:.22}
-  .levelUpCard:before{background:var(--blue);left:-100px;top:-120px}.levelUpCard:after{background:var(--pink);right:-100px;bottom:-140px}
-  .levelUpCard>*{position:relative;z-index:1}
-  .levelUpKicker{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:1000;color:var(--pink)}
-  .levelUpNum{font-size:128px;font-weight:1000;line-height:.78;letter-spacing:-.10em;margin:24px 0 18px;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .levelUpCard h3{font-size:32px;letter-spacing:-.045em}.levelUpCard p{color:var(--muted);font-size:13px;margin-top:8px}
-  .campaignStatus{margin-top:10px;padding:10px 12px;border-radius:14px;background:linear-gradient(135deg,#EAF1FF,#FFF0F7);font-size:11px;color:#53638D}
-  .answer.selected{border-color:rgba(36,107,253,.55);background:#EAF1FF;box-shadow:inset 0 0 0 1px rgba(36,107,253,.12)}
-  .complexCheck{grid-column:1/-1;margin-top:2px}
-  .matchGrid{display:grid;gap:10px;width:100%;margin-top:4px}
-  .matchRow{display:grid;grid-template-columns:minmax(150px,.58fr) 30px minmax(260px,1.42fr);align-items:center;gap:9px;padding:10px;border:1px solid rgba(36,107,253,.11);border-radius:15px;background:#F8FAFF}
-  .matchLeft{font-weight:900;color:var(--navy);font-size:13px}
-  .matchArrow{text-align:center;color:var(--pink);font-weight:1000}
-  .matchSelect{width:100%;min-width:0;border:1px solid rgba(36,107,253,.16);background:white;color:var(--navy);border-radius:11px;padding:11px 12px;font:inherit;font-size:12px;outline:none}
-  .matchSelect:focus{border-color:rgba(36,107,253,.48);box-shadow:0 0 0 3px rgba(36,107,253,.08)}
-  .matchSelect.bad{border-color:rgba(255,79,163,.60);background:#FFF4F9}
-  .formatHint{font-size:11px;color:var(--muted);margin-top:-5px;margin-bottom:8px}
-  @media(max-width:720px){.matchRow{grid-template-columns:1fr}.matchArrow{display:none}.matchSelect{font-size:11px}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @media(max-width:1050px){
-    .chapterPath{gap:6px}.levelNode{min-width:92px;height:62px}
-    .levelNode .lnTitle{font-size:10px}.bossModal .modalCard{height:min(700px,88vh)}
-  }
-
-
-  /* ADVANCED CONSTITUTION LAB */
-  .sequenceList{display:grid;gap:7px;width:100%;margin-top:2px}
-  .sequenceItem{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;min-height:52px;padding:8px 10px;border:1px solid rgba(36,107,253,.13);border-radius:14px;background:#F8FAFF;cursor:grab;transition:.18s}
-  .sequenceItem:active{cursor:grabbing}.sequenceItem.dragging{opacity:.45}.sequenceItem.bad{border-color:rgba(255,79,163,.58);background:#FFF3F8}
-  .seqHandle{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:white;color:#7A87AA;font-weight:900;border:1px solid rgba(36,107,253,.10)}
-  .seqText{font-size:12px;line-height:1.32;color:#28375F}
-  .seqBtns{display:flex;gap:4px}.seqBtn{width:28px;height:28px;border:1px solid rgba(36,107,253,.13);border-radius:8px;background:white;color:#53638D;cursor:pointer;font-weight:900}.seqBtn:hover{background:#EAF1FF}
-  .classifyWrap{display:grid;gap:8px;width:100%}
-  .classPool,.classBucket{border:1px dashed rgba(36,107,253,.24);border-radius:14px;padding:8px;background:#F8FAFF;min-height:60px}
-  .classPool{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start}
-  .bucketGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .classBucket{min-height:108px;background:white}
-  .bucketTitle{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:1000;color:#596991;margin-bottom:7px}
-  .sortCard{display:inline-flex;align-items:center;padding:7px 9px;margin:2px;border-radius:10px;background:linear-gradient(135deg,#EAF1FF,#FFF0F7);border:1px solid rgba(36,107,253,.12);font-size:10.5px;line-height:1.25;color:#26355E;cursor:grab;max-width:100%;transition:.18s}
-  .sortCard:hover{transform:translateY(-1px)}.sortCard.bad{border-color:rgba(255,79,163,.65);box-shadow:0 0 0 2px rgba(255,79,163,.08)}
-  .dropActive{border-color:rgba(36,107,253,.55);background:#EEF4FF}
-  .labNote{font-size:10.5px;color:var(--muted);line-height:1.35}
-  .caseStem{display:inline-block;padding:6px 9px;border-radius:9px;background:#FFF0F7;color:#C72F79;font-size:10px;font-weight:900;margin-bottom:8px}
-  @media(max-width:900px){.bucketGrid{grid-template-columns:1fr 1fr 1fr}.sortCard{font-size:9.5px}.sequenceItem{grid-template-columns:30px 1fr auto}.seqText{font-size:11px}}
-  @media(max-width:650px){.bucketGrid{grid-template-columns:1fr}.classBucket{min-height:70px}.sequenceItem{grid-template-columns:28px 1fr}.seqBtns{grid-column:2;justify-content:flex-end}}
+:root{
+ --bg:#F5F8FF;--card:#fff;--ink:#12224D;--muted:#7380A5;--blue:#246BFD;--pink:#FF4FA3;
+ --purple:#745BFF;--line:rgba(36,107,253,.13);--soft:#EEF4FF;--softPink:#FFF0F7;
+ --shadow:0 20px 60px rgba(48,78,150,.12);--r:24px
+}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;font-family:Inter,Manrope,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+body{background:radial-gradient(circle at 8% 8%,rgba(36,107,253,.12),transparent 26%),radial-gradient(circle at 92% 88%,rgba(255,79,163,.10),transparent 27%),linear-gradient(135deg,#F9FBFF,#F2F6FF 55%,#FFF8FB)}
+button,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.topbar{position:fixed;z-index:40;left:0;right:0;top:0;height:64px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 24px;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;min-width:300px}.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--pink));display:grid;place-items:center;color:#fff;font-weight:1000;font-size:21px}.brand b{font-size:16px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.crumb{flex:1;text-align:center;color:#68779F;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topstats{display:flex;gap:8px;align-items:center}.statpill{border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 11px;font-size:11px;color:#657399}.statpill b{color:var(--ink)}
+.source{border:0;background:linear-gradient(135deg,var(--soft),var(--softPink));border-radius:11px;padding:9px 12px;font-size:10px;font-weight:900;text-decoration:none;color:var(--ink)}
+.stage{position:absolute;inset:64px 0 0;overflow:hidden}.view{position:absolute;inset:0;padding:24px 28px;opacity:0;pointer-events:none;transform:translateX(30px);transition:.42s cubic-bezier(.2,.8,.2,1)}.view.active{opacity:1;pointer-events:auto;transform:none}
+.home{display:grid;grid-template-rows:auto 1fr auto;gap:16px;max-width:1600px;margin:auto}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.16em;font-weight:1000;color:var(--blue)}h1,h2,h3,p{margin:0}.hero h1{font-size:clamp(36px,4.3vw,68px);line-height:.92;letter-spacing:-.055em}.hero p{max-width:600px;color:var(--muted);font-size:13px;line-height:1.5;text-align:right}
+.moduleGrid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:10px;min-height:0}
+.moduleCard{border:1px solid var(--line);background:rgba(255,255,255,.94);border-radius:20px;padding:15px;text-align:left;box-shadow:0 10px 30px rgba(46,76,150,.06);position:relative;overflow:hidden;transition:.2s;min-height:0}
+.moduleCard:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(36,107,253,.27)}.moduleCard:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;right:-70px;top:-80px;background:var(--accent);opacity:.10}
+.mtop{display:flex;justify-content:space-between;gap:8px;position:relative}.mnum{width:35px;height:35px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--pink));color:#fff;display:grid;place-items:center;font-weight:1000;font-size:11px}.mrange{font-size:9px;color:var(--muted);font-weight:800}.moduleCard h3{font-size:15px;line-height:1.15;letter-spacing:-.025em;margin-top:12px;max-width:90%;position:relative}.moduleCard .meta{font-size:10px;color:var(--muted);margin-top:6px}.progress{height:5px;border-radius:99px;background:#E8EDF8;overflow:hidden;margin-top:12px}.progress span{height:100%;display:block;background:linear-gradient(90deg,var(--blue),var(--pink));border-radius:99px}.pmeta{display:flex;justify-content:space-between;margin-top:5px;color:#8994B1;font-size:9px}
+.homeFoot{display:flex;align-items:center;justify-content:space-between;gap:10px}.notice{font-size:11px;color:var(--muted)}.btns{display:flex;gap:8px}.btn{border:0;border-radius:13px;padding:11px 15px;font-weight:900;font-size:11px}.primary{background:linear-gradient(135deg,var(--blue),#5879FF);color:#fff;box-shadow:0 10px 24px rgba(36,107,253,.18)}.ghost{background:#fff;border:1px solid var(--line)}.pink{background:linear-gradient(135deg,var(--pink),#B85FFF);color:#fff}
+.moduleView{max-width:1600px;margin:auto;display:grid;grid-template-rows:auto auto 1fr;gap:12px}
+.moduleHead{display:flex;align-items:center;gap:14px}.back{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:#fff;font-size:18px}.moduleHeadText{flex:1}.moduleHead h2{font-size:30px;letter-spacing:-.04em}.moduleHead p{font-size:11px;color:var(--muted);margin-top:4px}.mastery{width:240px}.masteryTop{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:6px}.stars{font-size:16px;letter-spacing:2px;color:#D7DDEA}.stars .on{color:var(--pink)}
+.tabs{display:flex;gap:7px}.tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:9px 13px;font-size:11px;font-weight:900;color:#6F7DA4}.tab.active{background:linear-gradient(135deg,var(--soft),var(--softPink));color:var(--ink);border-color:rgba(36,107,253,.18)}
+.panel{border:1px solid var(--line);background:rgba(255,255,255,.95);border-radius:26px;box-shadow:var(--shadow);overflow:hidden;min-height:0}
+.overview{height:100%;display:grid;grid-template-columns:1.2fr .8fr;gap:0}.articleSide{padding:20px;border-right:1px solid var(--line);display:grid;grid-template-rows:auto 1fr;gap:12px;min-height:0}.articleSide h3{font-size:22px}.articleSide p{font-size:11px;color:var(--muted);margin-top:5px}.articleMap{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;align-content:center;min-height:0}.articleChip{border:1px solid var(--line);background:#F8FAFF;border-radius:10px;min-height:38px;font-size:10px;font-weight:900;color:#52618A}.articleChip:hover{background:var(--soft);border-color:rgba(36,107,253,.30)}.articleChip.done{background:#EAF1FF;color:#1755D5}.articleChip.active{outline:2px solid var(--pink);outline-offset:1px}.articleChip.special{background:var(--softPink);color:#C62E78}
+.articleDetail{padding:24px;display:flex;flex-direction:column;justify-content:center;position:relative}.bigArticle{font-size:70px;font-weight:1000;letter-spacing:-.08em;line-height:.85;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.articleDetail h3{font-size:25px;margin-top:15px}.articleDetail p{color:#64739A;line-height:1.55;font-size:13px;margin-top:9px}.detailFoot{margin-top:18px;display:flex;gap:8px}
+.practice{height:100%;display:grid;grid-template-columns:1.2fr .8fr}.qarea{padding:22px;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}.qmeta{display:flex;justify-content:space-between;align-items:center}.tag{font-size:9px;letter-spacing:.08em;font-weight:1000;text-transform:uppercase;padding:7px 9px;border-radius:999px;background:var(--soft);color:#1755D5}.qcount{font-size:10px;color:var(--muted)}.qtext{font-size:clamp(22px,2.4vw,38px);line-height:1.08;letter-spacing:-.035em;margin:18px 0 14px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}.answer{min-height:62px;border:1px solid var(--line);background:#F8FAFF;border-radius:14px;padding:11px 12px;text-align:left;display:flex;gap:9px;align-items:flex-start}.answer:hover{background:var(--soft)}.letter{width:27px;height:27px;border-radius:8px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;font-size:10px;font-weight:1000;flex:0 0 auto}.answer span:last-child{font-size:11px;line-height:1.35}.answer.selected{background:#EAF1FF;border-color:rgba(36,107,253,.4)}.answer.correct{background:#E7F8F1;border-color:#5DC99A}.answer.wrong{background:#FFF0F6;border-color:#F277AE}.feedback{margin-top:9px;min-height:45px;border:1px solid var(--line);background:#FBFCFF;border-radius:12px;padding:9px 11px;font-size:10.5px;line-height:1.4;color:#67769D}
+.pside{padding:20px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px}.pside h3{font-size:18px}.cycle{font-size:11px;color:var(--muted);line-height:1.4}.heat{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;align-content:start}.hdot{aspect-ratio:1;border-radius:4px;background:#E6EBF6}.hdot.done{background:var(--blue)}.hdot.current{outline:2px solid var(--pink);outline-offset:1px}.xpbox{padding:13px;border-radius:15px;background:linear-gradient(135deg,var(--soft),var(--softPink));font-size:11px}.xpbox b{font-size:26px;display:block}
+.matchGrid{display:grid;gap:7px}.matchRow{display:grid;grid-template-columns:.6fr 30px 1.4fr;align-items:center;gap:7px;padding:7px;border:1px solid var(--line);border-radius:12px;background:#FAFBFF}.matchLeft{font-size:10px;font-weight:900}.matchArrow{text-align:center;color:var(--pink)}.matchSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px;font-size:10px}.matchSelect.bad{border-color:#F277AE;background:#FFF0F6}.check{grid-column:1/-1;margin-top:4px}
+.caseView{height:100%;display:grid;grid-template-columns:.72fr 1.28fr}.caseRail{padding:20px;border-right:1px solid var(--line);display:flex;flex-direction:column}.caseRail .num{font-size:96px;font-weight:1000;color:#E4EAF8;letter-spacing:-.08em;line-height:.8}.caseRail h3{font-size:22px;margin-top:15px}.caseRail p{font-size:11px;color:var(--muted);line-height:1.45;margin-top:7px}.caseDots{display:flex;gap:6px;margin-top:auto}.caseDot{width:26px;height:6px;border:0;border-radius:99px;background:#DCE3F2}.caseDot.active{background:linear-gradient(90deg,var(--blue),var(--pink))}.caseMain{padding:24px;display:flex;flex-direction:column}.caseLabel{font-size:9px;text-transform:uppercase;letter-spacing:.14em;font-weight:1000;color:var(--pink)}.caseStory{font-size:18px;line-height:1.45;margin:12px 0 15px}.caseQuestion{font-size:14px;font-weight:900;margin-bottom:10px}.caseExplain{margin-top:10px;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg,var(--soft),var(--softPink));font-size:11px;line-height:1.45;display:none}
+.testView{height:100%;display:grid;grid-template-columns:.68fr 1.32fr}.testSide{padding:22px;border-right:1px solid var(--line);display:flex;flex-direction:column}.testSide h3{font-size:24px}.testSide p{font-size:11px;color:var(--muted);line-height:1.5;margin-top:7px}.testStat{margin-top:18px;padding:15px;border-radius:16px;background:linear-gradient(135deg,var(--soft),var(--softPink))}.testStat b{font-size:34px}.testMain{padding:22px;display:flex;flex-direction:column;justify-content:center}.testIntro{text-align:center;max-width:600px;margin:auto}.testIntro .big{font-size:76px;font-weight:1000;letter-spacing:-.08em;background:linear-gradient(135deg,var(--blue),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.testIntro h3{font-size:28px}.testIntro p{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}
+.toast{position:fixed;z-index:90;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;background:#12224D;color:white;padding:10px 14px;border-radius:11px;font-size:11px;font-weight:900;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1100px){.moduleGrid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr)}.topstats{display:none}.brand{min-width:230px}.overview,.practice,.caseView,.testView{grid-template-columns:1fr}.articleDetail,.pside,.caseRail,.testSide{display:none}.articleSide,.qarea,.caseMain,.testMain{border:0}.articleMap{grid-template-columns:repeat(10,1fr)}}
+@media(max-width:760px){.view{padding:14px}.brand small,.crumb{display:none}.brand{min-width:0;flex:1}.moduleGrid{display:flex;overflow-x:auto;gap:10px;scroll-snap-type:x mandatory}.moduleCard{min-width:76vw;scroll-snap-align:center}.hero p{display:none}.hero h1{font-size:38px}.moduleHead h2{font-size:22px}.mastery{display:none}.tabs{overflow-x:auto}.tab{white-space:nowrap}.answers{grid-template-columns:1fr}.articleMap{grid-template-columns:repeat(7,1fr)}}
 </style>
 </head>
 <body>
-<div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="noise"></div>
-<div id="app">
 <header class="topbar">
-  <div class="brand"><div class="brandMark"></div><div><b>ГМУ · Конституция РФ</b><small>интерактивный учебный контур</small></div></div>
-  <nav>
-    <button class="navBtn active" data-screen="0">Пульт</button>
-    <button class="navBtn" data-screen="1">Атлас</button>
-    <button class="navBtn" data-screen="2">Тренажёр</button>
-    <button class="navBtn" data-screen="3">Кейсы</button>
-    <button class="navBtn" data-screen="4">Экзамен</button>
-  </nav>
-  <div class="topStats"><div class="pill"><span class="dot"></span><span id="topCoverage">0 / 152</span></div><div class="pill">LVL <b id="topLevel">1</b></div><div class="pill">XP <b id="topXP">0</b></div><div class="pill">Серия <b id="topStreak">0</b></div></div>
+ <div class="brand"><div class="mark">§</div><div><b>ГМУ · Конституция РФ</b><small>интерактивный курс по разделам</small></div></div>
+ <div class="crumb" id="crumb">Разделы Конституции</div>
+ <div class="topstats"><div class="statpill">Изучено <b id="topDone">0 / 152</b></div><div class="statpill">XP <b id="topXP">0</b></div></div>
+ <a class="source" href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальный текст ↗</a>
 </header>
-<div class="viewport"><main class="track" id="track">
-<section class="screen"><div class="screenInner hero">
-  <div class="heroLeft">
-    <div><div class="eyebrow">Государственное и муниципальное управление</div><h1><span class="grad">Конституция</span><br>как система.</h1><p class="lead">Не листаем длинную страницу. Перемещаемся между полноценными экранами и изучаем Конституцию как карту институтов, прав, компетенций и процедур. Полное покрытие превращено в кампанию: пройдите статьи главы, победите её босса и открывайте следующий уровень. В финале — вся Конституция, включая статьи с «.1» и заключительные положения.</p>
-      <div class="heroActions"><button class="btn btnPrimary" onclick="go(2);setMode('coverage')">Начать полное прохождение →</button><button class="btn btnGhost" onclick="go(1)">Открыть карту статей</button></div></div>
-    <div class="hintline"><span class="kbd">←</span><span class="kbd">→</span> экраны <span>·</span><span class="kbd">колесо</span> тоже перелистывает <span>·</span><span class="kbd">Esc</span> закрывает карточки</div>
+<main class="stage">
+ <section class="view home active" id="homeView">
+  <div class="hero"><div><div class="eyebrow">Государственное и муниципальное управление</div><h1>Конституция<br>по разделам.</h1></div><p>Выберите конкретную главу. Внутри неё — все статьи, практика только по этой главе, отдельные кейсы и контроль. Никакой случайной мешанины по всему тексту.</p></div>
+  <div class="moduleGrid" id="moduleGrid"></div>
+  <div class="homeFoot"><div class="notice">Каждая статья учитывается в прогрессе. Повтор начинается только после прохождения всех контрольных точек выбранного раздела.</div><div class="btns"><button class="btn ghost" onclick="openGlobalTest(30)">Итоговый тест · 30</button><button class="btn pink" onclick="openGlobalTest(152)">Полное покрытие · 152</button></div></div>
+ </section>
+ <section class="view moduleView" id="moduleView">
+  <div class="moduleHead">
+   <button class="back" onclick="showHome()">←</button>
+   <div class="moduleHeadText"><div class="eyebrow" id="moduleKicker">Глава 1</div><h2 id="moduleTitle"></h2><p id="moduleRange"></p></div>
+   <div class="mastery"><div class="masteryTop"><span>Освоение раздела</span><b id="modulePct">0%</b></div><div class="progress"><span id="moduleProgress"></span></div><div class="stars" id="moduleStars">★★★</div></div>
   </div>
-  <div class="heroRight">
-    <div class="sectionHead"><div><div class="eyebrow">Прогресс</div><h2>Покрытие</h2></div></div>
-    <div class="coverageRing" id="ring" style="--pct:0"><div class="ringText"><strong id="ringPct">0%</strong><span>контрольных точек закрыто</span></div></div>
-    <div class="miniMetrics"><div class="metric"><b id="mDone">0</b><span>изучено</span></div><div class="metric"><b id="mErrors">0</b><span>ошибок</span></div><div class="metric"><b id="mAccuracy">—</b><span>точность</span></div></div>
-    <div class="gameHud"><div class="levelCard"><div class="levelTop"><div class="levelBadge" id="levelBadge">1</div><div class="levelName"><small>текущий уровень</small><b id="levelName">Стажёр публичного управления</b></div><strong id="xpValue">0 XP</strong></div><div class="xpLine"><span id="xpLine"></span></div><div class="xpMeta"><span id="xpCurrent">0 / 250</span><span>до следующего уровня</span></div><div class="badgeShelf" id="badgeShelf"></div></div><div class="questCard"><b>Миссия дня</b><p id="dailyQuestText">Закройте 5 новых контрольных точек.</p><span class="questReward" id="dailyQuestReward">+100 XP</span></div></div>
+  <div class="tabs" id="tabs">
+   <button class="tab active" data-tab="overview">Обзор и статьи</button>
+   <button class="tab" data-tab="practice">Практика</button>
+   <button class="tab" data-tab="cases">Кейсы</button>
+   <button class="tab" data-tab="test">Контроль раздела</button>
   </div>
-</div></section>
-<section class="screen"><div class="screenInner atlas">
-  <div class="sectionHead"><div><div class="eyebrow">Атлас Конституции</div><h2>Вся структура — одним маршрутом</h2></div><div><p>Каждая кнопка — отдельная учебная точка. Нажмите на статью, чтобы открыть её тему и задания.</p><div class="railControls" style="justify-content:flex-end;margin-top:10px"><button class="iconBtn" onclick="rail(-1)">←</button><button class="iconBtn" onclick="rail(1)">→</button></div></div></div>
-  <div class="chapterPath" id="chapterPath"></div>
-  <div class="chapterRail" id="chapterRail"></div>
-</div></section>
-<section class="screen"><div class="screenInner trainer">
-  <div class="sectionHead"><div><div class="eyebrow">Конституционная лаборатория</div><h2>Не тест, а работа с системой</h2></div><p>Сопоставление, кейсы, несколько ответов, порядок стадий, назначения, разграничение компетенций и drag-and-drop. Ошибка не закрывает задачу: решение можно исправлять до правильного.</p></div>
-  <div class="questionBox">
-    <div class="qMeta"><span class="tag" id="qTag">полное покрытие</span><span class="qCount" id="qCount">вопрос 1</span></div>
-    <div class="questionText" id="questionText">Загрузка вопроса…</div>
-    <div class="answers" id="answers"></div>
-    <div class="feedback" id="feedback">Выберите ответ. После ошибки можно отвечать снова — вопрос не исчезнет.</div>
-  </div>
-  <aside class="sidePanel">
-    <div class="modeTabs"><button class="modeBtn active" data-mode="coverage">Покрытие</button><button class="modeBtn" data-mode="mix">Микс</button><button class="modeBtn" data-mode="errors">Ошибки</button></div>
-    <div class="bigStat"><b id="sideDone">0</b><span>закрыто из 152 учебных точек</span></div>
-    <div class="trainerGame"><div class="trainerGameTop"><b id="trainerRank">Уровень 1</b><span id="trainerXP">0 XP</span></div><div class="xpLine"><span id="trainerXpLine"></span></div><div class="combo">Серия: <strong id="comboValue">0</strong> · множитель <strong id="comboMult">×1.0</strong></div></div>
-    <div><div class="eyebrow" style="margin-bottom:10px">Тепловая карта</div><div class="coverageMap" id="coverageMap"></div></div>
-    <div class="trainerActions"><button class="btn btnGhost" onclick="skipQ()">Другой вопрос</button><button class="btn btnDanger" onclick="resetProgress()">Сбросить</button></div>
-  </aside>
-</div></section>
-<section class="screen"><div class="screenInner cases">
-  <div class="sectionHead"><div><div class="eyebrow">Практикум ГМУ</div><h2>Конституция в управленческих ситуациях</h2></div><p>Кейсы заставляют не вспоминать номер статьи механически, а распознавать компетенцию, гарантию, запрет или процедуру.</p></div>
-  <div class="caseDeck" id="caseDeck"><div class="caseControls"><button class="iconBtn" onclick="caseMove(-1)">←</button><button class="iconBtn" onclick="caseMove(1)">→</button></div></div>
-</div></section>
-<section class="screen"><div class="screenInner exam">
-  <div class="sectionHead"><div><div class="eyebrow">Экзаменационный режим</div><h2>Проверка без подсказок</h2></div><p>Короткий зачёт, стандартный экзамен или полный конституционный марафон. Вопросы собираются из всего корпуса учебных точек.</p></div>
-  <div class="examConfig"><h3>Режим</h3><div class="examChoices" id="examChoices"><div class="choice active" data-n="20"><span>Зачёт</span><b>20</b></div><div class="choice" data-n="50"><span>Экзамен</span><b>50</b></div><div class="choice" data-n="152"><span>Полное покрытие</span><b>152</b></div></div><div></div><button class="btn btnPrimary" onclick="startExam()">Запустить экзамен →</button></div>
-  <div class="examBoard"><div class="examProgress"><span id="examBar"></span></div><div class="examHero" id="examHero"><div class="scoreBig">152</div><h3>Не только 1–137</h3><p>В пул включены статьи с индексом «.1», исключённая статья 127 как отдельная контрольная точка и девять заключительных и переходных положений.</p></div><div class="examQ" id="examQ"><h3 id="examText"></h3><div class="answers" id="examAnswers"></div></div></div>
-</div></section>
-</main></div>
-<div class="swipeDots" id="swipeDots"></div>
-</div>
-<div class="modal" id="articleModal"><div class="modalCard"><button class="iconBtn close" onclick="closeModal()">×</button><div class="modalHero"><div class="modalNum" id="modalNum">1</div><div class="modalTitle"><div class="eyebrow" id="modalEyebrow">Глава 1</div><h3 id="modalChapter">Основы конституционного строя</h3><small id="modalState">Учебная карточка</small></div></div><div class="themeBox"><b>Смысловой фокус</b><p id="modalTopic"></p></div><div class="missions"><div class="mission"><b>Задание 1 · объяснить</b><p id="mission1"></p></div><div class="mission"><b>Задание 2 · применить</b><p id="mission2"></p></div></div><div class="sourceRow"><a href="https://publication.pravo.gov.ru/document/0001202210060013" target="_blank" rel="noopener">Официальная публикация</a><a href="https://www.consultant.ru/document/cons_doc_LAW_28399/" target="_blank" rel="noopener">Текст по статьям</a><a href="https://minjust.gov.ru/ru/documents/8011/" target="_blank" rel="noopener">Минюст</a><button class="btn btnPrimary" style="margin-left:auto;padding:9px 12px" onclick="trainCurrent()">Проверить себя →</button></div></div></div>
-<div class="modal bossModal" id="bossModal">
-  <div class="modalCard">
-    <button class="iconBtn close" onclick="closeBoss()">×</button>
-    <div class="bossHead">
-      <div style="display:flex;gap:16px;align-items:center">
-        <div class="bossMark">★</div>
-        <div><div class="eyebrow" id="bossEyebrow">Босс главы</div><h3 id="bossTitle">Проверка</h3><p id="bossSubtitle"></p></div>
-      </div>
-      <div class="bossSeal" id="bossSeal">80% для победы</div>
-    </div>
-    <div class="bossProgress"><span id="bossBar"></span></div>
-    <div class="bossBody" id="bossBody"></div>
-    <div class="bossMeta"><span id="bossMetaLeft"></span><span id="bossMetaRight"></span></div>
-  </div>
-</div>
-<div class="levelUpOverlay" id="levelUpOverlay" onclick="closeLevelUp()">
-  <div class="levelUpCard" onclick="event.stopPropagation()">
-    <div class="levelUpKicker">Новый уровень</div>
-    <div class="levelUpNum" id="levelUpNum">2</div>
-    <h3 id="levelUpName">Младший аналитик</h3>
-    <p>Ранг повышен. Новые очки опыта уже засчитаны.</p>
-    <div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="closeLevelUp()">Продолжить кампанию →</button></div>
-  </div>
-</div>
-<div class="achievementPop" id="achievementPop"><small>Новое достижение</small><b id="achievementTitle"></b><span id="achievementDesc"></span></div><div class="toast" id="toast"></div>
+  <div class="panel" id="modulePanel"></div>
+ </section>
+</main>
+<div class="toast" id="toast"></div>
 <script>
+
 const chapters=[
  {id:0,name:'Преамбула',range:'вводная часть',accent:'#FF4FA3'},
  {id:1,name:'Основы конституционного строя',range:'1–16',accent:'#246BFD'},
@@ -321,607 +103,295 @@ const targets=[{id:'pre',label:'Преамбула',article:'Преамбула'
 for(let i=1;i<=9;i++)targets.push({id:'t'+i,label:'Раздел II · пункт '+i,article:'II.'+i,chapter:10,type:'transition',topic:[
 'вступление Конституции в силу и дата её принятия','прекращение действия прежней Конституции и соотношение с действующими актами','сохранение действия договоров о разграничении предметов ведения в допустимой части','продолжение полномочий действующих на момент вступления Конституции органов государственной власти','продолжение полномочий Президента, избранного до вступления новой Конституции','временное сохранение полномочий Совета Министров — Правительства','сохранение полномочий судов и особенности назначения судей на переходный период','сохранение депутатского мандата депутатами первого созыва на установленный срок','переходное правило о неприкосновенности депутатов первого созыва'
 ][i-1]});
-const cases=[
- {title:'Муниципалитет и «вертикаль»',text:'Региональный орган требует от муниципалитета решить местный вопрос строго по своей внутренней инструкции, хотя федеральный закон оставляет способ решения на местном уровне.',prompt:'Какие конституционные принципы надо проверить прежде всего?',answer:'Сопоставьте статьи 12, 130–133: самостоятельность местного самоуправления, его полномочия и гарантии.'},
- {title:'Закрытый нормативный акт',text:'Орган власти применяет к гражданину обязательное правило, которое официально не опубликовано и напрямую затрагивает его обязанности.',prompt:'Какой конституционный фильтр здесь включается?',answer:'Статья 15 закрепляет требования к официальному опубликованию нормативных актов, затрагивающих права, свободы и обязанности.'},
- {title:'48 часов',text:'Человека задержали без судебного решения, а вопрос о законности дальнейшего содержания не вынесен на судебный контроль.',prompt:'Какой блок прав нужно распознать?',answer:'Статья 22: свобода и личная неприкосновенность; задержание до судебного решения ограничено конституционным пределом.'},
- {title:'Кто вносит законопроект?',text:'Организация хочет напрямую внести федеральный законопроект в Государственную Думу как субъект законодательной инициативы.',prompt:'Как проверить, есть ли у неё такое полномочие?',answer:'Сверить закрытый перечень субъектов законодательной инициативы в статье 104.'},
- {title:'Обязательное рассмотрение',text:'Государственная Дума приняла федеральный закон по вопросу федерального бюджета. Возникает спор: может ли Совет Федерации его вообще не рассматривать?',prompt:'Какая статья задаёт специальное правило?',answer:'Статья 106 перечисляет категории федеральных законов, подлежащих обязательному рассмотрению Советом Федерации.'},
- {title:'Конфликт компетенций',text:'Федеральный орган и орган субъекта спорят, кто вправе регулировать конкретный вопрос.',prompt:'Какие три статьи удобно читать связкой?',answer:'Статьи 71, 72 и 73: федеральное ведение, совместное ведение и остаточная компетенция субъектов.'},
- {title:'Недоверие Правительству',text:'Государственная Дума выражает недоверие Правительству. Нужно понять, какие конституционные последствия возможны дальше.',prompt:'Где искать процедуру?',answer:'Статья 117 регулирует отставку Правительства и конституционную механику доверия/недоверия.'},
- {title:'Независимость судьи',text:'Должностное лицо требует от судьи решить дело определённым образом, ссылаясь на административную целесообразность.',prompt:'Какой базовый принцип нарушается?',answer:'Статья 120 закрепляет независимость судей и их подчинение Конституции и федеральному закону.'},
- {title:'Ограничение права',text:'Федеральный закон ограничивает право граждан, и требуется оценить допустимость самого ограничения.',prompt:'Какую общую «рамку» проверки применять?',answer:'Статья 55 задаёт общие основания и пределы ограничения прав федеральным законом.'},
- {title:'Поправка к главе 2',text:'Предлагается изменить одно из положений главы 2 обычной процедурой конституционной поправки, как для глав 3–8.',prompt:'Почему процедуры различаются?',answer:'Статьи 135 и 136 разводят режим пересмотра глав 1, 2 и 9 и режим поправок к главам 3–8.'}
-];
 
-const appointmentFacts=[
- {left:'Председатель Правительства РФ',right:'Президент назначает после утверждения кандидатуры Государственной Думой',articles:['111','103']},
- {left:'Председатель Центрального банка РФ',right:'Государственная Дума назначает по представлению Президента',articles:['83','103']},
- {left:'Председатель, заместитель Председателя и судьи Конституционного Суда РФ; руководство и судьи Верховного Суда РФ',right:'Совет Федерации назначает по представлению Президента',articles:['83','128']},
- {left:'Председатели, заместители председателей и судьи других федеральных судов',right:'Президент назначает в порядке, установленном федеральным конституционным законом',articles:['83','128']},
- {left:'Федеральные министры по вопросам обороны, безопасности, внутренних дел, юстиции, иностранных дел, ЧС и общественной безопасности',right:'Президент назначает после консультаций с Советом Федерации',articles:['83','102']}
-];
 
-const competenceItems=[
- {text:'Принятие и изменение Конституции РФ и федеральных законов',bucket:'rf'},
- {text:'Федеративное устройство и территория Российской Федерации',bucket:'rf'},
- {text:'Федеральный бюджет; федеральные налоги и сборы',bucket:'rf'},
- {text:'Оборона и безопасность',bucket:'rf'},
- {text:'Внешняя политика и международные отношения Российской Федерации',bucket:'rf'},
- {text:'Защита прав и свобод человека и гражданина',bucket:'joint'},
- {text:'Вопросы владения, пользования и распоряжения землёй, недрами, водными и другими природными ресурсами',bucket:'joint'},
- {text:'Общие вопросы воспитания, образования, науки, культуры, физической культуры и спорта',bucket:'joint'},
- {text:'Координация вопросов здравоохранения',bucket:'joint'},
- {text:'Охрана окружающей среды и обеспечение экологической безопасности',bucket:'joint'},
- {text:'Вопрос вне ведения РФ и вне полномочий РФ по предметам совместного ведения',bucket:'region'},
- {text:'Сфера, которую Конституция не отнесла к статье 71 и не включила в совместное ведение по статье 72',bucket:'region'}
-];
-
-const actorPowers=[
- {text:'Утверждает изменение границ между субъектами РФ',bucket:'sf'},
- {text:'Утверждает указ Президента о введении военного положения',bucket:'sf'},
- {text:'Решает вопрос о возможности использования Вооружённых Сил РФ за пределами территории РФ',bucket:'sf'},
- {text:'Утверждает по представлению Президента кандидатуру Председателя Правительства РФ',bucket:'gd'},
- {text:'Решает вопрос о доверии Правительству РФ',bucket:'gd'},
- {text:'Назначает на должность и освобождает от должности Председателя Центрального банка РФ',bucket:'gd'},
- {text:'Назначает выборы Государственной Думы',bucket:'pres'},
- {text:'Назначает референдум в порядке, установленном федеральным конституционным законом',bucket:'pres'},
- {text:'Подписывает и обнародует федеральные законы',bucket:'pres'}
-];
-
-const deepCaseBank={
- '15':{text:'Федеральный орган применил к гражданину обязательное правило, которое затрагивает его обязанности, но нормативный акт официально не опубликован. Какой конституционный аргумент должен быть проверен первым?',opts:[
-   ['a','Непубликованный акт, затрагивающий права, свободы и обязанности, не должен применяться'],
-   ['b','Любой внутренний документ федерального органа автоматически имеет силу закона'],
-   ['c','Публикация обязательна только для актов субъектов РФ'],
-   ['d','Достаточно устно сообщить гражданину содержание правила']
- ],answer:'a',explain:'Статья 15 связывает применение нормативных актов, затрагивающих права, свободы и обязанности, с их официальным опубликованием.'},
- '22':{text:'Человек задержан без судебного решения. Прошло более 48 часов, но суд вопрос о дальнейшем содержании не рассматривал. Что является главным конституционным риском?',opts:[
-   ['a','Нарушение гарантии свободы и личной неприкосновенности'],
-   ['b','Нарушение свободы экономической деятельности'],
-   ['c','Нарушение права законодательной инициативы'],
-   ['d','Нарушение принципа федерализма']
- ],answer:'a',explain:'Статья 22 устанавливает гарантию свободы и личной неприкосновенности и предел задержания до судебного решения.'},
- '55':{text:'Федеральный закон ограничивает право граждан. Какой вопрос нужно поставить прежде всего при конституционной проверке такого ограничения?',opts:[
-   ['a','Предусмотрено ли ограничение федеральным законом и служит ли оно конституционно указанным целям в необходимой мере'],
-   ['b','Нравится ли ограничение большинству граждан'],
-   ['c','Было ли ограничение поддержано муниципалитетом'],
-   ['d','Есть ли аналогичное ограничение в другом государстве']
- ],answer:'a',explain:'Статья 55 задаёт общую рамку допустимости ограничения прав федеральным законом и конституционно значимые цели такого ограничения.'},
- '104':{text:'Общественная организация подготовила проект федерального закона и хочет сама внести его в Государственную Думу как субъект законодательной инициативы. Какой первый юридический вопрос?',opts:[
-   ['a','Входит ли организация в конституционный перечень субъектов законодательной инициативы'],
-   ['b','Сколько участников состоит в организации'],
-   ['c','Поддерживает ли проект губернатор'],
-   ['d','Опубликован ли проект в социальной сети']
- ],answer:'a',explain:'Статья 104 устанавливает круг субъектов права законодательной инициативы и правило внесения законопроектов в Государственную Думу.'},
- '106':{text:'Государственная Дума приняла федеральный закон по вопросу федерального бюджета. В Совете Федерации предлагают вообще не рассматривать его. Что нужно проверить?',opts:[
-   ['a','Относится ли закон к категориям, подлежащим обязательному рассмотрению Советом Федерации'],
-   ['b','Есть ли у закона название'],
-   ['c','Был ли законопроект размещён на сайте субъекта РФ'],
-   ['d','Подписал ли его Председатель Правительства']
- ],answer:'a',explain:'Статья 106 относит федеральный бюджет и ряд других категорий федеральных законов к обязательному рассмотрению Советом Федерации.'},
- '120':{text:'Должностное лицо требует от судьи принять определённое решение, ссылаясь на административную целесообразность. Какой принцип здесь является ключевым?',opts:[
-   ['a','Независимость судей и их подчинение Конституции РФ и федеральному закону'],
-   ['b','Свобода экономической деятельности'],
-   ['c','Самостоятельность местного самоуправления'],
-   ['d','Право законодательной инициативы']
- ],answer:'a',explain:'Статья 120 закрепляет независимость судей и их подчинение Конституции РФ и федеральному закону.'}
+const casesByModule={
+0:[
+ {title:'Ценностная рамка',story:'В учебном пособии Конституцию предлагают изучать только как набор полномочий органов власти, полностью исключив из вводной части идеи гражданского мира, исторической преемственности и ответственности перед будущими поколениями.',q:'Где в тексте Конституции собрана такая ценностная рамка?',opts:['В преамбуле','Только в статье 71','Только в статье 110','В Разделе II'],a:0,ex:'Именно преамбула концентрирует ценностные основания принятия Конституции и вводит основной текст.'},
+ {title:'Государственное единство',story:'В публичной речи нужно показать, что Конституция начинается не только с юридических конструкций, но и с самоописания многонационального народа и идеи сохранения исторически сложившегося государственного единства.',q:'Какой блок текста следует открыть первым?',opts:['Преамбулу','Главу 6','Статью 104','Статью 128'],a:0,ex:'Эти формулы находятся во вводной части — преамбуле.'}
+],
+1:[
+ {title:'Муниципалитет и государственная власть',story:'Региональный чиновник утверждает, что местное самоуправление является просто нижним уровнем системы органов государственной власти.',q:'Какое положение нужно проверить прежде всего?',opts:['Статью 12 о самостоятельности местного самоуправления','Статью 81 о выборах Президента','Статью 104 о законодательной инициативе','Статью 118 о правосудии'],a:0,ex:'Статья 12 закрепляет местное самоуправление и указывает, что его органы не входят в систему органов государственной власти.'},
+ {title:'Неопубликованное правило',story:'Федеральный орган применяет к гражданину обязательное правило, затрагивающее его обязанности, хотя нормативный акт официально не опубликован.',q:'Какой конституционный фильтр включается?',opts:['Требование официального опубликования по статье 15','Порядок назначения Правительства','Полномочия прокуратуры','Порядок изменения границ субъектов'],a:0,ex:'Статья 15 связывает применение актов, затрагивающих права, свободы и обязанности, с официальным опубликованием.'},
+ {title:'Одна обязательная идеология',story:'Закон провозглашает конкретную политическую идеологию обязательной для государственных учреждений и граждан.',q:'С какой нормой возникает прямой конституционный вопрос?',opts:['Со статьёй 13','Со статьёй 42','Со статьёй 95','Со статьёй 122'],a:0,ex:'Статья 13 закрепляет идеологическое многообразие и запрещает устанавливать государственную или обязательную идеологию.'}
+],
+2:[
+ {title:'Более 48 часов',story:'Человек задержан без судебного решения. Прошло более 48 часов, однако вопрос о дальнейшем содержании суд не рассматривал.',q:'Какой блок прав затронут непосредственно?',opts:['Свобода и личная неприкосновенность','Свобода экономической деятельности','Право законодательной инициативы','Федеративное устройство'],a:0,ex:'Статья 22 устанавливает гарантию свободы и личной неприкосновенности и конституционный предел задержания до судебного решения.'},
+ {title:'Предварительная цензура',story:'Орган власти требует, чтобы редакция до публикации передавала ему все материалы и выпускала их только после предварительного разрешения.',q:'Какую норму следует проверить?',opts:['Статью 29','Статью 57','Статью 83','Статью 131'],a:0,ex:'Статья 29 закрепляет свободу мысли и слова, свободу массовой информации и запрет цензуры.'},
+ {title:'Защитник',story:'Задержанному сообщают, что воспользоваться помощью защитника он сможет только после первого допроса.',q:'Какой конституционный вопрос возникает?',opts:['Право на квалифицированную юридическую помощь','Право на жилище','Право на обращение','Свобода передвижения'],a:0,ex:'Статья 48 закрепляет право на квалифицированную юридическую помощь и право пользоваться помощью адвоката (защитника) с предусмотренного Конституцией момента.'}
+],
+3:[
+ {title:'Спор о компетенции',story:'Федеральный орган и субъект РФ спорят, кто вправе регулировать конкретный вопрос. В Конституции этот вопрос не назван в исключительном ведении РФ, но он включён в совместное ведение.',q:'Какую связку норм нужно читать вместе?',opts:['Статьи 71–73','Статьи 80–82','Статьи 104–107','Статьи 130–133'],a:0,ex:'Статьи 71, 72 и 73 разграничивают ведение РФ, совместное ведение и остаточную компетенцию субъектов.'},
+ {title:'Внутренняя таможенная граница',story:'Субъект РФ вводит собственную таможенную границу для товаров из другого субъекта.',q:'Какой конституционный принцип нужно проверить?',opts:['Единство экономического пространства и запрет внутренних барьеров','Неприкосновенность жилища','Право на образование','Порядок формирования Правительства'],a:0,ex:'Статья 74 запрещает устанавливать на территории РФ таможенные границы, пошлины и иные препятствия свободному перемещению товаров, услуг и финансовых средств, кроме предусмотренных законом исключений.'},
+ {title:'Вне списков 71 и 72',story:'Вопрос не отнесён Конституцией к ведению РФ и не входит в совместное ведение.',q:'Какой общий принцип применяется?',opts:['Субъекты обладают всей полнотой государственной власти вне этих пределов','Вопрос автоматически переходит Президенту','Вопрос всегда решает Государственная Дума','Такой вопрос нельзя регулировать'],a:0,ex:'Статья 73 закрепляет остаточную полноту государственной власти субъектов вне ведения РФ и полномочий РФ по предметам совместного ведения.'}
+],
+4:[
+ {title:'Указ против закона',story:'Указ Президента противоречит Конституции и федеральному закону.',q:'Как оценивается такая ситуация по Конституции?',opts:['Указы и распоряжения Президента не должны противоречить Конституции и федеральным законам','Указ всегда выше федерального закона','Противоречие устраняет только муниципалитет','Федеральные законы не ограничивают указы'],a:0,ex:'Статья 90 прямо устанавливает предел: указы и распоряжения Президента не должны противоречить Конституции и федеральным законам.'},
+ {title:'Военное положение',story:'Президент вводит военное положение в установленном Конституцией случае.',q:'Какой парламентский элемент следует учитывать?',opts:['Указ подлежит утверждению Советом Федерации','Указ утверждает только Государственная Дума','Указ утверждают субъекты РФ','Парламент в процедуре не участвует'],a:0,ex:'Статьи 87 и 102 связывают введение военного положения с последующим участием Совета Федерации.'},
+ {title:'Временное исполнение обязанностей',story:'Президент не может выполнять свои обязанности.',q:'Кто временно исполняет обязанности Президента в предусмотренном Конституцией порядке?',opts:['Председатель Правительства РФ','Председатель Государственной Думы','Генеральный прокурор','Председатель Конституционного Суда'],a:0,ex:'Статья 92 предусматривает временное исполнение обязанностей Президента Председателем Правительства РФ.'}
+],
+5:[
+ {title:'Кто может внести законопроект',story:'Общественная организация хочет непосредственно внести проект федерального закона в Государственную Думу как субъект права законодательной инициативы.',q:'Что следует проверить первым?',opts:['Входит ли она в перечень субъектов статьи 104','Сколько у неё подписчиков','Поддерживает ли проект губернатор','Есть ли у проекта логотип'],a:0,ex:'Статья 104 устанавливает круг субъектов права законодательной инициативы.'},
+ {title:'Федеральный бюджет',story:'Государственная Дума приняла федеральный закон по вопросу федерального бюджета. В Совете Федерации предлагают его вообще не рассматривать.',q:'Что говорит Конституция?',opts:['Такие законы подлежат обязательному рассмотрению Советом Федерации','Совет Федерации не рассматривает бюджетные законы','Достаточно решения Правительства','Закон сразу направляется в Конституционный Суд'],a:0,ex:'Статья 106 относит федеральный бюджет к категориям федеральных законов, подлежащим обязательному рассмотрению Советом Федерации.'},
+ {title:'Президент отклонил закон',story:'Принятый федеральный закон поступил Президенту, и Президент его отклонил.',q:'Где искать дальнейшую конституционную процедуру?',opts:['В статье 107','В статье 22','В статье 74','В статье 131'],a:0,ex:'Статья 107 регулирует подписание, обнародование и процедуру повторного рассмотрения отклонённого федерального закона.'}
+],
+6:[
+ {title:'Недоверие Правительству',story:'Государственная Дума выражает недоверие Правительству РФ.',q:'Какая статья определяет последующие конституционные варианты?',opts:['Статья 117','Статья 31','Статья 68','Статья 125'],a:0,ex:'Статья 117 регулирует отставку Правительства и процедуры доверия и недоверия.'},
+ {title:'Федеральный бюджет',story:'Нужно определить, какой орган разрабатывает и представляет Государственной Думе федеральный бюджет и обеспечивает его исполнение.',q:'Какой раздел Конституции является основным?',opts:['Глава 6 о Правительстве РФ','Глава 8 о местном самоуправлении','Преамбула','Глава 9 о поправках'],a:0,ex:'Статья 114 относит разработку и представление федерального бюджета и обеспечение его исполнения к полномочиям Правительства.'},
+ {title:'Постановление Правительства',story:'Постановление Правительства противоречит Конституции и федеральному закону.',q:'Какая конституционная логика действует?',opts:['Акты Правительства издаются на основе и во исполнение Конституции, федеральных законов и актов Президента','Постановление Правительства выше Конституции','Такой акт может отменить только муниципалитет','Федеральные законы к Правительству не относятся'],a:0,ex:'Статья 115 определяет правовую основу постановлений и распоряжений Правительства и механизм их отмены Президентом при противоречии.'}
+],
+7:[
+ {title:'Давление на судью',story:'Должностное лицо требует от судьи принять определённое решение, ссылаясь на административную целесообразность.',q:'Какой принцип затронут?',opts:['Независимость судей','Свобода экономической деятельности','Принцип местного самоуправления','Право законодательной инициативы'],a:0,ex:'Статья 120 закрепляет независимость судей и их подчинение Конституции и федеральному закону.'},
+ {title:'Проверка закона на конституционность',story:'Возник вопрос о соответствии федерального закона Конституции РФ.',q:'Какой высший судебный орган осуществляет конституционный контроль в предусмотренных Конституцией формах?',opts:['Конституционный Суд РФ','Счётная палата','Центральный банк','Государственная Дума'],a:0,ex:'Статья 125 определяет статус и полномочия Конституционного Суда РФ.'},
+ {title:'Система прокуратуры',story:'Нужно найти конституционный блок о прокуратуре Российской Федерации.',q:'Какая статья завершает главу о судебной власти и прокуратуре?',opts:['Статья 129','Статья 109','Статья 79','Статья 59'],a:0,ex:'Статья 129 посвящена прокуратуре Российской Федерации.'}
+],
+8:[
+ {title:'Вопрос местного значения',story:'Жители муниципального образования решают вопрос местного значения непосредственно и через органы местного самоуправления.',q:'Какой конституционный блок описывает эту самостоятельность?',opts:['Статьи 130–133','Статьи 80–93','Статьи 94–109','Статьи 134–137'],a:0,ex:'Глава 8 регулирует местное самоуправление; статья 130 закрепляет самостоятельное решение населением вопросов местного значения.'},
+ {title:'Переданные полномочия',story:'Органам местного самоуправления законом передают отдельные государственные полномочия.',q:'Какое условие прямо связано с такой передачей?',opts:['Передача необходимых материальных и финансовых средств','Автоматическое включение органов МСУ в систему органов государственной власти','Отмена местного бюджета','Обязательный роспуск представительного органа'],a:0,ex:'Статья 132 предусматривает передачу отдельных государственных полномочий органам местного самоуправления вместе с необходимыми материальными и финансовыми средствами.'}
+],
+9:[
+ {title:'Изменение главы 2',story:'Предлагается изменить положение главы 2 обычной процедурой поправки, применяемой к главам 3–8.',q:'Почему возникает конституционная проблема?',opts:['Главы 1, 2 и 9 имеют особый режим пересмотра по статье 135','Глава 2 изменяется указом Президента','Глава 2 меняется постановлением Правительства','Для главы 2 нет специальной процедуры'],a:0,ex:'Статья 135 отделяет пересмотр глав 1, 2 и 9 от процедуры поправок к главам 3–8, установленной статьёй 136.'},
+ {title:'Новое наименование субъекта',story:'Субъект РФ изменил своё наименование.',q:'Какая статья предусматривает внесение соответствующего изменения в статью 65?',opts:['Статья 137','Статья 107','Статья 87','Статья 47'],a:0,ex:'Статья 137 регулирует изменения статьи 65, в том числе в связи с изменением наименования субъекта РФ.'}
+],
+10:[
+ {title:'Старые нормативные акты',story:'После вступления Конституции в силу продолжает действовать ранее принятый нормативный акт.',q:'Каков базовый переходный принцип?',opts:['Он применяется в части, не противоречащей Конституции','Все прежние акты автоматически прекратили действие','Он становится частью Конституции','Он применяется только по решению муниципалитета'],a:0,ex:'Раздел II содержит переходное правило о действии ранее принятых актов в части, не противоречащей Конституции.'},
+ {title:'Переход институтов',story:'Новая Конституция вступила в силу, но государственные институты не могут быть заменены одномоментно.',q:'Для чего нужен Раздел II?',opts:['Для заключительных и переходных правил введения новой конституционной системы','Для перечня прав человека','Для федерального бюджета','Для перечня субъектов законодательной инициативы'],a:0,ex:'Раздел II регулирует вступление Конституции в силу и ряд переходных вопросов функционирования институтов.'}
+]
 };
 
-function targetByArticle(a){return targets.find(x=>x.type==='article'&&String(x.article)===String(a))}
-function unlockedArticle(a){let t=targetByArticle(a);return !!t&&isChapterUnlocked(t.chapter)}
-
-const state=JSON.parse(localStorage.getItem('gmu_const_v3')||localStorage.getItem('gmu_const_v2')||localStorage.getItem('gmu_const_v1')||'{"done":[],"miss":[],"attempts":0,"correct":0,"streak":0,"xp":0,"bestStreak":0,"achievements":[],"daily":{},"bosses":[]}');
-state.done=new Set(state.done||[]);state.miss=new Set(state.miss||[]);state.achievements=new Set(state.achievements||[]);state.bosses=new Set(state.bosses||[]);state.xp=Number(state.xp||0);state.bestStreak=Number(state.bestStreak||0);state.daily=state.daily||{};
-chapters.forEach(ch=>{let arr=targets.filter(t=>t.chapter===ch.id);if(arr.length&&arr.every(t=>state.done.has(t.id))&&ch.id<10&&targets.filter(t=>t.chapter===ch.id+1).some(t=>state.done.has(t.id)))state.bosses.add(ch.id)});
-let currentScreen=0, currentMode='coverage', currentQ=null, qNo=1, currentArticle=null, caseIndex=0, examN=20, examPool=[], examIndex=0, examCorrect=0;
-let bossChapter=null,bossPool=[],bossIndex=0,bossCorrect=0,bossAnswered=false;
-function save(){localStorage.setItem('gmu_const_v3',JSON.stringify({done:[...state.done],miss:[...state.miss],attempts:state.attempts,correct:state.correct,streak:state.streak,xp:state.xp,bestStreak:state.bestStreak,achievements:[...state.achievements],daily:state.daily,bosses:[...state.bosses]}))}
-function go(i){currentScreen=Math.max(0,Math.min(4,i));document.getElementById('track').style.transform=`translateX(-${currentScreen*100}vw)`;document.querySelectorAll('.navBtn').forEach((b,j)=>b.classList.toggle('active',j===currentScreen));document.querySelectorAll('.sDot').forEach((d,j)=>d.classList.toggle('active',j===currentScreen));}
-document.querySelectorAll('.navBtn').forEach(b=>b.onclick=()=>go(+b.dataset.screen));
-for(let i=0;i<5;i++){let d=document.createElement('div');d.className='sDot'+(i===0?' active':'');d.onclick=()=>go(i);document.getElementById('swipeDots').appendChild(d)}
-let wheelLock=false;addEventListener('wheel',e=>{if(document.getElementById('articleModal').classList.contains('open')||document.getElementById('bossModal').classList.contains('open')||document.getElementById('levelUpOverlay').classList.contains('show'))return;if(Math.abs(e.deltaY)<18&&Math.abs(e.deltaX)<18)return;if(currentScreen===1){const r=document.getElementById('chapterRail');r.scrollBy({left:(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*1.4,behavior:'smooth'});return}if(wheelLock)return;wheelLock=true;go(currentScreen+(e.deltaY>0||e.deltaX>0?1:-1));setTimeout(()=>wheelLock=false,650)},{passive:true});
-addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeBoss();closeLevelUp()}else if(e.key==='ArrowRight')go(currentScreen+1);else if(e.key==='ArrowLeft')go(currentScreen-1)});
-function chapterTargets(id){return targets.filter(t=>t.chapter===id)}
-function isChapterComplete(id){let arr=chapterTargets(id);return arr.length>0&&arr.every(t=>state.done.has(t.id))}
-function isChapterUnlocked(id){return id===0||state.bosses.has(id-1)}
-function chapterPct(id){let arr=chapterTargets(id);return arr.length?Math.round(arr.filter(t=>state.done.has(t.id)).length/arr.length*100):0}
-function focusChapter(id){
-  if(!isChapterUnlocked(id)){toast('Сначала победите босса предыдущей главы');return}
-  let rail=document.getElementById('chapterRail'),card=rail.querySelector('[data-chapter="'+id+'"]');
-  if(card)card.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'})
-}
-function renderChapterPath(){
-  const path=document.getElementById('chapterPath');
-  if(!path)return;
-  path.innerHTML='';
-  chapters.forEach(ch=>{
-    let unlocked=isChapterUnlocked(ch.id);
-    let complete=isChapterComplete(ch.id);
-    let bossed=state.bosses.has(ch.id);
-    let pct=chapterPct(ch.id);
-    let status=!unlocked?'🔒':bossed?'★':complete?'⚔':pct+'%';
-    let label=ch.id===10?'Финал':ch.id===0?'Старт':'Уровень '+ch.id;
-    let n=document.createElement('button');
-    n.className='levelNode'+(!unlocked?' locked':'')+(complete?' complete':'')+(bossed?' bossed':'');
-    n.innerHTML=`<div class="lnTop"><span>${label}</span><span>${status}</span></div><span class="lnTitle">${ch.name}</span><div class="lnBar"><span style="width:${pct}%"></span></div>`;
-    n.onclick=()=>focusChapter(ch.id);
-    path.appendChild(n)
-  })
-}
-function renderAtlas(){
-  const rail=document.getElementById('chapterRail');
-  rail.innerHTML='';
-  renderChapterPath();
-  chapters.forEach(ch=>{
-    let arr=chapterTargets(ch.id);
-    let doneN=arr.filter(t=>state.done.has(t.id)).length;
-    let unlocked=isChapterUnlocked(ch.id);
-    let complete=isChapterComplete(ch.id);
-    let bossed=state.bosses.has(ch.id);
-    let card=document.createElement('article');
-    card.dataset.chapter=ch.id;
-    card.className='chapterCard'+(!unlocked?' locked':'');
-    card.style.setProperty('--accent',ch.accent);
-
-    let bossPart;
-    if(bossed)bossPart='<span class="bossSeal">★ Босс побеждён</span>';
-    else if(complete)bossPart=`<button class="bossBtn" onclick="startBoss(${ch.id})">⚔ Босс главы</button>`;
-    else bossPart=`<button class="bossBtn" disabled>Босс: ${doneN}/${arr.length}</button>`;
-
-    card.innerHTML=`
-      <div class="chapterTitle">
-        <div>
-          <h3>${ch.name}</h3>
-          <small>${ch.id===10?'Раздел II':ch.id===0?'Вводная часть':'Глава '+ch.id} · ${ch.range} · ${arr.length} точек</small>
-        </div>
-        <div class="chapterNum">${ch.id===10?'II':ch.id===0?'§':String(ch.id).padStart(2,'0')}</div>
-      </div>
-      <div class="articleGrid"></div>
-      <div class="chapterFoot">
-        <span>${unlocked?'Закройте точки → победите босса → откройте следующий уровень':'Уровень пока закрыт'}</span>
-        <span class="chapterFootRight"><span>${doneN}/${arr.length} · ${chapterPct(ch.id)}%</span>${bossPart}</span>
-      </div>`;
-
-    let grid=card.querySelector('.articleGrid');
-    arr.forEach(t=>{
-      let b=document.createElement('button');
-      b.className='articleChip'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+((t.article+'').includes('.')?' special':'');
-      b.textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II-'+t.article.split('.')[1]);
-      b.title=t.topic;
-      b.disabled=!unlocked;
-      b.onclick=()=>openArticle(t);
-      grid.appendChild(b)
-    });
-
-    if(!unlocked){
-      let lock=document.createElement('div');
-      lock.className='chapterLock';
-      lock.innerHTML='<div class="lockBadge">🔒 Победите босса предыдущей главы</div>';
-      card.appendChild(lock)
-    }
-    rail.appendChild(card)
-  })
-}
-function rail(dir){document.getElementById('chapterRail').scrollBy({left:dir*Math.min(innerWidth*.75,900),behavior:'smooth'})}
-function openArticle(t){currentArticle=t;document.getElementById('modalNum').textContent=t.type==='preamble'?'§':(t.type==='article'?t.article:'II·'+t.article.split('.')[1]);let ch=chapters.find(c=>c.id===t.chapter);document.getElementById('modalEyebrow').textContent=t.chapter===0?'Преамбула':(t.type==='article'?`Глава ${t.chapter}`:'Раздел II');document.getElementById('modalChapter').textContent=ch.name;document.getElementById('modalTopic').textContent=t.topic;document.getElementById('modalState').textContent=state.done.has(t.id)?'Контрольная точка уже закрыта':'Ещё не проверено';document.getElementById('mission1').textContent=`Объясните своими словами, что означает: «${t.topic}». Назовите, кого или что эта норма связывает.`;document.getElementById('mission2').textContent=t.type==='article'?`Придумайте управленческую ситуацию, в которой статья ${t.article} станет юридически значимой. Укажите акторов и решение.`:'Объясните, зачем переходное правило было нужно в момент введения новой Конституции.';document.getElementById('articleModal').classList.add('open')}
-function closeModal(){document.getElementById('articleModal').classList.remove('open')}
-function trainCurrent(){if(currentArticle){currentQ=makeQ(currentArticle,true);renderQ();closeModal();go(2)}}
-function targetName(t){
-  if(t.type==='preamble')return 'Преамбула';
-  if(t.type==='article')return 'Статья '+t.article;
-  return 'Раздел II, пункт '+String(t.article).split('.')[1]
-}
-function chapterName(id){let ch=chapters.find(c=>c.id===id);return id===10?'Раздел II — '+ch.name:id===0?'Преамбула':`Глава ${id} — ${ch.name}`}
-function sample(arr,n){return shuffle([...arr]).slice(0,n)}
-function getDistractors(t,field){
-  let pool;
-  if(field==='chapter')pool=targets.filter(x=>x.id!==t.id&&x.chapter!==t.chapter);
-  else{
-    let same=targets.filter(x=>x.id!==t.id&&x.chapter===t.chapter&&x.topic!==t.topic);
-    let rest=targets.filter(x=>x.id!==t.id&&x.chapter!==t.chapter&&x.topic!==t.topic);
-    pool=same.length>=3?same:[...same,...shuffle(rest)]
-  }
-  return sample(pool,3)
-}
-function singleQuestion(t,kind){
-  const ch=chapters.find(c=>c.id===t.chapter);
-  if(kind==='reverse'){
-    let ds=getDistractors(t,'topic');
-    return{type:'single',format:'НОРМА → СТАТЬЯ',target:t,targets:[t],text:`Какой норме Конституции соответствует положение: «${t.topic}»?`,opts:shuffle([{v:t.id,text:targetName(t)},...ds.map(x=>({v:x.id,text:targetName(x)}))]),answer:t.id,explain:`${targetName(t)}: ${t.topic}.`}
-  }
-  if(kind==='scenario'){
-    let ds=getDistractors(t,'topic');
-    let starters=[
-      'Юрист готовит правовое заключение по ситуации, в которой ключевой вопрос —',
-      'В орган публичной власти поступил спор, связанный с темой:',
-      'Студент разбирает управленческий кейс. Центральная проблема в нём —',
-      'Нужно быстро найти конституционную основу для вопроса:'
-    ];
-    return{type:'single',format:'СИТУАЦИЯ → НОРМА',target:t,targets:[t],text:`${starters[Math.floor(Math.random()*starters.length)]} «${t.topic}». С какой нормы логичнее начать проверку?`,opts:shuffle([{v:t.id,text:targetName(t)},...ds.map(x=>({v:x.id,text:targetName(x)}))]),answer:t.id,explain:`В этой ситуации отправная конституционная норма — ${targetName(t)}: ${t.topic}.`}
-  }
-  if(kind==='chapter'){
-    let other=sample(chapters.filter(c=>c.id!==t.chapter),3);
-    return{type:'single',format:'СТРУКТУРА',target:t,targets:[t],text:`Где в структуре Конституции находится ${targetName(t).toLowerCase()}?`,opts:shuffle([{v:String(ch.id),text:chapterName(ch.id)},...other.map(c=>({v:String(c.id),text:chapterName(c.id)}))]),answer:String(ch.id),explain:`${targetName(t)} относится к блоку «${chapterName(t.chapter)}».`}
-  }
-  if(kind==='topic'){
-    let ds=getDistractors(t,'topic');
-    let stems=[
-      `Какое содержание точнее всего относится к ${targetName(t).toLowerCase()}?`,
-      `Что непосредственно регулирует ${targetName(t).toLowerCase()}?`,
-      `Выберите положение, которое нужно связать именно с ${targetName(t).toLowerCase()}.`,
-      `Какой из вариантов описывает предмет ${targetName(t).toLowerCase()}?`
-    ];
-    return{type:'single',format:'СТАТЬЯ → СОДЕРЖАНИЕ',target:t,targets:[t],text:stems[Math.floor(Math.random()*stems.length)],opts:shuffle([{v:t.id,text:t.topic},...ds.map(x=>({v:x.id,text:x.topic}))]),answer:t.id,explain:`${targetName(t)} регулирует: ${t.topic}.`}
-  }
-  if(kind==='truefalse'){
-    let makeFalse=Math.random()<.5;
-    if(makeFalse){
-      let wrong=sample(targets.filter(x=>x.id!==t.id&&x.topic!==t.topic),1)[0];
-      return{type:'single',format:'ВЕРНО / НЕВЕРНО',target:t,targets:[t],text:`Верно ли утверждение: «${targetName(t)} регулирует ${wrong.topic}»?`,opts:[{v:'true',text:'Верно'},{v:'false',text:'Неверно'}],answer:'false',explain:`Неверно. ${targetName(t)} посвящена теме: ${t.topic}.`}
-    }
-    return{type:'single',format:'ВЕРНО / НЕВЕРНО',target:t,targets:[t],text:`Верно ли утверждение: «${targetName(t)} регулирует ${t.topic}»?`,opts:[{v:'true',text:'Верно'},{v:'false',text:'Неверно'}],answer:'true',explain:`Да. Для ${targetName(t).toLowerCase()} это корректное описание: ${t.topic}.`}
-  }
-  if(kind==='neighbor'){
-    let idx=targets.findIndex(x=>x.id===t.id),goNext=idx<targets.length-1&&(idx===0||Math.random()<.5),n=goNext?targets[idx+1]:targets[idx-1];
-    if(!n)return singleQuestion(t,'reverse');
-    let ds=sample(targets.filter(x=>x.id!==n.id&&x.id!==t.id),3);
-    return{type:'single',format:'НАВИГАЦИЯ ПО ТЕКСТУ',target:t,targets:[t],text:`Какая контрольная точка расположена непосредственно ${goNext?'после':'перед'} ${targetName(t).toLowerCase()} в нашем конституционном маршруте?`,opts:shuffle([{v:n.id,text:targetName(n)},...ds.map(x=>({v:x.id,text:targetName(x)}))]),answer:n.id,explain:`${goNext?'Следующая':'Предыдущая'} точка — ${targetName(n)}.`}
-  }
-  if(kind==='odd'){
-    let baseCh=chapters.filter(c=>c.id!==t.chapter&&chapterTargets(c.id).length>=3);
-    if(!baseCh.length)return singleQuestion(t,'chapter');
-    let c=baseCh[Math.floor(Math.random()*baseCh.length)],same=sample(chapterTargets(c.id),3);
-    return{type:'single',format:'НАЙДИ ЛИШНЕЕ',target:t,targets:[t],text:`Три нормы из списка относятся к блоку «${chapterName(c.id)}». Какая выбивается из ряда?`,opts:shuffle([{v:t.id,text:targetName(t)},...same.map(x=>({v:x.id,text:targetName(x)}))]),answer:t.id,explain:`${targetName(t)} относится к блоку «${chapterName(t.chapter)}», а остальные варианты — к «${chapterName(c.id)}».`}
-  }
-  return singleQuestion(t,'topic')
-}
-function multiQuestion(t){
-  let same=chapterTargets(t.chapter).filter(x=>x.id!==t.id);
-  if(!same.length)return singleQuestion(t,'reverse');
-  let partner=sample(same,1)[0],outs=sample(targets.filter(x=>x.chapter!==t.chapter),2);
-  let correct=[t.id,partner.id],all=[t,partner,...outs];
-  return{type:'multi',format:'НЕСКОЛЬКО ОТВЕТОВ',target:t,targets:[t,partner],text:`Отметьте все нормы из списка, которые относятся к блоку «${chapterName(t.chapter)}».`,opts:shuffle(all.map(x=>({v:x.id,text:targetName(x)}))),answers:correct,explain:`К этому блоку относятся ${targetName(t)} и ${targetName(partner)}.`}
-}
-function matchQuestion(t){
-  let available=targets.filter(x=>isChapterUnlocked(x.chapter)&&x.id!==t.id);
-  if(available.length<2)return singleQuestion(t,'reverse');
-  let mates=sample(available,2),pairs=[t,...mates].map(x=>({id:x.id,left:targetName(x),right:x.topic,target:x}));
-  return{type:'match',format:'СООТНОШЕНИЕ',target:t,targets:pairs.map(p=>p.target),text:'Соотнесите каждую норму с её содержанием.',pairs,rightOptions:shuffle(pairs.map(p=>p.right)),explain:'Все три пары сопоставлены верно.'}
-}
-
-function appointmentQuestion(t){
-  let pool=appointmentFacts.filter(f=>f.articles.every(unlockedArticle));
-  if(pool.length<3)return null;
-  let preferred=pool.find(f=>f.articles.includes(String(t.article)));
-  let chosen=preferred?[preferred,...sample(pool.filter(x=>x!==preferred),2)]:sample(pool,3);
-  let pairs=chosen.map((f,i)=>({id:'ap'+i,left:f.left,right:f.right,target:t}));
-  return{type:'match',format:'КТО НАЗНАЧАЕТ / УТВЕРЖДАЕТ',target:t,targets:[t],text:'Соотнесите должность с конституционной процедурой назначения или утверждения.',pairs,rightOptions:shuffle(pairs.map(p=>p.right)),explain:'Процедуры распределены между Президентом, Государственной Думой и Советом Федерации; ключевые нормы — статьи 83, 102, 103, 111 и 128.'}
-}
-function legislativeSequenceQuestion(t){
-  let steps=[
-    {id:'l1',text:'Законопроект вносится в Государственную Думу.'},
-    {id:'l2',text:'Государственная Дума принимает федеральный закон.'},
-    {id:'l3',text:'Принятый Государственной Думой закон передаётся на рассмотрение Совета Федерации.'},
-    {id:'l4',text:'После прохождения парламентской стадии принятый федеральный закон направляется Президенту.'},
-    {id:'l5',text:'Президент подписывает и обнародует федеральный закон либо использует предусмотренную Конституцией процедуру отклонения.'}
-  ];
-  let mixed=shuffle([...steps]);
-  if(mixed.every((x,i)=>x.id===steps[i].id))mixed=[mixed[1],mixed[0],...mixed.slice(2)];
-  return{type:'sequence',format:'СОБЕРИ ПРОЦЕСС',target:t,targets:[t],text:'Восстановите базовую последовательность прохождения обычного федерального закона по Конституции РФ.',steps:mixed,correct:steps.map(x=>x.id),explain:'Базовая цепочка следует из статей 104, 105 и 107: внесение в Госдуму → принятие Госдумой → стадия Совета Федерации → направление Президенту → подписание и обнародование либо конституционная процедура отклонения.'}
-}
-function premierSequenceQuestion(t){
-  let steps=[
-    {id:'p1',text:'Президент Российской Федерации представляет кандидатуру Председателя Правительства в Государственную Думу.'},
-    {id:'p2',text:'Государственная Дума рассматривает представленную кандидатуру.'},
-    {id:'p3',text:'Государственная Дума утверждает кандидатуру.'},
-    {id:'p4',text:'Президент Российской Федерации назначает Председателя Правительства.'}
-  ];
-  let mixed=shuffle([...steps]);if(mixed.every((x,i)=>x.id===steps[i].id))mixed.reverse();
-  return{type:'sequence',format:'ПОРЯДОК НАЗНАЧЕНИЯ',target:t,targets:[t],text:'Расположите стадии обычной процедуры назначения Председателя Правительства РФ в правильном порядке.',steps:mixed,correct:steps.map(x=>x.id),explain:'По статье 111 Президент представляет кандидатуру, Государственная Дума её рассматривает и утверждает, после чего Президент назначает Председателя Правительства.'}
-}
-function competenceClassifyQuestion(t){
-  let selected=[
-    ...sample(competenceItems.filter(x=>x.bucket==='rf'),2),
-    ...sample(competenceItems.filter(x=>x.bucket==='joint'),2),
-    ...sample(competenceItems.filter(x=>x.bucket==='region'),2)
-  ];
-  return{type:'classify',format:'РАЗГРАНИЧЕНИЕ КОМПЕТЕНЦИЙ',target:t,targets:[t],text:'Распределите положения по уровням конституционного ведения.',items:shuffle(selected.map((x,i)=>({id:'c'+i,text:x.text,bucket:x.bucket}))),buckets:[
-    {id:'rf',title:'Ведение РФ · ст. 71'},
-    {id:'joint',title:'Совместное ведение · ст. 72'},
-    {id:'region',title:'Остаточная компетенция субъектов · ст. 73'}
-  ],explain:'Статья 71 закрепляет ведение РФ, статья 72 — совместное ведение, а статья 73 сохраняет за субъектами полноту государственной власти вне этих пределов.'}
-}
-function actorClassifyQuestion(t){
-  let selected=[
-    ...sample(actorPowers.filter(x=>x.bucket==='sf'),2),
-    ...sample(actorPowers.filter(x=>x.bucket==='gd'),2),
-    ...sample(actorPowers.filter(x=>x.bucket==='pres'),2)
-  ];
-  return{type:'classify',format:'КТО ЭТО ДЕЛАЕТ?',target:t,targets:[t],text:'Распределите полномочия между тремя конституционными акторами.',items:shuffle(selected.map((x,i)=>({id:'a'+i,text:x.text,bucket:x.bucket}))),buckets:[
-    {id:'sf',title:'Совет Федерации'},
-    {id:'gd',title:'Государственная Дума'},
-    {id:'pres',title:'Президент РФ'}
-  ],explain:'Полномочия распределены Конституцией прежде всего в статьях 83–84, 102 и 103.'}
-}
-function deepCaseQuestion(t){
-  let c=deepCaseBank[String(t.article)];if(!c)return null;
-  return{type:'single',format:'МИНИ-КЕЙС',target:t,targets:[t],text:c.text,opts:shuffle(c.opts.map(x=>({v:x[0],text:x[1]}))),answer:c.answer,explain:c.explain}
-}
-function advancedQuestion(t){
-  let a=String(t.article),choices=[];
-  if(['104','105','106','107'].includes(a)&&['104','105','107'].every(unlockedArticle))choices.push(()=>legislativeSequenceQuestion(t));
-  if(a==='111'&&unlockedArticle('111'))choices.push(()=>premierSequenceQuestion(t));
-  if(['71','72','73'].includes(a)&&['71','72','73'].every(unlockedArticle))choices.push(()=>competenceClassifyQuestion(t),()=>competenceClassifyQuestion(t));
-  if(['83','102','103'].includes(a)&&['83','102','103'].every(unlockedArticle))choices.push(()=>actorClassifyQuestion(t));
-  if(['83','102','103','111','128'].includes(a))choices.push(()=>appointmentQuestion(t));
-  if(deepCaseBank[a])choices.push(()=>deepCaseQuestion(t),()=>deepCaseQuestion(t));
-  if(!choices.length)return null;
-  let q=choices[Math.floor(Math.random()*choices.length)]();
-  return q||null
-}
-
-function makeQ(t,forceTopic=false,allowComplex=true){
-  if(allowComplex&&!forceTopic){
-    let adv=advancedQuestion(t);
-    if(adv&&Math.random()<.58)return adv
-  }
-  let kinds=['reverse','scenario','chapter','topic','truefalse','neighbor','odd'];
-  if(forceTopic)kinds=['reverse','scenario','topic','truefalse'];
-  if(allowComplex){
-    if(chapterTargets(t.chapter).length>1)kinds.push('multi');
-    if(targets.filter(x=>isChapterUnlocked(x.chapter)).length>=3)kinds.push('match');
-  }
-  let kind=kinds[Math.floor(Math.random()*kinds.length)];
-  if(kind==='multi')return multiQuestion(t);
-  if(kind==='match')return matchQuestion(t);
-  return singleQuestion(t,kind)
-}
-function chooseTarget(){
-  let unlockedTargets=targets.filter(t=>isChapterUnlocked(t.chapter));
-  let pool;
-  if(currentMode==='errors'&&state.miss.size)pool=unlockedTargets.filter(t=>state.miss.has(t.id));
-  else if(currentMode==='coverage'){let unseen=unlockedTargets.filter(t=>!state.done.has(t.id));pool=unseen.length?unseen:unlockedTargets}
-  else pool=unlockedTargets;
-  if(!pool.length)pool=targets.filter(t=>t.chapter===0);
-  return pool[Math.floor(Math.random()*pool.length)]
-}
-function nextQ(){currentQ=makeQ(chooseTarget(),false,true);renderQ()}
-function modeLabel(){return currentMode==='coverage'?'ПОЛНОЕ ПОКРЫТИЕ':currentMode==='errors'?'РАБОТА НАД ОШИБКАМИ':'СМЕШАННЫЙ РЕЖИМ'}
-function renderQ(){
-  if(!currentQ)nextQ();
-  let q=currentQ;
-  document.getElementById('questionText').textContent=q.text;
-  document.getElementById('qCount').textContent='вопрос '+qNo;
-  document.getElementById('qTag').textContent=q.format+' · '+modeLabel();
-  let box=document.getElementById('answers');box.innerHTML='';
-
-  if(q.type==='match'){
-    box.style.display='block';
-    let grid=document.createElement('div');grid.className='matchGrid';
-    q.pairs.forEach((p,i)=>{
-      let row=document.createElement('div');row.className='matchRow';
-      let options=['<option value="">Выберите соответствие…</option>',...q.rightOptions.map(r=>`<option value="${encodeURIComponent(r)}">${r}</option>`)].join('');
-      row.innerHTML=`<div class="matchLeft">${p.left}</div><div class="matchArrow">→</div><select class="matchSelect" data-pair="${i}">${options}</select>`;
-      grid.appendChild(row)
-    });
-    let check=document.createElement('button');check.className='btn btnPrimary complexCheck';check.textContent='Проверить сопоставление';check.onclick=submitMatch;grid.appendChild(check);box.appendChild(grid)
-  }else if(q.type==='sequence'){
-    box.style.display='block';
-    let list=document.createElement('div');list.className='sequenceList';list.id='sequenceList';
-    q.steps.forEach((st,i)=>{
-      let el=document.createElement('div');el.className='sequenceItem';el.draggable=true;el.dataset.id=st.id;
-      el.innerHTML=`<div class="seqHandle">↕</div><div class="seqText">${st.text}</div><div class="seqBtns"><button class="seqBtn" onclick="moveSequence('${st.id}',-1)">↑</button><button class="seqBtn" onclick="moveSequence('${st.id}',1)">↓</button></div>`;
-      el.ondragstart=e=>{el.classList.add('dragging');e.dataTransfer.setData('text/plain',st.id)};
-      el.ondragend=()=>el.classList.remove('dragging');
-      el.ondragover=e=>e.preventDefault();
-      el.ondrop=e=>{e.preventDefault();let id=e.dataTransfer.getData('text/plain');let src=list.querySelector('[data-id="'+id+'"]');if(src&&src!==el)list.insertBefore(src,el)};
-      list.appendChild(el)
-    });
-    let check=document.createElement('button');check.className='btn btnPrimary complexCheck';check.textContent='Проверить порядок';check.onclick=submitSequence;list.appendChild(check);box.appendChild(list)
-  }else if(q.type==='classify'){
-    box.style.display='block';
-    let wrap=document.createElement('div');wrap.className='classifyWrap';
-    let note=document.createElement('div');note.className='labNote';note.textContent='Перетащите карточки. На телефоне можно просто нажимать карточку — она будет переходить в следующую категорию.';
-    let pool=document.createElement('div');pool.className='classPool';pool.id='classPool';pool.dataset.bucket='';
-    q.items.forEach(it=>pool.appendChild(makeSortCard(it)));
-    let grid=document.createElement('div');grid.className='bucketGrid';
-    q.buckets.forEach(b=>{
-      let d=document.createElement('div');d.className='classBucket';d.dataset.bucket=b.id;
-      d.innerHTML=`<div class="bucketTitle">${b.title}</div>`;
-      d.ondragover=e=>{e.preventDefault();d.classList.add('dropActive')};
-      d.ondragleave=()=>d.classList.remove('dropActive');
-      d.ondrop=e=>{e.preventDefault();d.classList.remove('dropActive');let id=e.dataTransfer.getData('text/plain');let card=document.querySelector('.sortCard[data-id="'+id+'"]');if(card)d.appendChild(card)};
-      grid.appendChild(d)
-    });
-    pool.ondragover=e=>e.preventDefault();pool.ondrop=e=>{e.preventDefault();let id=e.dataTransfer.getData('text/plain');let card=document.querySelector('.sortCard[data-id="'+id+'"]');if(card)pool.appendChild(card)};
-    let check=document.createElement('button');check.className='btn btnPrimary complexCheck';check.textContent='Проверить распределение';check.onclick=submitClassify;
-    wrap.append(note,pool,grid,check);box.appendChild(wrap)
-  }else{
-    box.style.display='grid';
-    q.opts.forEach((o,i)=>{
-      let b=document.createElement('button');b.className='answer';b.dataset.value=o.v;b.innerHTML=`<span class="letter">${'ABCD'[i]||'•'}</span><span>${o.text}</span>`;
-      if(q.type==='multi')b.onclick=()=>b.classList.toggle('selected');else b.onclick=()=>answerQ(o,b);
-      box.appendChild(b)
-    });
-    if(q.type==='multi'){let check=document.createElement('button');check.className='btn btnPrimary complexCheck';check.textContent='Проверить выбранные варианты';check.onclick=submitMulti;box.appendChild(check)}
-  }
-
-  let help='Выберите ответ. После ошибки можно отвечать снова — вопрос не исчезнет.';
-  if(q.type==='match')help='Подберите соответствие для каждой строки. После ошибки можно изменить варианты и проверить снова.';
-  if(q.type==='multi')help='Можно выбрать несколько вариантов. После ошибки попытка остаётся открытой.';
-  if(q.type==='sequence')help='Перетащите этапы или используйте стрелки ↑ ↓. Проверять можно сколько угодно раз.';
-  if(q.type==='classify')help='Разнесите все карточки по категориям. Неверные карточки будут отмечены, но правильные категории автоматически не раскрываются.';
-  document.getElementById('feedback').innerHTML=help;
-  renderCoverageMap()
-}
-
-const levels=[
- {min:0,name:'Стажёр публичного управления'},
- {min:250,name:'Младший аналитик'},
- {min:650,name:'Аналитик Конституции'},
- {min:1200,name:'Советник по публичному праву'},
- {min:2000,name:'Эксперт ГМУ'},
- {min:3100,name:'Архитектор публичной власти'},
- {min:4500,name:'Мастер Конституции'}
-];
-const achievements=[
- {id:'first',icon:'✦',title:'Первый шаг',desc:'Закрыта первая контрольная точка.',test:()=>state.done.size>=1},
- {id:'ten',icon:'10',title:'Десятка',desc:'Закрыто 10 положений Конституции.',test:()=>state.done.size>=10},
- {id:'quarter',icon:'¼',title:'Четверть карты',desc:'Закрыто не менее 38 учебных точек.',test:()=>state.done.size>=38},
- {id:'half',icon:'½',title:'Половина пути',desc:'Закрыта половина Конституционной карты.',test:()=>state.done.size>=76},
- {id:'hundred',icon:'100',title:'Сотня',desc:'Закрыто 100 контрольных точек.',test:()=>state.done.size>=100},
- {id:'streak5',icon:'×5',title:'Серия 5',desc:'Пять правильных ответов подряд.',test:()=>state.bestStreak>=5},
- {id:'streak10',icon:'×10',title:'Серия 10',desc:'Десять правильных ответов подряд.',test:()=>state.bestStreak>=10},
- {id:'lab25',icon:'◇',title:'Конституционная лаборатория',desc:'Закрыто не менее 25 контрольных точек.',test:()=>state.done.size>=25},
- {id:'boss1',icon:'⚔',title:'Первый босс',desc:'Побеждён первый босс кампании.',test:()=>state.bosses.size>=1},
- {id:'boss5',icon:'V',title:'Пять глав',desc:'Побеждены боссы пяти структурных блоков.',test:()=>state.bosses.size>=5},
- {id:'all',icon:'★',title:'Полная Конституция',desc:'Закрыты все учебные точки.',test:()=>state.done.size>=targets.length},
- {id:'bossAll',icon:'♛',title:'Конституционный финал',desc:'Побеждены все боссы кампании.',test:()=>state.bosses.size>=chapters.length}
-];
-function getLevel(){let idx=0;for(let i=0;i<levels.length;i++)if(state.xp>=levels[i].min)idx=i;let cur=levels[idx],next=levels[idx+1]||{min:cur.min+1000,name:'∞'};return{index:idx+1,name:cur.name,min:cur.min,next:next.min,pct:Math.max(0,Math.min(100,(state.xp-cur.min)/(next.min-cur.min)*100))}}
-function comboMultiplier(){return 1+Math.min(Math.floor(state.streak/3),5)*.15}
-function awardRawXP(add,origin){
-  let before=getLevel();state.xp+=add;let after=getLevel();if(origin)xpFloat(add,origin);
-  if(after.index>before.index)setTimeout(()=>showLevelUp(after),320);
-  return add
-}
-function gainXP(base,origin){let mult=comboMultiplier();let add=Math.round(base*mult);awardRawXP(add,origin);return add}
-function showLevelUp(lv){document.getElementById('levelUpNum').textContent=lv.index;document.getElementById('levelUpName').textContent=lv.name;document.getElementById('levelUpOverlay').classList.add('show')}
-function closeLevelUp(){document.getElementById('levelUpOverlay').classList.remove('show')}
-function xpFloat(amount,origin){let el=document.createElement('div');el.className='xpFloat';el.textContent='+'+amount+' XP';let r=origin&&origin.getBoundingClientRect?origin.getBoundingClientRect():{left:innerWidth*.55,top:innerHeight*.45,width:0};el.style.left=(r.left+r.width/2)+'px';el.style.top=r.top+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),950)}
-function unlockAchievements(){achievements.forEach(a=>{if(!state.achievements.has(a.id)&&a.test()){state.achievements.add(a.id);showAchievement(a)}})}
-function showAchievement(a){let pop=document.getElementById('achievementPop');document.getElementById('achievementTitle').textContent=a.title;document.getElementById('achievementDesc').textContent=a.desc;pop.classList.add('show');setTimeout(()=>pop.classList.remove('show'),2600)}
-function renderBadges(){let shelf=document.getElementById('badgeShelf');if(!shelf)return;shelf.innerHTML='';achievements.slice(0,6).forEach(a=>{let d=document.createElement('div');d.className='achievement'+(state.achievements.has(a.id)?' unlocked':'');d.textContent=a.icon;d.title=a.title+' — '+a.desc;shelf.appendChild(d)})}
-function dailyKey(){let d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
-function updateDaily(newPoint){let key=dailyKey();if(!state.daily[key])state.daily[key]={start:state.done.size,count:0,claimed:false};if(newPoint)state.daily[key].count++;let q=state.daily[key],text=document.getElementById('dailyQuestText'),reward=document.getElementById('dailyQuestReward');if(text){text.textContent=q.claimed?'Миссия выполнена. Завтра появится новая.':`Закройте 5 новых контрольных точек: ${Math.min(q.count,5)} / 5.`;reward.textContent=q.claimed?'получено +100 XP':'+100 XP'}if(q.count>=5&&!q.claimed){q.claimed=true;awardRawXP(100);showAchievement({title:'Миссия дня',desc:'Пять новых контрольных точек закрыты. Начислено +100 XP.'})}}
-function updateGameUI(){let lv=getLevel();let ids={topLevel:lv.index,topXP:state.xp,levelBadge:lv.index,levelName:lv.name,xpValue:state.xp+' XP',xpCurrent:(state.xp-lv.min)+' / '+(lv.next-lv.min),trainerRank:'Уровень '+lv.index+' · '+lv.name,trainerXP:state.xp+' XP',comboValue:state.streak,comboMult:'×'+comboMultiplier().toFixed(2)};Object.entries(ids).forEach(([id,v])=>{let e=document.getElementById(id);if(e)e.textContent=v});['xpLine','trainerXpLine'].forEach(id=>{let e=document.getElementById(id);if(e)e.style.width=lv.pct+'%'});renderBadges();updateDaily(false)}
+const specialTasks={
+3:{type:'classify',title:'Разграничение компетенций',buckets:[['rf','Ведение РФ · ст. 71'],['joint','Совместное ведение · ст. 72'],['region','Остаточная компетенция · ст. 73']],items:[
+ ['Принятие и изменение Конституции РФ и федеральных законов','rf'],['Федеральный бюджет','rf'],['Оборона и безопасность','rf'],
+ ['Защита прав и свобод человека и гражданина','joint'],['Общие вопросы воспитания, образования, науки и культуры','joint'],['Координация вопросов здравоохранения','joint'],
+ ['Вопрос вне ведения РФ и вне совместного ведения','region']
+]},
+5:{type:'sequence',title:'Законодательный процесс',steps:['Законопроект вносится в Государственную Думу','Государственная Дума принимает федеральный закон','Принятый закон передаётся в Совет Федерации','После парламентской стадии закон направляется Президенту','Президент подписывает и обнародует закон либо действует по процедуре его отклонения']},
+6:{type:'sequence',title:'Назначение Председателя Правительства',steps:['Президент представляет кандидатуру в Государственную Думу','Государственная Дума рассматривает кандидатуру','Государственная Дума утверждает кандидатуру','Президент назначает Председателя Правительства']},
+9:{type:'classify',title:'Как меняется Конституция',buckets:[['review','Пересмотр · главы 1, 2, 9'],['amend','Поправки · главы 3–8'],['article65','Изменение статьи 65']],items:[
+ ['Изменение основы конституционного строя','review'],['Изменение положений о правах и свободах','review'],['Изменение порядка пересмотра Конституции','review'],
+ ['Поправка к главе о Президенте','amend'],['Поправка к главе о Правительстве','amend'],['Изменение состава или наименования субъекта РФ','article65']
+]}
+};
 
 
-function bossQuestionCount(chId){let n=chapterTargets(chId).length;return n>=20?12:n>=8?10:Math.max(5,n*2)}
-function startBoss(chId){
-  if(!isChapterUnlocked(chId)){toast('Эта глава ещё закрыта');return}
-  if(!isChapterComplete(chId)){toast('Сначала закройте все контрольные точки главы');return}
-  bossChapter=chId;bossIndex=0;bossCorrect=0;bossAnswered=false;
-  let arr=chapterTargets(chId),n=bossQuestionCount(chId);bossPool=[];
-  for(let i=0;i<n;i++)bossPool.push(makeQ(arr[i%arr.length],i%3!==2,false));
-  shuffle(bossPool);
-  let ch=chapters.find(c=>c.id===chId);
-  document.getElementById('bossTitle').textContent=ch.name;
-  document.getElementById('bossSubtitle').textContent=(chId===10?'Финальный босс':'Глава '+chId)+' · '+n+' вопросов · одна попытка на каждый';
-  document.getElementById('bossModal').classList.add('open');renderBossQ()
-}
-function closeBoss(){document.getElementById('bossModal').classList.remove('open')}
-function renderBossQ(){
-  let body=document.getElementById('bossBody'),n=bossPool.length;
-  document.getElementById('bossBar').style.width=(bossIndex/n*100)+'%';
-  document.getElementById('bossMetaLeft').textContent='Верно: '+bossCorrect;
-  document.getElementById('bossMetaRight').textContent=bossIndex+' / '+n;
-  if(bossIndex>=n)return finishBoss();
-  let q=bossPool[bossIndex];bossAnswered=false;
-  body.innerHTML=`<div class="bossQuestion">${bossIndex+1}. ${q.text}</div><div class="answers" id="bossAnswers"></div>`;
-  let box=document.getElementById('bossAnswers');
-  q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${o.text}</span>`;b.onclick=()=>answerBoss(o,b);box.appendChild(b)})
-}
-function answerBoss(o,btn){
-  if(bossAnswered)return;bossAnswered=true;
-  let q=bossPool[bossIndex],ok=o.v===q.answer;if(ok)bossCorrect++;
-  btn.classList.add(ok?'correct':'wrong');
-  [...document.querySelectorAll('#bossAnswers .answer')].forEach(x=>x.disabled=true);
-  setTimeout(()=>{bossIndex++;renderBossQ()},520)
-}
-function finishBoss(){
-  let n=bossPool.length,pct=Math.round(bossCorrect/n*100),pass=pct>=80,ch=chapters.find(c=>c.id===bossChapter),body=document.getElementById('bossBody');
-  document.getElementById('bossBar').style.width='100%';
-  document.getElementById('bossMetaLeft').textContent='Результат: '+bossCorrect+' из '+n;
-  document.getElementById('bossMetaRight').textContent=pct+'%';
-  if(pass){
-    let first=!state.bosses.has(bossChapter);state.bosses.add(bossChapter);
-    let reward=first?(bossChapter===10?500:180):45;awardRawXP(reward);
-    unlockAchievements();save();updateStats();
-    body.innerHTML=`<div class="bossResult"><div class="bossScore">${pct}%</div><h3 style="font-size:30px;margin-top:18px">Босс побеждён</h3><p style="color:var(--muted);margin-top:8px">${bossChapter===10?'Кампания завершена: все структурные блоки Конституции открыты и пройдены.':'Следующая глава разблокирована.'} +${reward} XP.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="closeBoss();${bossChapter<10?'focusChapter('+(bossChapter+1)+')':'go(0)'}">Продолжить →</button></div></div>`
-  }else{
-    body.innerHTML=`<div class="bossResult"><div class="bossScore">${pct}%</div><h3 style="font-size:30px;margin-top:18px">Босс устоял</h3><p style="color:var(--muted);margin-top:8px">Для победы нужно не менее 80%. Повторная попытка соберёт новый набор вопросов.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="startBoss(${bossChapter})">Новая попытка</button><button class="btn btnGhost" onclick="closeBoss()">Вернуться к главе</button></div></div>`
-  }
+const moduleDescriptions={
+0:'Ценностные основания принятия Конституции.',
+1:'Основы строя: народовластие, федерализм, разделение властей, экономика, местное самоуправление и верховенство Конституции.',
+2:'Права, свободы, обязанности и их гарантии.',
+3:'Состав Федерации, разграничение компетенций и устройство публичной власти.',
+4:'Статус, избрание и полномочия Президента Российской Федерации.',
+5:'Совет Федерации, Государственная Дума и федеральный законодательный процесс.',
+6:'Организация и полномочия Правительства Российской Федерации.',
+7:'Правосудие, судебная система, Конституционный Суд, Верховный Суд и прокуратура.',
+8:'Организация, полномочия и гарантии местного самоуправления.',
+9:'Пересмотр Конституции, поправки и изменение статьи 65.',
+10:'Вступление Конституции в силу и переход от прежней системы к новой.'
+};
+
+const saved=JSON.parse(localStorage.getItem('gmu_const_v4')||localStorage.getItem('gmu_const_v3')||'{}');
+const state={
+ done:new Set(saved.done||[]),xp:Number(saved.xp||0),stars:saved.stars||{},seen:saved.seen||{},attempts:Number(saved.attempts||0),correct:Number(saved.correct||0)
+};
+let currentModule=null,currentTab='overview',selectedArticle=null,currentQ=null,practiceN=0,lastFormat={},caseIndex=0,test=null;
+
+function save(){localStorage.setItem('gmu_const_v4',JSON.stringify({done:[...state.done],xp:state.xp,stars:state.stars,seen:state.seen,attempts:state.attempts,correct:state.correct}))}
+function moduleTargets(id){return targets.filter(t=>t.chapter===id)}
+function mLabel(id){return id===0?'Преамбула':id===10?'Раздел II':'Глава '+id}
+function articleLabel(t){return t.type==='preamble'?'Преамбула':t.type==='article'?'Статья '+t.article:'Раздел II · пункт '+String(t.article).split('.')[1]}
+function shortLabel(t){return t.type==='preamble'?'§':t.type==='article'?String(t.article):'II-'+String(t.article).split('.')[1]}
+function mastery(id){let a=moduleTargets(id);return a.length?Math.round(a.filter(t=>state.done.has(t.id)).length/a.length*100):0}
+function persist(){save();updateTop()}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}
+function updateTop(){document.getElementById('topDone').textContent=state.done.size+' / '+targets.length;document.getElementById('topXP').textContent=state.xp}
+function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id))}
+function showHome(){currentModule=null;currentQ=null;document.getElementById('crumb').textContent='Разделы Конституции';renderHome();showView('homeView')}
+function starHTML(n){return [1,2,3].map(i=>'<span class="'+(i<=n?'on':'')+'">★</span>').join('')}
+
+function renderHome(){
+ const g=document.getElementById('moduleGrid');g.innerHTML='';
+ chapters.forEach(ch=>{
+   let arr=moduleTargets(ch.id),pct=mastery(ch.id),star=state.stars[ch.id]||0;
+   let b=document.createElement('button');b.className='moduleCard';b.style.setProperty('--accent',ch.accent);
+   b.innerHTML='<div class="mtop"><div class="mnum">'+(ch.id===0?'§':ch.id===10?'II':String(ch.id).padStart(2,'0'))+'</div><div class="mrange">'+ch.range+'</div></div>'+
+    '<h3>'+ch.name+'</h3><div class="meta">'+arr.length+' контрольных точек · '+(casesByModule[ch.id]||[]).length+' кейса</div>'+
+    '<div class="progress"><span style="width:'+pct+'%"></span></div><div class="pmeta"><span>'+pct+'% изучено</span><span>'+starHTML(star)+'</span></div>';
+   b.onclick=()=>openModule(ch.id);g.appendChild(b)
+ })
+ updateTop()
 }
 
+function openModule(id,tab='overview'){
+ currentModule=id;currentTab=tab;caseIndex=0;currentQ=null;
+ let ch=chapters.find(c=>c.id===id);
+ document.getElementById('crumb').textContent=mLabel(id)+' · '+ch.name;
+ document.getElementById('moduleKicker').textContent=mLabel(id);
+ document.getElementById('moduleTitle').textContent=ch.name;
+ document.getElementById('moduleRange').textContent=ch.range+' · '+moduleDescriptions[id];
+ updateModuleHead();
+ document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
+ renderTab();showView('moduleView')
+}
+function updateModuleHead(){
+ let pct=mastery(currentModule),star=state.stars[currentModule]||0;
+ document.getElementById('modulePct').textContent=pct+'%';document.getElementById('moduleProgress').style.width=pct+'%';
+ document.getElementById('moduleStars').innerHTML=starHTML(star)
+}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{currentTab=b.dataset.tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));renderTab()});
 
-function moveSequence(id,delta){
-  let list=document.getElementById('sequenceList');if(!list)return;
-  let el=list.querySelector('[data-id="'+id+'"]');if(!el)return;
-  let items=[...list.querySelectorAll('.sequenceItem')],i=items.indexOf(el),j=i+delta;
-  if(j<0||j>=items.length)return;
-  if(delta<0)list.insertBefore(el,items[j]);else list.insertBefore(items[j],el)
-}
-function submitSequence(){
-  let els=[...document.querySelectorAll('#sequenceList .sequenceItem')];
-  let order=els.map(x=>x.dataset.id),ok=order.length===currentQ.correct.length&&order.every((v,i)=>v===currentQ.correct[i]);
-  els.forEach((el,i)=>el.classList.toggle('bad',order[i]!==currentQ.correct[i]));
-  if(ok)completeTrainerQuestion(document.querySelector('.complexCheck'));
-  else failTrainerQuestion('Порядок стадий пока нарушен. Переставьте отмеченные элементы и проверьте ещё раз.',document.querySelector('.complexCheck'))
-}
-function makeSortCard(it){
-  let card=document.createElement('div');card.className='sortCard';card.draggable=true;card.dataset.id=it.id;card.dataset.expected=it.bucket;card.textContent=it.text;
-  card.ondragstart=e=>e.dataTransfer.setData('text/plain',it.id);
-  card.onclick=()=>{
-    let buckets=[document.getElementById('classPool'),...document.querySelectorAll('.classBucket')],parent=card.parentElement,i=buckets.indexOf(parent),next=buckets[(i+1)%buckets.length];if(next)next.appendChild(card);card.classList.remove('bad')
-  };
-  return card
-}
-function submitClassify(){
-  let cards=[...document.querySelectorAll('.sortCard')],ok=true;
-  cards.forEach(card=>{let actual=card.parentElement?.dataset?.bucket||'',good=actual===card.dataset.expected;card.classList.toggle('bad',!good);if(!good)ok=false});
-  if(ok)completeTrainerQuestion(document.querySelector('.complexCheck'));
-  else failTrainerQuestion('Часть карточек распределена неверно или ещё осталась вне категорий.',document.querySelector('.complexCheck'))
+function renderTab(){
+ if(currentTab==='overview')renderOverview();
+ if(currentTab==='practice')renderPractice();
+ if(currentTab==='cases')renderCases();
+ if(currentTab==='test')renderTestIntro()
 }
 
-function completeTrainerQuestion(origin){
-  let q=currentQ,newCount=0;
-  state.attempts++;state.correct++;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak);
-  (q.targets||[q.target]).forEach(t=>{if(!state.done.has(t.id)){newCount++;state.done.add(t.id);updateDaily(true)}state.miss.delete(t.id)});
-  let base=newCount?25+newCount*12:12,gained=gainXP(base,origin);
-  unlockAchievements();
-  document.getElementById('feedback').innerHTML=`<strong>Верно.</strong> ${q.explain} +${gained} XP${newCount>1?` · закрыто новых точек: ${newCount}`:''}${state.streak>=3?` · серия ${state.streak}`:''}. Через мгновение — новое задание.`;
-  save();updateStats();setTimeout(()=>{qNo++;currentQ=null;nextQ()},900)
+function renderOverview(){
+ let arr=moduleTargets(currentModule);if(!selectedArticle||selectedArticle.chapter!==currentModule)selectedArticle=arr[0];
+ let panel=document.getElementById('modulePanel');
+ panel.innerHTML='<div class="overview"><div class="articleSide"><div><h3>Все нормы раздела</h3><p>Нажмите на статью: справа откроется её смысловой фокус. Синим отмечены уже отработанные точки.</p></div><div class="articleMap" id="articleMap"></div></div><div class="articleDetail" id="articleDetail"></div></div>';
+ let map=document.getElementById('articleMap');
+ arr.forEach(t=>{let b=document.createElement('button');b.className='articleChip'+(state.done.has(t.id)?' done':'')+(t===selectedArticle?' active':'')+(String(t.article).includes('.')?' special':'');b.textContent=shortLabel(t);b.title=t.topic;b.onclick=()=>{selectedArticle=t;renderOverview()};map.appendChild(b)});
+ let d=document.getElementById('articleDetail');
+ d.innerHTML='<div class="eyebrow">'+mLabel(currentModule)+'</div><div class="bigArticle">'+shortLabel(selectedArticle)+'</div><h3>'+articleLabel(selectedArticle)+'</h3><p>'+selectedArticle.topic+'.</p><div class="detailFoot"><button class="btn primary" onclick="practiceArticle(\''+selectedArticle.id+'\')">Задание по этой норме</button><a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener" href="https://publication.pravo.gov.ru/document/0001202210060013">Официальный текст ↗</a></div>'
 }
-function failTrainerQuestion(message,origin){
-  state.attempts++;state.streak=0;state.miss.add(currentQ.target.id);
-  if(origin)origin.classList.add('wrong');
-  document.getElementById('feedback').innerHTML=`<strong>Пока нет.</strong> ${message} Попробуйте ещё раз — ответ не раскрывается автоматически.`;
-  save();updateStats();if(origin)setTimeout(()=>origin.classList.remove('wrong'),520)
+function practiceArticle(id){selectedArticle=targets.find(t=>t.id===id);currentTab='practice';document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab==='practice'));currentQ=makeQuestion(selectedArticle,true);renderPractice()}
+
+function nextTarget(){
+ let arr=moduleTargets(currentModule);
+ let seen=new Set(state.seen[currentModule]||[]);
+ let unseen=arr.filter(t=>!seen.has(t.id));
+ if(!unseen.length){seen.clear();unseen=[...arr];state.seen[currentModule]=[];toast('Все нормы раздела встретились — начинается новый круг')}
+ let t=unseen[Math.floor(Math.random()*unseen.length)];
+ state.seen[currentModule]=[...(state.seen[currentModule]||[]),t.id];save();return t
 }
-function answerQ(o,btn){
-  if(o.v===currentQ.answer){btn.classList.add('correct');completeTrainerQuestion(btn)}
-  else failTrainerQuestion('Этот вариант не выполняет условие задания.',btn)
+function sample(a,n){let x=[...a];for(let i=x.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]]}return x.slice(0,n)}
+function shuffle(a){return sample(a,a.length)}
+function distractTopics(t){let same=moduleTargets(currentModule).filter(x=>x.id!==t.id);let outside=targets.filter(x=>x.chapter!==currentModule);return sample(same.length>=3?same:[...same,...outside],3)}
+function distractArticles(t){let same=moduleTargets(currentModule).filter(x=>x.id!==t.id);let outside=targets.filter(x=>x.chapter!==currentModule);return sample(same.length>=3?same:[...same,...outside],3)}
+function caseForTarget(t){return (casesByModule[currentModule]||[]).find(c=>c.refs&&c.refs.includes(String(t.article)))||null}
+
+function makeQuestion(t,force=false){
+ let formats=['topic','reverse','truefalse'];
+ if(moduleTargets(currentModule).length>1)formats.push('match','multi');
+ if(casesByModule[currentModule]?.length)formats.push('case');
+ if(specialTasks[currentModule])formats.push('special');
+ let lf=lastFormat[currentModule],choices=formats.filter(x=>x!==lf);
+ let f=force?'topic':choices[Math.floor(Math.random()*choices.length)];lastFormat[currentModule]=f;
+ if(f==='topic'){
+  let ds=distractTopics(t);return{type:'single',format:'СТАТЬЯ → СОДЕРЖАНИЕ',target:t,text:'Какое положение относится именно к '+articleLabel(t).toLowerCase()+'?',opts:shuffle([{v:t.id,text:t.topic},...ds.map(x=>({v:x.id,text:x.topic}))]),answer:t.id,ex:articleLabel(t)+': '+t.topic+'.'}
+ }
+ if(f==='reverse'){
+  let ds=distractArticles(t);return{type:'single',format:'СОДЕРЖАНИЕ → СТАТЬЯ',target:t,text:'С какой нормой этого раздела связано положение: «'+t.topic+'»?',opts:shuffle([{v:t.id,text:articleLabel(t)},...ds.map(x=>({v:x.id,text:articleLabel(x)}))]),answer:t.id,ex:'Это '+articleLabel(t)+'.'}
+ }
+ if(f==='truefalse'){
+  let falseMode=Math.random()<.5;if(falseMode){let x=distractTopics(t)[0];return{type:'single',format:'ВЕРНО / НЕВЕРНО',target:t,text:articleLabel(t)+' регулирует «'+x.topic+'».',opts:[{v:'yes',text:'Верно'},{v:'no',text:'Неверно'}],answer:'no',ex:'Нет. '+articleLabel(t)+' посвящена теме: '+t.topic+'.'}}
+  return{type:'single',format:'ВЕРНО / НЕВЕРНО',target:t,text:articleLabel(t)+' регулирует «'+t.topic+'».',opts:[{v:'yes',text:'Верно'},{v:'no',text:'Неверно'}],answer:'yes',ex:'Да. Это корректное содержание нормы.'}
+ }
+ if(f==='match'){
+  let all=[t,...sample(moduleTargets(currentModule).filter(x=>x.id!==t.id),2)];if(all.length<3)return makeQuestion(t,true);
+  return{type:'match',format:'СОПОСТАВЛЕНИЕ',target:t,pairs:all.map(x=>({left:articleLabel(x),right:x.topic})),right:shuffle(all.map(x=>x.topic)),ex:'Все три нормы сопоставлены с их предметом регулирования.'}
+ }
+ if(f==='multi'){
+  let inside=[t,...sample(moduleTargets(currentModule).filter(x=>x.id!==t.id),1)],outside=sample(targets.filter(x=>x.chapter!==currentModule),2);
+  return{type:'multi',format:'НЕСКОЛЬКО ОТВЕТОВ',target:t,text:'Какие две нормы из списка относятся к разделу «'+chapters.find(c=>c.id===currentModule).name+'»?',opts:shuffle([...inside,...outside].map(x=>({v:x.id,text:articleLabel(x)}))),answers:inside.map(x=>x.id),ex:'Обе выбранные нормы относятся к текущему разделу.'}
+ }
+ if(f==='case'){
+  let c=(casesByModule[currentModule]||[])[Math.floor(Math.random()*(casesByModule[currentModule]||[]).length)];
+  return{type:'single',format:'МИНИ-КЕЙС',target:t,text:c.story+' '+c.q,opts:c.opts.map((x,i)=>({v:String(i),text:x})),answer:String(c.a),ex:c.ex}
+ }
+ if(f==='special')return buildSpecial(t);
+ return makeQuestion(t,true)
 }
-function submitMulti(){
-  let selected=[...document.querySelectorAll('#answers .answer.selected')].map(b=>b.dataset.value).sort();
-  let correct=[...currentQ.answers].sort();
-  if(selected.length===correct.length&&selected.every((v,i)=>v===correct[i])){
-    document.querySelectorAll('#answers .answer.selected').forEach(b=>b.classList.add('correct'));completeTrainerQuestion(document.querySelector('.complexCheck'))
-  }else failTrainerQuestion('Набор выбран не полностью или в него попала лишняя норма.',document.querySelector('.complexCheck'))
+
+function buildSpecial(t){
+ let sp=specialTasks[currentModule];if(!sp)return makeQuestion(t,true);
+ if(sp.type==='sequence'){let steps=sp.steps.map((text,i)=>({id:String(i),text})),mixed=shuffle(steps);if(mixed.every((x,i)=>x.id===String(i)))mixed.reverse();return{type:'sequence',format:sp.title.toUpperCase(),target:t,steps:mixed,correct:steps.map(x=>x.id),ex:'Правильная последовательность восстановлена.'}}
+ if(sp.type==='classify'){return{type:'classify',format:sp.title.toUpperCase(),target:t,buckets:sp.buckets,items:shuffle(sp.items.map((x,i)=>({id:String(i),text:x[0],bucket:x[1]}))),ex:'Распределение соответствует конституционным правилам текущего раздела.'}}
+ return makeQuestion(t,true)
 }
-function submitMatch(){
-  let sels=[...document.querySelectorAll('.matchSelect')],ok=true;
-  sels.forEach((sel,i)=>{let value=sel.value?decodeURIComponent(sel.value):'';let right=currentQ.pairs[i].right;sel.classList.toggle('bad',value!==right);if(value!==right)ok=false});
-  if(ok)completeTrainerQuestion(document.querySelector('.complexCheck'));
-  else failTrainerQuestion('Есть как минимум одно неверное сопоставление. Проверьте строки, отмеченные розовым.',document.querySelector('.complexCheck'))
+
+function renderPractice(){
+ let panel=document.getElementById('modulePanel');if(!currentQ)currentQ=makeQuestion(nextTarget());
+ let arr=moduleTargets(currentModule),cycle=(state.seen[currentModule]||[]).length;
+ panel.innerHTML='<div class="practice"><div class="qarea"><div class="qmeta"><span class="tag">'+currentQ.format+'</span><span class="qcount">задание '+(++practiceN)+'</span></div><div class="qtext">'+currentQ.text+'</div><div id="answerZone"></div><div class="feedback" id="feedback">Решите задание. Ошибка не закрывает попытку.</div></div><aside class="pside"><div><div class="eyebrow">Текущий раздел</div><h3>'+chapters.find(c=>c.id===currentModule).name+'</h3></div><div class="cycle">В этом круге встретилось <b>'+cycle+' из '+arr.length+'</b> контрольных точек. До завершения круга уже использованные нормы не повторяются.</div><div class="heat" id="heat"></div><div class="xpbox"><b>'+state.xp+' XP</b>за практику и контроль</div></aside></div>';
+ renderAnswerZone();
+ let heat=document.getElementById('heat');arr.forEach(x=>{let d=document.createElement('div');d.className='hdot'+(state.done.has(x.id)?' done':'')+(currentQ.target?.id===x.id?' current':'');d.title=articleLabel(x);heat.appendChild(d)})
 }
-function skipQ(){currentQ=null;qNo++;nextQ()}
-function setMode(m){currentMode=m;document.querySelectorAll('.modeBtn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));currentQ=null;nextQ()}
-document.querySelectorAll('.modeBtn').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
-function renderCoverageMap(){let m=document.getElementById('coverageMap');m.innerHTML='';targets.forEach(t=>{let d=document.createElement('div');d.className='cDot'+(state.done.has(t.id)?' done':'')+(state.miss.has(t.id)?' miss':'')+(currentQ&&currentQ.target.id===t.id?' current':'');d.title=t.label;m.appendChild(d)})}
-function updateStats(){let done=state.done.size,pct=Math.round(done/targets.length*100),acc=state.attempts?Math.round(state.correct/state.attempts*100)+'%':'—';document.getElementById('topCoverage').textContent=`${done} / ${targets.length}`;document.getElementById('topStreak').textContent=state.streak;document.getElementById('ring').style.setProperty('--pct',pct);document.getElementById('ringPct').textContent=pct+'%';document.getElementById('mDone').textContent=done;document.getElementById('mErrors').textContent=state.miss.size;document.getElementById('mAccuracy').textContent=acc;document.getElementById('sideDone').textContent=done;updateGameUI();renderCoverageMap();renderAtlas()}
-function resetProgress(){if(!confirm('Сбросить учебный прогресс, XP, уровни и достижения на этом устройстве?'))return;state.done.clear();state.miss.clear();state.attempts=0;state.correct=0;state.streak=0;state.bestStreak=0;state.xp=0;state.achievements.clear();state.bosses.clear();state.daily={};save();updateStats();nextQ();toast('Прогресс и XP сброшены')}
-function renderCases(){let deck=document.getElementById('caseDeck');deck.querySelectorAll('.caseCard').forEach(x=>x.remove());cases.forEach((c,i)=>{let el=document.createElement('article');el.className='caseCard '+(i<caseIndex?'offLeft':i>caseIndex?'offRight':'');el.innerHTML=`<div><div class="caseNum">${String(i+1).padStart(2,'0')}</div><div class="caseLabel">управленческий кейс</div></div><div style="display:flex;flex-direction:column;justify-content:center"><h3>${c.title}</h3><p>${c.text}</p><div class="casePrompt" style="margin-top:18px"><b>ВОПРОС</b><p>${c.prompt}</p><div class="caseBtns"><button class="btn btnGhost" onclick="this.parentElement.nextElementSibling.hidden=false">Показать разбор</button></div><p hidden style="color:#D9E2EC;margin-top:10px">${c.answer}</p></div></div>`;deck.insertBefore(el,deck.querySelector('.caseControls'))})}
-function caseMove(d){caseIndex=(caseIndex+d+cases.length)%cases.length;renderCases()}
-document.querySelectorAll('.choice').forEach(c=>c.onclick=()=>{examN=+c.dataset.n;document.querySelectorAll('.choice').forEach(x=>x.classList.toggle('active',x===c))});
-function startExam(){examPool=shuffle([...targets]).slice(0,examN).map(t=>makeQ(t,false,false));examIndex=0;examCorrect=0;document.getElementById('examHero').style.display='none';document.getElementById('examQ').classList.add('show');renderExamQ()}
-function renderExamQ(){if(examIndex>=examPool.length)return finishExam();let q=examPool[examIndex];document.getElementById('examBar').style.width=(examIndex/examPool.length*100)+'%';document.getElementById('examText').textContent=`${examIndex+1}/${examPool.length}. ${q.text}`;let box=document.getElementById('examAnswers');box.innerHTML='';q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${o.text}</span>`;b.onclick=()=>{if(o.v===q.answer)examCorrect++;examIndex++;renderExamQ()};box.appendChild(b)})}
-function finishExam(){document.getElementById('examBar').style.width='100%';document.getElementById('examQ').classList.remove('show');let h=document.getElementById('examHero');h.style.display='block';let pct=Math.round(examCorrect/examPool.length*100);let examBonus=Math.round(25+(examCorrect/examPool.length)*75);awardRawXP(examBonus);unlockAchievements();save();updateStats();h.innerHTML=`<div class="scoreBig">${pct}%</div><h3>${examCorrect} из ${examPool.length}</h3><p>Экзамен завершён. +${examBonus} XP. Здесь учитывается только первая выбранная попытка на каждом вопросе; тренировочный режим остаётся без ограничения числа попыток.</p><div class="heroActions" style="justify-content:center"><button class="btn btnPrimary" onclick="startExam()">Ещё вариант</button><button class="btn btnGhost" onclick="go(2)">Вернуться в тренажёр</button></div>`}
-function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
-renderAtlas();renderCases();updateStats();nextQ();
+function renderAnswerZone(){
+ let q=currentQ,z=document.getElementById('answerZone');z.innerHTML='';
+ if(q.type==='single'||q.type==='multi'){
+  let a=document.createElement('div');a.className='answers';
+  q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.dataset.v=o.v;b.innerHTML='<span class="letter">'+('ABCD'[i]||'•')+'</span><span>'+o.text+'</span>';b.onclick=()=>q.type==='multi'?b.classList.toggle('selected'):submitSingle(o,b);a.appendChild(b)});
+  if(q.type==='multi'){let c=document.createElement('button');c.className='btn primary check';c.textContent='Проверить выбранные';c.onclick=submitMulti;a.appendChild(c)}z.appendChild(a);return
+ }
+ if(q.type==='match'){
+  let g=document.createElement('div');g.className='matchGrid';
+  q.pairs.forEach((p,i)=>{let r=document.createElement('div');r.className='matchRow';r.innerHTML='<div class="matchLeft">'+p.left+'</div><div class="matchArrow">→</div><select class="matchSelect" data-i="'+i+'"><option value="">Выберите…</option>'+q.right.map(x=>'<option value="'+encodeURIComponent(x)+'">'+x+'</option>').join('')+'</select>';g.appendChild(r)});
+  let c=document.createElement('button');c.className='btn primary';c.textContent='Проверить сопоставление';c.onclick=submitMatch;g.appendChild(c);z.appendChild(g);return
+ }
+ if(q.type==='sequence'){
+  let g=document.createElement('div');g.className='matchGrid';g.id='seq';
+  q.steps.forEach((st,i)=>{let r=document.createElement('div');r.className='matchRow';r.dataset.id=st.id;r.innerHTML='<div class="matchLeft">'+(i+1)+'</div><div class="matchArrow">↕</div><div style="display:flex;align-items:center;gap:6px"><span style="font-size:10px;flex:1">'+st.text+'</span><button class="btn ghost" style="padding:7px" onclick="moveSeq(\''+st.id+'\',-1)">↑</button><button class="btn ghost" style="padding:7px" onclick="moveSeq(\''+st.id+'\',1)">↓</button></div>';g.appendChild(r)});
+  let c=document.createElement('button');c.className='btn primary';c.textContent='Проверить порядок';c.onclick=submitSequence;g.appendChild(c);z.appendChild(g);renumberSeq();return
+ }
+ if(q.type==='classify'){
+  let g=document.createElement('div');g.className='matchGrid';g.innerHTML='<div style="font-size:10px;color:#7380A5">Для каждой позиции выберите категорию.</div>';
+  q.items.forEach((it,i)=>{let r=document.createElement('div');r.className='matchRow';r.innerHTML='<div class="matchLeft">'+it.text+'</div><div class="matchArrow">→</div><select class="matchSelect" data-id="'+it.id+'"><option value="">Выберите…</option>'+q.buckets.map(b=>'<option value="'+b[0]+'">'+b[1]+'</option>').join('')+'</select>';g.appendChild(r)});
+  let c=document.createElement('button');c.className='btn primary';c.textContent='Проверить распределение';c.onclick=submitClassify;g.appendChild(c);z.appendChild(g)
+ }
+}
+function fail(msg,el){state.attempts++;if(el)el.classList.add('wrong');document.getElementById('feedback').innerHTML='<b>Пока нет.</b> '+msg+' Исправьте ответ и попробуйте снова.';persist();setTimeout(()=>el&&el.classList.remove('wrong'),450)}
+function success(el){state.attempts++;state.correct++;let fresh=currentQ.target&&!state.done.has(currentQ.target.id);if(currentQ.target)state.done.add(currentQ.target.id);let gain=fresh?35:12;state.xp+=gain;document.getElementById('feedback').innerHTML='<b>Верно.</b> '+currentQ.ex+' +'+gain+' XP. Следующее задание появится автоматически.';if(el)el.classList.add('correct');persist();updateModuleHead();setTimeout(()=>{currentQ=null;renderPractice()},850)}
+function submitSingle(o,b){o.v===currentQ.answer?success(b):fail('Этот вариант не соответствует условию.',b)}
+function submitMulti(){let got=[...document.querySelectorAll('#answerZone .answer.selected')].map(x=>x.dataset.v).sort(),need=[...currentQ.answers].sort();got.length===need.length&&got.every((x,i)=>x===need[i])?success(document.querySelector('.check')):fail('Нужно выбрать полный набор и не добавлять лишнее.',document.querySelector('.check'))}
+function submitMatch(){let s=[...document.querySelectorAll('.matchSelect')],ok=true;s.forEach((x,i)=>{let v=x.value?decodeURIComponent(x.value):'';let good=v===currentQ.pairs[i].right;x.classList.toggle('bad',!good);if(!good)ok=false});ok?success():fail('Есть неверное сопоставление.','')}
+function moveSeq(id,d){let g=document.getElementById('seq'),rows=[...g.querySelectorAll('.matchRow[data-id]')],el=rows.find(x=>x.dataset.id===id),i=rows.indexOf(el),j=i+d;if(j<0||j>=rows.length)return;if(d<0)g.insertBefore(el,rows[j]);else g.insertBefore(rows[j],el);renumberSeq()}
+function renumberSeq(){document.querySelectorAll('#seq .matchRow[data-id]').forEach((x,i)=>x.querySelector('.matchLeft').textContent=i+1)}
+function submitSequence(){let got=[...document.querySelectorAll('#seq .matchRow[data-id]')].map(x=>x.dataset.id);got.every((x,i)=>x===currentQ.correct[i])?success():fail('Порядок стадий пока нарушен.','')}
+function submitClassify(){let ok=true;document.querySelectorAll('.matchSelect[data-id]').forEach(s=>{let it=currentQ.items.find(x=>x.id===s.dataset.id),good=s.value===it.bucket;s.classList.toggle('bad',!good);if(!good)ok=false});ok?success():fail('Часть позиций распределена неверно.','')}
+
+function renderCases(){
+ let arr=casesByModule[currentModule]||[],c=arr[caseIndex%arr.length],panel=document.getElementById('modulePanel');
+ panel.innerHTML='<div class="caseView"><div class="caseRail"><div class="num">'+String(caseIndex+1).padStart(2,'0')+'</div><div class="eyebrow">Кейс раздела</div><h3>'+c.title+'</h3><p>Кейсы этого блока используют только нормы выбранного раздела Конституции.</p><div class="caseDots">'+arr.map((_,i)=>'<button class="caseDot '+(i===caseIndex?'active':'')+'" onclick="caseIndex='+i+';renderCases()"></button>').join('')+'</div></div><div class="caseMain"><div class="caseLabel">'+mLabel(currentModule)+'</div><div class="caseStory">'+c.story+'</div><div class="caseQuestion">'+c.q+'</div><div class="answers" id="caseAnswers"></div><div class="caseExplain" id="caseExplain"></div><div class="btns" style="margin-top:auto;justify-content:flex-end"><button class="btn ghost" onclick="caseIndex=(caseIndex-1+'+arr.length+')%'+arr.length+';renderCases()">← Предыдущий</button><button class="btn primary" onclick="caseIndex=(caseIndex+1)%'+arr.length+';renderCases()">Следующий →</button></div></div></div>';
+ let a=document.getElementById('caseAnswers');c.opts.forEach((x,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+x+'</span>';b.onclick=()=>{document.querySelectorAll('#caseAnswers .answer').forEach(y=>y.disabled=true);b.classList.add(i===c.a?'correct':'wrong');let e=document.getElementById('caseExplain');e.style.display='block';e.innerHTML='<b>'+(i===c.a?'Верно.':'Не совсем.')+'</b> '+c.ex;if(i===c.a){state.xp+=20;persist()}};a.appendChild(b)})
+}
+
+function testLength(){let n=moduleTargets(currentModule).length;return currentModule===0?5:Math.min(15,Math.max(8,n))}
+function renderTestIntro(){
+ let n=testLength(),panel=document.getElementById('modulePanel'),star=state.stars[currentModule]||0;
+ panel.innerHTML='<div class="testView"><div class="testSide"><div class="eyebrow">Контроль раздела</div><h3>'+chapters.find(c=>c.id===currentModule).name+'</h3><p>Вопросы берутся только из этой главы. Для крупных глав статьи в одном тесте не повторяются.</p><div class="testStat"><b>'+n+'</b><div>заданий в попытке</div></div></div><div class="testMain"><div class="testIntro"><div class="big">'+n+'</div><h3>Итог по разделу</h3><p>60% — одна звезда, 80% — две, 90% и выше — три. Лучший результат сохраняется.</p><div style="margin:14px 0">'+starHTML(star)+'</div><button class="btn primary" onclick="startTest()">Начать контроль →</button></div></div></div>'
+}
+function buildTestQuestion(t){let q=makeQuestion(t,true);if(q.type!=='single')q=makeQuestion(t,true);return q}
+function startTest(){
+ let arr=shuffle(moduleTargets(currentModule)),n=testLength(),pool=[];
+ while(pool.length<n){for(let t of arr){if(pool.length>=n)break;pool.push(buildTestQuestion(t))}arr=shuffle(moduleTargets(currentModule))}
+ test={pool,index:0,correct:0};renderTestQ()
+}
+function renderTestQ(){
+ let q=test.pool[test.index],panel=document.getElementById('modulePanel');
+ if(!q)return finishTest();
+ panel.innerHTML='<div class="testView"><div class="testSide"><div class="eyebrow">Контроль раздела</div><h3>'+chapters.find(c=>c.id===currentModule).name+'</h3><div class="testStat"><b>'+test.correct+'</b><div>верных ответов</div></div><div class="progress" style="margin-top:14px"><span style="width:'+(test.index/test.pool.length*100)+'%"></span></div></div><div class="testMain"><div class="qmeta"><span class="tag">'+q.format+'</span><span class="qcount">'+(test.index+1)+' / '+test.pool.length+'</span></div><div class="qtext">'+q.text+'</div><div class="answers" id="testAnswers"></div></div></div>';
+ let a=document.getElementById('testAnswers');q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='answer';b.innerHTML='<span class="letter">'+('ABCD'[i])+'</span><span>'+o.text+'</span>';b.onclick=()=>{if(o.v===q.answer)test.correct++;if(q.target)state.done.add(q.target.id);test.index++;persist();renderTestQ()};a.appendChild(b)})
+}
+function finishTest(){
+ let pct=Math.round(test.correct/test.pool.length*100),stars=pct>=90?3:pct>=80?2:pct>=60?1:0;state.stars[currentModule]=Math.max(state.stars[currentModule]||0,stars);state.xp+=Math.round(40+pct);persist();updateModuleHead();
+ let panel=document.getElementById('modulePanel');panel.innerHTML='<div class="testView"><div class="testSide"><div class="eyebrow">Результат</div><h3>'+chapters.find(c=>c.id===currentModule).name+'</h3><div class="testStat"><b>'+pct+'%</b><div>'+test.correct+' из '+test.pool.length+'</div></div></div><div class="testMain"><div class="testIntro"><div class="big">'+pct+'%</div><h3>'+starHTML(stars)+'</h3><p>Результат сохранён. Можно вернуться к практике или собрать новый вариант контроля.</p><div class="btns" style="justify-content:center;margin-top:16px"><button class="btn ghost" onclick="currentTab=\'practice\';document.querySelectorAll(\'.tab\').forEach(x=>x.classList.toggle(\'active\',x.dataset.tab===\'practice\'));currentQ=null;renderPractice()">Практика</button><button class="btn primary" onclick="startTest()">Новый вариант</button></div></div></div></div>'
+}
+
+function openGlobalTest(n){
+ let pool=n>=targets.length?[...targets]:sample(targets,n);let i=0,corr=0;
+ document.getElementById('crumb').textContent=n>=targets.length?'Полное покрытие Конституции':'Итоговый тест по Конституции';
+ document.getElementById('moduleKicker').textContent='Итоговый контроль';document.getElementById('moduleTitle').textContent=n>=targets.length?'Все 152 контрольные точки':'30 вопросов по всей Конституции';document.getElementById('moduleRange').textContent='Каждая выбранная контрольная точка используется один раз.';
+ document.getElementById('tabs').style.display='none';showView('moduleView');
+ function q(){
+  if(i>=pool.length){document.getElementById('modulePanel').innerHTML='<div class="testMain"><div class="testIntro"><div class="big">'+Math.round(corr/pool.length*100)+'%</div><h3>'+corr+' из '+pool.length+'</h3><p>Итоговый контроль завершён.</p><button class="btn primary" onclick="document.getElementById(\'tabs\').style.display=\'flex\';showHome()">К разделам</button></div></div>';return}
+  let t=pool[i],ds=sample(targets.filter(x=>x.id!==t.id),3),opts=shuffle([{v:t.id,text:t.topic},...ds.map(x=>({v:x.id,text:x.topic}))]);
+  document.getElementById('modulePanel').innerHTML='<div class="testMain"><div class="qmeta"><span class="tag">'+articleLabel(t)+'</span><span class="qcount">'+(i+1)+' / '+pool.length+'</span></div><div class="qtext">Какое содержание относится к '+articleLabel(t).toLowerCase()+'?</div><div class="answers" id="gAnswers"></div></div>';
+  let a=document.getElementById('gAnswers');opts.forEach((o,j)=>{let b=document.createElement('button');b.className='answer';b.innerHTML='<span class="letter">'+('ABCD'[j])+'</span><span>'+o.text+'</span>';b.onclick=()=>{if(o.v===t.id)corr++;state.done.add(t.id);i++;persist();q()};a.appendChild(b)})
+ }q()
+}
+
+renderHome();updateTop();
 </script>
 </body>
 </html>
