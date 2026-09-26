@@ -10,7 +10,7 @@
 <header class="top">
   <div class="brand">
     <div class="logo">§</div>
-    <div><b>ГМУ · Конституция РФ</b><small>понять устройство, а не запоминать номера</small></div>
+    <div><b>ГМУ · Конституция РФ</b><small>Понять устройство, а не запоминать номера</small></div>
   </div>
   <div class="crumb" id="crumb">Карта курса</div>
   <div class="topActions">
@@ -21,30 +21,35 @@
 
 <main class="stage">
   <section class="page home active" id="home">
-    <aside class="chapterSidebar" id="homeChapterNav"></aside>
-
     <div class="homeWorkspace">
       <div class="homeTitle">
         <div>
           <div class="eyebrow">Государственное и муниципальное управление</div>
           <h1>Конституция РФ</h1>
         </div>
-        <p>Выберите главу слева или продолжите маршрут. Курс объясняет механизм нормы, показывает практику КС РФ и проверяет понимание на ситуациях.</p>
+        <p>Выберите главу, продолжите маршрут или откройте ситуационный тренер. Каждый раздел объясняет смысл нормы, показывает практику Конституционного Суда и проверяет понимание.</p>
       </div>
-
       <div class="homeFocus">
         <div class="continueCard" id="continueCard"></div>
         <div class="trainerTeaser" id="trainerTeaser"></div>
       </div>
-
-      <div class="routes" id="routes"></div>
+      <div class="homeChapters" id="homeChapters"></div>
     </div>
   </section>
 
   <section class="page course" id="course">
-    <aside class="chapterSidebar" id="courseChapterNav"></aside>
-
     <div class="courseWorkspace">
+      <div class="chapterNavigator">
+        <button class="chapterArrow" id="prevChapterBtn">←</button>
+        <button class="chapterPicker" id="chapterPicker">
+          <span class="chapterPickerLabel" id="chapterPickerLabel"></span>
+          <span class="chapterPickerHint">Сменить главу ▾</span>
+        </button>
+        <button class="chapterArrow" id="nextChapterBtn">→</button>
+        <button class="allChaptersBtn" onclick="showHome()">Все главы</button>
+        <div class="chapterMenu" id="chapterMenu"></div>
+      </div>
+
       <div class="courseHead">
         <div class="courseTitle">
           <div class="eyebrow" id="courseKicker"></div>
