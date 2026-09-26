@@ -65,33 +65,34 @@
 
   <section class="page course" id="course">
     <div class="courseWorkspace">
-      <div class="courseHead">
-        <div class="courseTitle">
-          <div class="eyebrow" id="courseKicker"></div>
-          <h2 id="courseTitle"></h2>
-          <p id="courseDesc"></p>
-        </div>
-        <div class="courseChapterVisual" id="courseChapterVisual" aria-hidden="true"></div>
-        <div class="courseProgress">
-          <div class="progressTopline">
-            <span class="progressLabel">Освоение главы</span>
-            <b id="coursePct">0%</b>
+      <div class="chapterOverview">
+        <div class="chapterOverviewMain">
+          <div class="courseTitle">
+            <div class="eyebrow" id="courseKicker"></div>
+            <h2 id="courseTitle"></h2>
+            <p id="courseDesc"></p>
           </div>
-          <div class="bar"><span id="courseBar"></span></div>
-          <div class="progressStats">
-            <span class="progressChip" id="progressTheory">Теория 0/0</span>
-            <span class="progressChip" id="progressCases">Кейсы 0/0</span>
-          </div>
-          <div class="progressMeta" id="progressMeta">Начните с разбора темы</div>
-          <button class="progressAction" id="progressAction" type="button">Открыть тему →</button>
-        </div>
-      </div>
 
-      <div class="tabs">
-        <button class="tab active" data-tab="learn"><span class="tabIcon">◉</span><span>Понять</span></button>
-        <button class="tab" data-tab="scheme"><span class="tabIcon">◇</span><span>Схема</span></button>
-        <button class="tab" data-tab="cases"><span class="tabIcon">▤</span><span>Кейсы</span></button>
-        <button class="tab" data-tab="coach"><span class="tabIcon tabIconAI">AI</span><span>ИИ‑тренер</span></button>
+          <div class="courseProgress">
+            <div class="progressTopline">
+              <span class="progressLabel">Освоение главы</span>
+              <b id="coursePct">0%</b>
+            </div>
+            <div class="bar"><span id="courseBar"></span></div>
+            <div class="progressStats">
+              <span class="progressChip" id="progressTheory">Теория 0/0</span>
+              <span class="progressChip" id="progressCases">Кейсы 0/0</span>
+            </div>
+            <div class="progressMeta" id="progressMeta">Начните с разбора темы</div>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="learn"><span class="tabIcon">◉</span><span>Понять</span></button>
+          <button class="tab" data-tab="scheme"><span class="tabIcon">◇</span><span>Схема</span></button>
+          <button class="tab" data-tab="cases"><span class="tabIcon">▤</span><span>Кейсы</span></button>
+          <button class="tab" data-tab="coach"><span class="tabIcon tabIconAI">AI</span><span>ИИ‑тренер</span></button>
+        </div>
       </div>
 
       <nav class="mobileCourseNav" aria-label="Навигация по режимам">
