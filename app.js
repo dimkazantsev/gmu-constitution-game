@@ -1301,7 +1301,7 @@ function submitCheckMulti(){
   advanceCheck(got.length===need.length&&got.every((x,i)=>x===need[i]))
 }
 
-renderHome();setTopHeaderMode(false);renderChapterNavigator();syncSoundButton();bindRipple();
+// Initialization is owned by site-v5.js
 document.getElementById("resetOverlay")?.addEventListener("click",e=>{
   if(e.target.id==="resetOverlay")closeProgressReset()
 });
