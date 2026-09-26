@@ -1679,3 +1679,379 @@ button,.tab,.btn,.sourceChip,.chapterPill,.homeChapterCard,.chapterPicker,.allCh
   .schemeChip{flex-basis:155px!important}
   .schemeCanvas.flow,.schemeCanvas.lanes{grid-template-columns:1fr 1fr!important}
 }
+
+
+/* ===== MOBILE-FIRST COURSE SHELL V2 ===== */
+.mobileCourseNav{display:none}
+
+/* Tablets: dedicated compact composition, not shrunken desktop */
+@media (min-width:768px) and (max-width:1180px){
+  .courseWorkspace{
+    grid-template-rows:52px 40px minmax(0,1fr)!important;
+    gap:7px!important;
+  }
+  .courseHead{
+    grid-template-columns:minmax(0,1fr) 220px!important;
+    min-height:52px!important;
+  }
+  .courseTitle h2{font-size:22px!important}
+  .courseTitle p{font-size:10px!important}
+  .courseHead .courseProgress{width:220px!important}
+  .panel{border-radius:18px!important}
+
+  .lessonBoard{grid-template-rows:50px minmax(0,1fr) 40px!important}
+  .lessonColumns{grid-template-columns:.82fr 1.18fr!important}
+  .lessonCard.quote .constQuote{font-size:19px!important}
+  .lessonCard.official .lessonText{font-size:12px!important}
+
+  .schemeWorkspace{
+    grid-template-columns:250px minmax(0,1fr)!important;
+    grid-template-areas:"toolbox canvas"!important;
+  }
+  .schemeToolbox{max-height:none!important}
+  .schemeCanvas.flow,.schemeCanvas.lanes{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+  .caseGrid,.coachGrid{
+    grid-template-columns:.78fr 1.22fr!important;
+  }
+  .caseStory,.coachSituation .scenarioText{font-size:18px!important}
+}
+
+/* Phones: separate mobile product */
+@media (max-width:767px){
+  .stage{overflow:hidden!important}
+  .course{padding-bottom:68px!important}
+  .courseWorkspace{
+    grid-template-rows:48px minmax(0,1fr)!important;
+    gap:6px!important
+  }
+
+  .courseHead{
+    grid-template-columns:1fr!important;
+    min-height:48px!important;
+    padding:0 2px!important
+  }
+  .courseHead .courseProgress{display:none!important}
+  .courseTitle .eyebrow{font-size:8px!important}
+  .courseTitle h2{
+    font-size:19px!important;
+    line-height:1.05!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important
+  }
+  .courseTitle p{
+    font-size:9px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important
+  }
+
+  /* Desktop tabs disappear; bottom nav becomes primary */
+  .tabs{display:none!important}
+  .mobileCourseNav{
+    display:grid!important;
+    grid-template-columns:repeat(4,1fr)!important;
+    position:fixed!important;
+    z-index:80!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+    height:58px!important;
+    padding:5px!important;
+    gap:4px!important;
+    border:1px solid rgba(207,218,242,.95)!important;
+    border-radius:18px!important;
+    background:rgba(255,255,255,.94)!important;
+    backdrop-filter:blur(16px)!important;
+    box-shadow:0 18px 46px rgba(31,54,111,.18)!important
+  }
+  .mobileCourseBtn{
+    border:0!important;
+    border-radius:13px!important;
+    background:transparent!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:2px!important;
+    color:#7482a4!important;
+    min-width:0!important
+  }
+  .mobileCourseBtn span{
+    font-size:13px!important;
+    font-weight:1000!important;
+    line-height:1!important
+  }
+  .mobileCourseBtn b{
+    font-size:8.5px!important;
+    line-height:1!important
+  }
+  .mobileCourseBtn.active{
+    color:var(--ink)!important;
+    background:linear-gradient(135deg,var(--soft),var(--softpink))!important
+  }
+
+  .panel{
+    min-height:0!important;
+    height:100%!important;
+    overflow:hidden!important;
+    border-radius:15px!important
+  }
+
+  /* LEARN: one content mode at a time */
+  .lessonBoard{
+    grid-template-rows:48px 38px minmax(0,1fr) 40px!important;
+    gap:6px!important;
+    padding:7px!important
+  }
+  .mobileLearnTabs{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:5px!important
+  }
+  .mobileLearnTab{
+    min-height:34px!important;
+    border:1px solid var(--line)!important;
+    border-radius:10px!important;
+    background:#fff!important;
+    font-size:9.5px!important;
+    font-weight:900!important;
+    color:#68779d!important
+  }
+  .mobileLearnTab.active{
+    color:var(--ink)!important;
+    background:linear-gradient(135deg,var(--soft),var(--softpink))!important;
+    border-color:#c8d7fa!important
+  }
+  .lessonColumns{display:block!important;height:100%!important}
+  .lessonCard{
+    height:100%!important;
+    border-radius:13px!important;
+    padding:11px!important
+  }
+  .lessonBoard[data-mobile-mode="meaning"] .lessonCard.quote{display:none!important}
+  .lessonBoard[data-mobile-mode="meaning"] .lessonCard.official{display:grid!important}
+  .lessonBoard[data-mobile-mode="meaning"] .learnOfficialSection{display:none!important}
+  .lessonBoard[data-mobile-mode="quote"] .lessonCard.quote{display:grid!important}
+  .lessonBoard[data-mobile-mode="quote"] .lessonCard.official{display:none!important}
+  .lessonBoard[data-mobile-mode="official"] .lessonCard.quote{display:none!important}
+  .lessonBoard[data-mobile-mode="official"] .lessonCard.official{display:grid!important}
+  .lessonBoard[data-mobile-mode="official"] .learnMeaningSection{display:none!important}
+  .lessonBoard[data-mobile-mode="official"] .learnOfficialSection{display:block!important}
+  .lessonBoard[data-mobile-mode="meaning"] .learnMeaningSection{display:block!important}
+  .lessonScroll{overflow:auto!important}
+  .constQuote{font-size:18px!important;line-height:1.42!important}
+  .lessonText{font-size:11.5px!important;line-height:1.5!important}
+  .officialDivider{margin:12px 0 8px!important}
+  .lessonActions .left{display:none!important}
+  .lessonActions .right{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    width:100%!important;
+    gap:5px!important
+  }
+  .lessonActions .btn{min-height:36px!important;font-size:9px!important}
+
+  /* SCHEME: tool drawer + canvas */
+  .schemeLab{
+    grid-template-rows:44px auto minmax(0,1fr) 38px!important;
+    gap:6px!important;
+    padding:7px!important
+  }
+  .schemeLabHead h3{font-size:16px!important}
+  .schemeLabHead p{display:none!important}
+  .schemeScore{min-width:68px!important}
+  .schemeWorkspace{
+    display:contents!important
+  }
+  .schemeToolbox{
+    grid-area:auto!important;
+    max-height:150px!important;
+    border-radius:13px!important;
+    padding:8px!important;
+    gap:6px!important
+  }
+  .schemeToolbox>div:first-child{display:none!important}
+  .schemeChipPool{
+    display:flex!important;
+    overflow-x:auto!important;
+    gap:6px!important;
+    scroll-snap-type:x proximity!important;
+    scrollbar-width:none!important
+  }
+  .schemeChipPool::-webkit-scrollbar{display:none!important}
+  .schemeChip{
+    flex:0 0 165px!important;
+    min-height:44px!important;
+    padding:8px!important;
+    font-size:9.5px!important;
+    scroll-snap-align:start!important;
+    animation:none!important
+  }
+  .schemeToolboxActions{
+    display:grid!important;
+    grid-template-columns:1fr 1fr 1fr!important;
+    gap:4px!important
+  }
+  .schemeToolboxActions .primary{grid-column:auto!important}
+  .schemeToolboxActions .btn{min-height:32px!important;font-size:8px!important;padding:0 5px!important}
+  .schemeCanvas{
+    grid-area:auto!important;
+    padding:8px!important;
+    min-height:0!important;
+    overflow:auto!important;
+    border-radius:13px!important
+  }
+  .schemeCanvas.flow,.schemeCanvas.lanes{
+    grid-template-columns:repeat(2,minmax(138px,1fr))!important;
+    align-content:start!important;
+    gap:7px!important
+  }
+  .schemeTarget{
+    min-height:130px!important;
+    padding:8px!important;
+    border-radius:14px!important;
+    animation:none!important
+  }
+  .schemeTargetIcon{width:38px!important;height:38px!important;font-size:17px!important;animation:none!important}
+  .schemeTargetTitle{font-size:10.5px!important}
+  .schemeTargetHint{font-size:8px!important;min-height:20px!important}
+  .schemeFeedback{min-height:38px!important;padding:7px 8px!important;font-size:9px!important}
+
+  /* CASE: step-by-step instead of stacked dashboard */
+  .caseWorkbench{
+    grid-template-rows:34px 42px minmax(0,1fr)!important;
+    gap:6px!important;
+    padding:7px!important
+  }
+  .caseMobileSteps{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:5px!important
+  }
+  .caseMobileStep{
+    min-height:32px!important;
+    border:1px solid var(--line)!important;
+    border-radius:10px!important;
+    background:#fff!important;
+    font-size:8.5px!important;
+    font-weight:900!important;
+    color:#6d7da2!important
+  }
+  .caseMobileStep.active{
+    background:linear-gradient(135deg,var(--soft),var(--softpink))!important;
+    color:var(--ink)!important
+  }
+  .caseTopbar h3{font-size:14px!important}
+  .caseRef{font-size:8px!important}
+  .caseGrid{display:block!important;height:100%!important}
+  .caseBrief,.caseAnalysis{
+    height:100%!important;
+    border-radius:13px!important
+  }
+  .caseWorkbench[data-mobile-step="situation"] .caseBrief{display:grid!important}
+  .caseWorkbench[data-mobile-step="situation"] .caseAnalysis{display:none!important}
+  .caseWorkbench[data-mobile-step="answer"] .caseBrief{display:none!important}
+  .caseWorkbench[data-mobile-step="answer"] .caseAnalysis{display:grid!important}
+  .caseWorkbench[data-mobile-step="answer"] .caseResult{display:none!important}
+  .caseWorkbench[data-mobile-step="review"] .caseBrief{display:none!important}
+  .caseWorkbench[data-mobile-step="review"] .caseAnalysis{display:grid!important}
+  .caseBrief{
+    padding:12px!important;
+    grid-template-rows:auto minmax(0,1fr) auto auto!important;
+    gap:9px!important
+  }
+  .caseStory{font-size:17px!important;overflow:auto!important}
+  .caseQuestionCard h4{font-size:12px!important}
+  .caseNavRow{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important}
+  .caseNavRow .caseToAnswer{grid-column:1/-1!important}
+  .caseNavRow .btn{min-width:0!important;min-height:36px!important;font-size:8.5px!important}
+  .caseAnalysis{
+    padding:10px!important;
+    grid-template-rows:auto 82px minmax(0,1fr) 36px!important;
+    gap:7px!important
+  }
+  .caseAnalysis .caseResult{display:none!important}
+  .caseWorkbench[data-mobile-step="review"] .caseAnalysis{
+    grid-template-rows:auto 62px auto 34px minmax(160px,1fr)!important
+  }
+  .caseWorkbench[data-mobile-step="review"] .caseResult{display:block!important}
+  .caseChoiceBlock{min-height:0!important;overflow:auto!important}
+  .caseChoiceBlock .answers{grid-template-columns:1fr!important;max-height:none!important}
+  .caseActions .btn{min-height:34px!important}
+  .caseHypothesis{height:82px!important}
+
+  /* COACH: situation -> answer -> review */
+  .coachWorkbench{
+    grid-template-rows:34px 42px minmax(0,1fr)!important;
+    gap:6px!important;
+    padding:7px!important
+  }
+  .coachMobileSteps{
+    display:grid!important;
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:5px!important
+  }
+  .coachMobileStep{
+    min-height:32px!important;
+    border:1px solid var(--line)!important;
+    border-radius:10px!important;
+    background:#fff!important;
+    font-size:8.5px!important;
+    font-weight:900!important;
+    color:#6d7da2!important
+  }
+  .coachMobileStep.active{
+    background:linear-gradient(135deg,var(--soft),var(--softpink))!important;
+    color:var(--ink)!important
+  }
+  .coachGrid{display:block!important;height:100%!important}
+  .coachSituation,.coachResponse{
+    height:100%!important;
+    border-radius:13px!important
+  }
+  .coachWorkbench[data-mobile-step="situation"] .coachSituation{display:grid!important}
+  .coachWorkbench[data-mobile-step="situation"] .coachResponse{display:none!important}
+  .coachWorkbench[data-mobile-step="answer"] .coachSituation{display:none!important}
+  .coachWorkbench[data-mobile-step="answer"] .coachResponse{display:grid!important}
+  .coachWorkbench[data-mobile-step="answer"] .coachResult{display:none!important}
+  .coachWorkbench[data-mobile-step="review"] .coachSituation{display:none!important}
+  .coachWorkbench[data-mobile-step="review"] .coachResponse{display:grid!important}
+  .coachSituation{
+    padding:12px!important;
+    grid-template-rows:auto minmax(0,1fr) auto auto auto!important;
+    gap:8px!important
+  }
+  .coachSituation .scenarioText{font-size:17px!important;overflow:auto!important}
+  .coachQuestionBox h4{font-size:12px!important}
+  .coachChecklist{font-size:10px!important}
+  .coachToAnswer{min-height:36px!important;font-size:9px!important}
+  .coachResponse{
+    padding:10px!important;
+    grid-template-rows:auto minmax(110px,1fr) 36px!important;
+    gap:7px!important
+  }
+  .coachResponse .coachResult{display:none!important}
+  .coachWorkbench[data-mobile-step="review"] .coachResponse{
+    grid-template-rows:auto 68px 36px minmax(180px,1fr)!important
+  }
+  .coachWorkbench[data-mobile-step="review"] .coachResult{display:block!important}
+  .coachResponse .freeAnswer{
+    min-height:110px!important;
+    max-height:none!important;
+    height:100%!important
+  }
+  .coachResponse .coachActions .btn{min-height:34px!important}
+}
+
+/* Hide phone-only controls elsewhere */
+@media (min-width:768px){
+  .mobileLearnTabs,
+  .caseMobileSteps,
+  .coachMobileSteps,
+  .caseToAnswer,
+  .coachToAnswer{
+    display:none!important
+  }
+}
