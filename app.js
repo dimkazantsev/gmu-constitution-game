@@ -539,6 +539,29 @@ function showHome(){
   renderHome();
   showPage("home")
 }
+
+function renderCourseChapterVisual(id){
+  const el=document.getElementById("courseChapterVisual");if(!el)return;
+  const scenes={
+    0:{icon:"§",label:"Преамбула",shape:"rings"},
+    1:{icon:"⚖",label:"Баланс власти",shape:"balance"},
+    2:{icon:"♥",label:"Права и свободы",shape:"pulse"},
+    3:{icon:"◇",label:"Федерация",shape:"federal"},
+    4:{icon:"◎",label:"Президент",shape:"orbit"},
+    5:{icon:"▥",label:"Парламент",shape:"chambers"},
+    6:{icon:"▦",label:"Правительство",shape:"steps"},
+    7:{icon:"⚖",label:"Правосудие",shape:"columns"},
+    8:{icon:"⌂",label:"Самоуправление",shape:"homes"},
+    9:{icon:"↻",label:"Поправки",shape:"cycle"},
+    10:{icon:"II",label:"Переход",shape:"bridge"}
+  };
+  const sc=scenes[id]||scenes[0];
+  el.className="courseChapterVisual visual-"+sc.shape;
+  el.innerHTML='<div class="visualGlow g1"></div><div class="visualGlow g2"></div>'+
+    '<div class="visualNode n1"></div><div class="visualNode n2"></div><div class="visualNode n3"></div>'+
+    '<div class="visualLine l1"></div><div class="visualLine l2"></div>'+
+    '<div class="visualCore">'+sc.icon+'</div><div class="visualCaption">'+sc.label+'</div>';
+}
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
   mobileLearnMode="meaning";mobileCaseStep="situation";mobileCoachStep="situation";
@@ -549,6 +572,7 @@ function openModule(id){
   document.getElementById("courseKicker").textContent=mLabel(id);
   document.getElementById("courseTitle").textContent=ch.name;
   document.getElementById("courseDesc").textContent=moduleInfo[id].desc;
+  renderCourseChapterVisual(id);
   document.querySelectorAll(".tab,.mobileCourseBtn").forEach(x=>x.classList.toggle("active",x.dataset.tab==="learn"));
   updateProgress();renderChapterNavigator();renderTab();showPage("course")
 }
