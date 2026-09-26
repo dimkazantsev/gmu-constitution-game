@@ -614,13 +614,20 @@ function renderCourseChapterVisual(id){
   el.className="courseChapterVisual visual-"+sc.shape;
   const blockCount=moduleInfo[id]?.blocks?.length||0;
   const caseCount=caseBank[id]?.length||0;
+  el.removeAttribute("aria-hidden");
+  el.setAttribute("role","button");
+  el.setAttribute("tabindex","0");
+  el.setAttribute("aria-label","Открыть интерактивную схему главы");
+  el.onclick=()=>switchTab("scheme");
+  el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();switchTab("scheme")}};
   el.innerHTML='<div class="visualGlow g1"></div><div class="visualGlow g2"></div>'+
     '<div class="visualNode n1"></div><div class="visualNode n2"></div><div class="visualNode n3"></div>'+
     '<div class="visualLine l1"></div><div class="visualLine l2"></div>'+
     '<div class="visualBadge">Живая схема</div>'+
     '<div class="visualCore">'+sc.icon+'</div>'+
     '<div class="visualCaption">'+sc.label+'</div>'+
-    '<div class="visualMeta">'+blockCount+' блока · '+caseCount+' кейс'+(caseCount===1?'':'а')+'</div>';
+    '<div class="visualMeta">'+blockCount+' блока · '+caseCount+' кейс'+(caseCount===1?'':'а')+'</div>'+
+    '<div class="visualAction">Открыть схему →</div>';
 }
 function openModule(id){
   currentModule=id;state.lastModule=id;save();currentTab="learn";blockIndex=0;learnMode="quote";currentTask=null;caseIndex=0;checkState=null;
