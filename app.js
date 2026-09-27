@@ -378,6 +378,7 @@ function confirmProgressReset(){
   if(chapter===null)resetAllProgress();else resetChapterProgress(chapter)
 }
 function resetAllProgress(){
+  practiceAttempts.clear();
   const soundValue=state.sound;
   state.viewed=new Set();
   state.doneTasks={};
@@ -1124,21 +1125,96 @@ function updateSchemeConnectors(model){
     }
   })
 }
+const practiceAttempts=new Map();
+const practiceAttemptKey=()=>currentModule+':'+currentTask.id;
+function clearPracticeAttempts(ch){
+  for(const key of practiceAttempts.keys())if(key.startsWith(ch+':'))practiceAttempts.delete(key);
+}
+function rememberPracticeAttempt(){
+  if(!currentTask)return;
+  const zone=document.getElementById('answerZone');if(!zone)return;
+  practiceAttempts.set(practiceAttemptKey(),{task:currentTask,
+    selected:[...zone.querySelectorAll('.ans.selected')].map(b=>b.dataset.i),
+    values:[...zone.querySelectorAll('select')].map(s=>s.value),
+    order:[...zone.querySelectorAll('.orderItem')].map(row=>row.dataset.id)});
+}
+function restorePracticeAttempt(attempt){
+  if(!attempt)return;
+  document.querySelectorAll('#answerZone .ans').forEach(b=>b.classList.toggle('selected',attempt.selected.includes(b.dataset.i)));
+  document.querySelectorAll('#answerZone select').forEach((s,i)=>s.value=attempt.values[i]||'');
+  const order=document.getElementById('orderList');
+  if(order){attempt.order.forEach(id=>{const row=[...order.children].find(r=>r.dataset.id===id);if(row)order.appendChild(row);});renumberOrder();}
+}
+function practiceTaskLabel(task,index){
+  return 'Задание '+(index+1)+((state.doneTasks[currentModule]||[]).includes(task.id)?' — выполнено':' — не выполнено')+(task.id===currentTask?.id?', открыто':'');
+}
+function practiceSidebarHTML(){
+  const bank=taskBank[currentModule],done=activeTaskDone(currentModule);
+  return '<aside class="taskSide"><div><div class="eyebrow">Ваш прогресс</div><h3>Задания раздела</h3><p>Нажмите на квадратик, чтобы открыть задание. Синим отмечены выполненные.</p></div><div class="doneBox" aria-live="polite"><b>'+done+' / '+bank.length+'</b>заданий завершено</div>'+
+    '<nav class="taskDots" aria-label="Навигация по заданиям">'+bank.map((t,i)=>'<button type="button" class="taskDot '+((state.doneTasks[currentModule]||[]).includes(t.id)?'done ':'')+(t.id===currentTask?.id?'current':'')+'" data-task-index="'+i+'" aria-label="'+practiceTaskLabel(t,i)+'" title="'+practiceTaskLabel(t,i)+'"'+(t.id===currentTask?.id?' aria-current="step"':'')+'></button>').join('')+'</nav><button class="btn ghost" onclick="switchTab(\'scheme\')">Посмотреть схему</button></aside>';
+}
+function bindPracticeNavigation(){
+  document.querySelectorAll('.taskDot').forEach(b=>b.onclick=()=>selectPracticeTask(Number(b.dataset.taskIndex)));
+}
+function syncPracticeNavigation(){
+  const count=document.querySelector('.taskSide .doneBox b');
+  if(count)count.textContent=activeTaskDone(currentModule)+' / '+taskBank[currentModule].length;
+  document.querySelectorAll('.taskDot').forEach(b=>{
+    const i=Number(b.dataset.taskIndex),task=taskBank[currentModule][i];
+    b.classList.toggle('done',(state.doneTasks[currentModule]||[]).includes(task.id));
+    b.setAttribute('aria-label',practiceTaskLabel(task,i));b.title=practiceTaskLabel(task,i);
+  });
+}
+function selectPracticeTask(index){
+  const task=taskBank[currentModule]?.[index];if(!task||task.id===currentTask?.id)return;
+  rememberPracticeAttempt();currentTask=task;renderPractice();
+  document.getElementById('taskPrompt')?.focus({preventScroll:true});
+  document.querySelector('.taskArea')?.scrollIntoView({block:'start',behavior:'instant'});
+}
+function nextPracticeTask(){
+  rememberPracticeAttempt();
+  const bank=taskBank[currentModule],i=bank.findIndex(t=>t.id===currentTask?.id),done=new Set(state.doneTasks[currentModule]||[]);
+  currentTask=[...bank.slice(i+1),...bank.slice(0,i+1)].find(t=>!done.has(t.id))||null;
+  renderPractice();
+  (document.getElementById('taskPrompt')||document.querySelector('.practice .finish h3'))?.focus({preventScroll:true});
+  document.querySelector('.taskArea')?.scrollIntoView({block:'start',behavior:'instant'});
+}
+function renderPracticeResult(review=false){
+  document.querySelectorAll('#answerZone button,#answerZone select').forEach(b=>b.disabled=true);
+  const feedback=document.getElementById('feedback');feedback.classList.add('successFeedback');
+  feedback.innerHTML='<b>'+(review?'Задание уже выполнено.':'Верно.')+'</b><p>'+currentTask.why+'</p><span class="refs">Основание: '+currentTask.refs+'</span><button class="btn primary" id="nextTask">'+(remainingTasks().length?'Следующее задание':'К результатам раздела')+' <span aria-hidden="true">→</span></button>';
+  document.getElementById('nextTask').onclick=nextPracticeTask;
+  if(!review)document.getElementById('nextTask').focus({preventScroll:true});
+}
+function reviewPracticeTask(){
+  const task=currentTask;
+  document.querySelectorAll('#answerZone .ans').forEach(b=>{
+    const i=Number(b.dataset.i),correct=task.type==='multi'?Boolean(task.options[i][1]):i===task.answer;
+    b.classList.toggle('correct',correct);b.classList.toggle('selected',task.type==='multi'&&correct);
+  });
+  document.querySelectorAll('#answerZone select').forEach((s,i)=>s.value=task.type==='match'?encodeURIComponent(task.pairs[i][1]):task.items[i][1]);
+  const order=document.getElementById('orderList');
+  if(order){[...order.children].sort((a,b)=>Number(a.dataset.id)-Number(b.dataset.id)).forEach(row=>order.appendChild(row));renumberOrder();}
+  renderPracticeResult(true);
+}
 function renderPractice(){
   const rem=remainingTasks(),panel=document.getElementById('panel');
   if(!currentTask&&rem.length)currentTask=rem[0];
   if(!currentTask){
-    panel.innerHTML='<div class="finish"><div><div class="score">✓</div><h3>Все уникальные задания пройдены</h3><p>Автоматических повторов нет. Второй круг запускается только вручную.</p><div class="row"><button class="btn ghost" onclick="restartPractice()">Начать второй круг</button><button class="btn primary" onclick="switchTab(\'coach\')">К тренеру →</button></div></div></div>';return
+    panel.innerHTML='<div class="practice"><div class="taskArea"><div class="finish"><div><div class="score">✓</div><h3 tabindex="-1">Все задания раздела выполнены</h3><p>Нажмите на квадратик, чтобы вернуться к разбору любого задания.</p><div class="row"><button class="btn ghost" onclick="restartPractice()">Начать второй круг</button><button class="btn primary" onclick="switchTab(\'coach\')">К тренеру →</button></div></div></div></div>'+practiceSidebarHTML()+'</div>';bindPracticeNavigation();return
   }
-  const total=taskBank[currentModule].length,done=activeTaskDone(currentModule);
-  panel.innerHTML='<div class="practice"><div class="taskArea"><div class="taskMeta"><span class="tag">'+currentTask.label+'</span><span class="count">'+(done+1)+' / '+total+'</span></div>'+
-    '<div class="taskPrompt">'+currentTask.prompt+'</div><div class="taskSub">Номер нормы вспоминать не нужно: после решения вы увидите правовое основание.</div><div class="answerZone" id="answerZone"></div>'+
+  const attempt=practiceAttempts.get(practiceAttemptKey());if(attempt)currentTask=attempt.task;
+  const total=taskBank[currentModule].length,index=taskBank[currentModule].findIndex(t=>t.id===currentTask.id);
+  panel.innerHTML='<div class="practice"><div class="taskArea"><div class="taskMeta"><span class="tag">'+currentTask.label+'</span><span class="count">'+(index+1)+' / '+total+'</span></div>'+
+    '<div class="taskPrompt" id="taskPrompt" tabindex="-1">'+currentTask.prompt+'</div><div class="taskSub">Номер нормы вспоминать не нужно: после решения вы увидите правовое основание.</div><div class="answerZone" id="answerZone"></div>'+
     '<div class="feedback" id="feedback">Решите задачу. Ошибка не закрывает попытку.</div></div>'+
-    '<aside class="taskSide"><div><div class="eyebrow">Без повторов</div><h3>Уникальная очередь</h3><p>Каждое задание этого раздела появляется один раз.</p></div><div class="doneBox"><b>'+done+' / '+total+'</b>заданий завершено</div>'+
-    '<div class="taskDots">'+taskBank[currentModule].map(t=>'<div class="taskDot '+((state.doneTasks[currentModule]||[]).includes(t.id)?'done ':'')+(t.id===currentTask.id?'current':'')+'"></div>').join('')+'</div><button class="btn ghost" onclick="switchTab(\'scheme\')">Посмотреть схему</button></aside></div>';
-  renderTaskInput(currentTask)
+    practiceSidebarHTML()+'</div>';
+  renderTaskInput(currentTask);restorePracticeAttempt(attempt);
+  if((state.doneTasks[currentModule]||[]).includes(currentTask.id))reviewPracticeTask();
+  const zone=document.getElementById('answerZone');zone.onclick=rememberPracticeAttempt;zone.onchange=rememberPracticeAttempt;
+  bindPracticeNavigation();
 }
-function restartPractice(){state.doneTasks[currentModule]=[];currentTask=null;save();updateProgress();renderPractice()}
+function restartPractice(){clearPracticeAttempts(currentModule);state.doneTasks[currentModule]=[];currentTask=null;save();updateProgress();renderPractice()}
 function switchTab(tab){activateCourseTab(tab)}
 function renderTaskInput(t){
   const z=document.getElementById('answerZone');z.innerHTML='';

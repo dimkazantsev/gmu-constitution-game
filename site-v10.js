@@ -330,11 +330,7 @@
     successSound();el?.classList.add('correct');
     if(!state.doneTasks[currentModule])state.doneTasks[currentModule]=[];
     state.doneTasks[currentModule].push(currentTask.id);save();updateProgress();
-    $$('#answerZone button,#answerZone select').forEach(b=>b.disabled=true);
-    $('#feedback').classList.add('successFeedback');
-    $('#feedback').innerHTML='<b>Верно.</b><p>'+currentTask.why+'</p><span class="refs">Основание: '+currentTask.refs+'</span><button class="btn primary" id="nextTask">Следующее задание'+icons.arrow+'</button>';
-    $('#nextTask').onclick=()=>{currentTask=null;renderPractice();};
-    $('#nextTask').focus({preventScroll:true});
+    syncPracticeNavigation();renderPracticeResult();
   };
   const originalReset=resetAllProgress;
   resetAllProgress=function(){lastLocation=null;try{localStorage.removeItem('constitution_location');}catch(_){}originalReset();};

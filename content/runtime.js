@@ -60,6 +60,7 @@ const resetBeforeRevision=resetAllProgress;
 resetAllProgress=function(){learningRevision=emptyRevision();localStorage.removeItem('constitution_content_v11');resetBeforeRevision();};
 function resetChapterProgress(ch){
  if(!chapters.some(c=>c.id===ch))return;
+ clearPracticeAttempts(ch);
  targets.filter(t=>t.chapter===ch).forEach(t=>state.viewed.delete(t.id));
  delete state.doneTasks[ch];delete state.doneCases[ch];delete state.scores[ch];
  state.bosses.delete(ch);delete state.coachSeen[ch];
