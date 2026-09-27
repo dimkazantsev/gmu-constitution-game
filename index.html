@@ -8,7 +8,7 @@
 <title>Конституция РФ — интерактивный курс</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/golos-text.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="site-v10.css?v=10.2">
+<link rel="stylesheet" href="site-v10.css?v=11.1">
 </head>
 <body>
 <a class="skipLink" href="#mainContent">Перейти к содержанию</a>
@@ -18,10 +18,10 @@
   <section class="page course" id="course"><div class="courseWorkspace"></div></section>
 </main>
 <div class="resetOverlay" id="resetOverlay" aria-hidden="true">
-  <div class="resetDialog" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+  <div class="resetDialog" role="dialog" aria-modal="true" aria-labelledby="resetTitle" aria-describedby="resetDescription">
     <div class="resetIcon">↻</div>
     <h3 id="resetTitle">Сбросить прогресс?</h3>
-    <p>Будут очищены просмотренные темы, пройденные кейсы, результаты тренера и игровой рейтинг. Настройка звука сохранится.</p>
+    <p id="resetDescription">Будут очищены чтение, схемы, кейсы, задания, ответы тренеру и игровой рейтинг во всём курсе. Настройка звука сохранится.</p>
     <div class="resetDialogActions">
       <button class="btn ghost" onclick="closeProgressReset()">Отмена</button>
       <button class="btn resetDanger" onclick="confirmProgressReset()">Сбросить всё</button>
@@ -29,12 +29,12 @@
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
-<script src="app.js?v=11.0"></script>
+<script src="app.js?v=11.1"></script>
 <script src="content/reading.js?v=11.0"></script>
 <script src="content/scenarios.js?v=11.0"></script>
 <script src="content/tasks.js?v=11.0"></script>
 <script src="content/courts.js?v=11.0"></script>
-<script src="content/runtime.js?v=11.0"></script>
-<script src="site-v10.js?v=11.0"></script>
+<script src="content/runtime.js?v=11.1"></script>
+<script src="site-v10.js?v=11.1"></script>
 </body>
 </html>

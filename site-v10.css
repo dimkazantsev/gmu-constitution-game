@@ -99,6 +99,15 @@ body:not(.inCourse) #navHome{color:var(--blue)}
 .introDesc{max-width:420px;margin-left:auto;font-size:12px;line-height:1.6;color:var(--muted)}
 .introChapter>svg{margin-left:auto;width:20px;height:20px;color:var(--blue)}
 .chapterIndex{display:grid;grid-template-columns:1fr 1fr;column-gap:42px}
+.chapterCard{position:relative;min-width:0}
+.chapterCard>.chapterEntry{width:100%;height:100%}
+.chapterCard.hasProgress>.chapterEntry{padding-bottom:60px}
+.chapterReset{position:absolute;right:2px;bottom:10px;display:flex;align-items:center;gap:6px;min-height:40px;padding:8px 10px;border-radius:8px;font-size:11px;color:var(--muted)}
+.chapterReset svg{width:14px;height:14px}
+.chapterReset:hover{color:var(--blue);background:var(--blue-soft)}
+.chapterCardWide.hasProgress>.introChapter{padding-bottom:64px}
+.chapterCardWide>.chapterReset{right:16px;bottom:26px}
+.chapterCardWide>.outroChapter+.chapterReset{bottom:12px}
 .chapterEntry{display:flex;align-items:flex-start;gap:20px;min-height:172px;text-align:left;padding:26px 2px;border-bottom:1px solid var(--line);transition:background .18s}
 .chapterEntry:hover{background:#f8faff}.chapterEntry:hover .entryArrow{background:var(--blue);color:#fff;transform:translateX(3px)}
 .entryNumber{font-size:28px;line-height:1.25;color:#a4b0c4;min-width:42px;letter-spacing:-1px;font-weight:400;padding-top:4px;font-variant-numeric:tabular-nums}
@@ -147,9 +156,9 @@ body:not(.inCourse) #navHome{color:var(--blue)}
 .courseTab svg{width:17px;height:17px}.courseTab.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}.courseTab:hover{background:#edf1fa;color:var(--blue)}
 .lesson{background:#fff;border:1px solid var(--line);border-radius:0 0 16px 16px;min-width:0;overflow:clip}
 .lessonTop{padding:23px 30px;border-bottom:1px solid var(--line);background:#fff}
-.topicRow{display:flex;align-items:center;gap:10px}.topicRow>div:first-child{min-width:0;flex:1}
-.topicRow label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px}.topicSelect{width:100%;max-width:100%;border:0;background:#fff;padding:3px 24px 3px 0;font-size:18px;font-weight:550;min-height:34px;text-overflow:ellipsis}
-.topicArrows{display:flex;gap:4px}.topicArrows .iconButton{border:1px solid var(--line);width:36px;height:36px}.topicArrows svg{width:16px;height:16px}
+.topicRow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:5px 10px}.topicRow>div:first-child{display:contents}
+.topicRow label{grid-column:1/-1;grid-row:1;display:block;font-size:11px;color:var(--muted);margin:0}.topicSelect{grid-column:1;grid-row:2;width:100%;min-width:0;max-width:100%;border:0;background:#fff;padding:3px 24px 3px 0;font-size:18px;font-weight:550;min-height:36px;text-overflow:ellipsis}
+.topicArrows{grid-column:2;grid-row:2;display:flex;align-items:center;gap:4px}.topicArrows .iconButton{border:1px solid var(--line);width:36px;height:36px}.topicArrows svg{width:16px;height:16px}
 #lessonHeadline{font-size:13px;color:var(--muted);line-height:1.6;max-width:730px;margin-top:10px}
 .panel{min-width:0;min-height:440px}
 .learnPane{padding:34px 34px 45px;max-height:calc(100dvh - 205px);min-height:440px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c0cce2 #f4f6fa;overscroll-behavior-y:auto;scroll-padding-top:20px}
@@ -299,10 +308,11 @@ dialog::backdrop{background:#16244355;backdrop-filter:blur(3px)}
 @media(max-width:680px){
   .topicRow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px}
   .topicRow>div:first-child{display:contents}
-  .topicRow label{grid-column:1;grid-row:1;align-self:center;margin:0}
-  .topicSelect{grid-column:1/-1;grid-row:2;min-height:44px}
-  .topicArrows{grid-column:2;grid-row:1}
+  .topicRow label{grid-column:1/-1;grid-row:1;align-self:center;margin:0}
+  .topicSelect{grid-column:1;grid-row:2;min-height:44px}
+  .topicArrows{grid-column:2;grid-row:2}
   .topicArrows .iconButton,.chapterArrows .iconButton,.searchInputRow .iconButton{width:44px;height:44px}
+  .chapterReset{min-height:44px}
   .orderItem{grid-template-columns:20px minmax(0,1fr) 44px}
   .move{width:44px;height:44px}
   .headerInner{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}

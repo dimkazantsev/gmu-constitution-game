@@ -44,7 +44,7 @@
   const number = c => c.id === 0 ? '§' : c.id === 10 ? 'II' : String(c.id).padStart(2, '0');
   const range = c => c.id === 0 ? 'Вводная часть' : c.id === 10 ? 'Пункты 1–9' : 'Статьи ' + c.range;
   const overall = () => Math.round(chapters.reduce((s, c) => s + modulePct(c.id), 0) / chapters.length);
-  const last = () => chapters.find(c => c.id === (lastLocation?.chapter ?? state.lastModule)) || chapters[1];
+  const last = () => chapters.find(c => c.id === (lastLocation?.chapter ?? state.lastModule)) || chapters[0];
   const allTopics = () => chapters.reduce((n, c) => n + moduleInfo[c.id].blocks.length, 0);
   const topicCount = n => n + ' ' + (n%100>=11&&n%100<=14?'тем':n%10===1?'тема':n%10>=2&&n%10<=4?'темы':'тем');
   const chapterFromArticle = num => chapterFor(num);
@@ -280,6 +280,14 @@
     } else html='<div class="learnContent">'+expandedMeaning(meta,b,ids)+'</div><details class="inlineSource"><summary>'+icons.book+'Прочитать полный текст статей'+icons.down+'</summary><div class="fullArticles">'+fullArticleCards(ids)+'</div></details>';
     $('#panel').innerHTML='<div class="learnPane" tabindex="0" role="region" aria-label="'+(view==='quote'?'Текст статей':view==='official'?'Практика Конституционного Суда':'Объяснение темы')+'"><div class="readingInner">'+html+'</div></div>';
   };
+  function chapterCard(ch,content,wide=false) {
+    const coach=coachRecord(ch.id);
+    const hasProgress=chapterProgress(ch.id).done>0||targets.some(t=>t.chapter===ch.id&&state.viewed.has(t.id))||
+      (state.doneTasks[ch.id]||[]).length||(state.doneCases[ch.id]||[]).length||state.bosses.has(ch.id)||
+      Object.keys(coach.drafts||{}).length||(coach.seen||[]).length||state.scores[ch.id]||(state.coachSeen[ch.id]||[]).length;
+    return '<div class="chapterCard'+(wide?' chapterCardWide':'')+(hasProgress?' hasProgress':'')+'">'+content+
+      (hasProgress?'<button class="chapterReset" data-reset-chapter="'+ch.id+'" aria-label="Сбросить прогресс: '+escHtml(title(ch))+'">'+icons.reset+'<span>Сбросить</span></button>':'')+'</div>';
+  }
   renderHome=function() {
     currentModule=null;document.body.classList.remove('inCourse');
     const pct=overall(),resume=state.viewed.size>0,c=last();
@@ -289,16 +297,17 @@
       '<div class="heroVisual" id="heroVisual"><div class="bookGround"></div><button class="bookObject" id="bookOpen" aria-label="Открыть учебник Конституции"><span class="bookPages"></span><span class="bookCover"><span class="bookTop">Российская Федерация</span><span class="bookEmblem">§</span><span class="bookTitle">Конституция</span><span class="bookSubtitle">Основной закон.<br>Понятным языком.</span><span class="bookBottom"><span>Интерактивное издание</span><i>'+icons.arrow+'</i></span></span><span class="bookRibbon"></span></button><div class="articleNote"><span>Статья 2</span><p>Человек, его права и свободы<br>являются высшей ценностью.</p></div><span class="bookHint">Нажмите, чтобы открыть</span></div></section>'+
       '<section class="studyStrip" aria-label="Возможности курса"><div class="studyStripIntro">Один текст.<br><b>Разные способы понять.</b></div><button data-feature="quote">'+icons.book+'<span>Читать статьи<small>Полный текст Конституции</small></span></button><button data-feature="official">'+icons.court+'<span>Разбирать практику<small>Дела Конституционного Суда</small></span></button><button data-feature="practice">'+icons.tasks+'<span>Проверять себя<small>Ситуации и задания</small></span></button></section>'+
       '<section class="contents" id="chaptersSection"><div class="sectionHeading"><div><span class="quietLabel">Содержание учебника</span><h2>Вся Конституция.<br>Глава за главой.</h2></div><p>Начните с основ или выберите то,<br>что интересно сейчас.</p></div>'+
-      '<button class="introChapter" data-chapter="0"><span class="introSymbol">§</span><span><b>С чего всё начинается</b><small>Преамбула Конституции</small></span><span class="introDesc">'+moduleInfo[0].desc+'</span>'+icons.arrow+'</button>'+
-      '<div class="chapterIndex">'+chapterList.map(ch=>'<button class="chapterEntry" data-chapter="'+ch.id+'"><span class="entryNumber">'+number(ch)+'</span><span class="entryText"><small>'+range(ch)+'</small><h3>'+title(ch)+'</h3><span class="entryMeta">'+topicCount(moduleInfo[ch.id].blocks.length)+' '+(modulePct(ch.id)?'<i class="entryProgress">'+modulePct(ch.id)+'% пройдено</i>':'')+'</span></span><span class="entryArrow">'+icons.arrow+'</span></button>').join('')+'</div>'+
-      '<button class="introChapter outroChapter" data-chapter="10"><span class="introSymbol">II</span><span><b>Заключительные и переходные положения</b><small>Раздел второй · пункты 1–9</small></span>'+icons.arrow+'</button></section>'+
-      '<section class="continueCard"><div class="continueIcon">'+icons.book+'</div><div><span class="quietLabel">Ваш маршрут</span><h2>'+(resume?'Продолжим с того же места?':'Первый шаг — понять основы.')+'</h2><p>'+(resume?title(c):'Начните с первой главы. Остальные можно открыть в любой момент.')+'</p></div><div class="continueAction"><span>'+pct+'% курса пройдено</span><button class="btn primary" id="resumeBottom">'+(resume?'Продолжить':'Открыть главу 1')+icons.arrow+'</button></div></section>'+
+      chapterCard(chapters[0],'<button class="introChapter" data-chapter="0"><span class="introSymbol">§</span><span><b>С чего всё начинается</b><small>Преамбула Конституции</small></span><span class="introDesc">'+moduleInfo[0].desc+'</span>'+icons.arrow+'</button>',true)+
+      '<div class="chapterIndex">'+chapterList.map(ch=>chapterCard(ch,'<button class="chapterEntry" data-chapter="'+ch.id+'"><span class="entryNumber">'+number(ch)+'</span><span class="entryText"><small>'+range(ch)+'</small><h3>'+title(ch)+'</h3><span class="entryMeta">'+topicCount(moduleInfo[ch.id].blocks.length)+' '+(modulePct(ch.id)?'<i class="entryProgress">'+modulePct(ch.id)+'% пройдено</i>':'')+'</span></span><span class="entryArrow">'+icons.arrow+'</span></button>')).join('')+'</div>'+
+      chapterCard(chapters[10],'<button class="introChapter outroChapter" data-chapter="10"><span class="introSymbol">II</span><span><b>Заключительные и переходные положения</b><small>Раздел второй · пункты 1–9</small></span>'+icons.arrow+'</button>',true)+'</section>'+
+      '<section class="continueCard"><div class="continueIcon">'+icons.book+'</div><div><span class="quietLabel">Ваш маршрут</span><h2>'+(resume?'Продолжим с того же места?':'Первый шаг — преамбула.')+'</h2><p>'+(resume?title(c):'Начните с целей и ценностей Конституции. Затем переходите к её главам.')+'</p></div><div class="continueAction"><span>'+pct+'% курса пройдено</span><button class="btn primary" id="resumeBottom">'+(resume?'Продолжить':'Открыть преамбулу')+icons.arrow+'</button></div></section>'+
       '<footer class="siteFooter"><div><b>§ Конституция РФ</b><span>Учебный курс</span></div><a href="'+officialConstUrl+'" target="_blank" rel="noopener">Официальный текст'+icons.external+'</a><span>9 глав · '+allTopics()+' тем</span></footer>';
-    const start=()=>resume?openModule(c.id,lastLocation?.chapter===c.id?lastLocation.topic:0,lastLocation?.chapter===c.id?lastLocation.view:'quote'):openModule(1);
+    const start=()=>resume?openModule(c.id,lastLocation?.chapter===c.id?lastLocation.topic:0,lastLocation?.chapter===c.id?lastLocation.view:'quote'):openModule(0);
     $('#startCourse').onclick=start;$('#resumeBottom').onclick=start;$('#bookOpen').onclick=start;
     $('#allChapters').onclick=()=>$('#chaptersSection').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     $$('.chapterEntry,.introChapter').forEach(b=>b.onclick=()=>openModule(+b.dataset.chapter));
-    $$('[data-feature]').forEach(b=>b.onclick=()=>openModule(resume?c.id:1,0,b.dataset.feature));
+    $$('[data-reset-chapter]').forEach(b=>b.onclick=()=>requestProgressReset(+b.dataset.resetChapter));
+    $$('[data-feature]').forEach(b=>b.onclick=()=>openModule(resume?c.id:0,0,b.dataset.feature));
     const visual=$('#heroVisual'),book=$('#bookOpen');
     if(matchMedia('(pointer:fine) and (prefers-reduced-motion: no-preference)').matches) {
       visual.onpointermove=e=>{const r=visual.getBoundingClientRect();book.style.setProperty('--rx',((e.clientY-r.top)/r.height-.5)*-7+'deg');book.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*8+'deg');};
@@ -329,6 +338,15 @@
   };
   const originalReset=resetAllProgress;
   resetAllProgress=function(){lastLocation=null;try{localStorage.removeItem('constitution_location');}catch(_){}originalReset();};
+  const originalChapterReset=resetChapterProgress;
+  resetChapterProgress=function(ch){
+    if(!chapters.some(c=>c.id===ch))return;
+    originalChapterReset(ch);
+    if(lastLocation?.chapter===ch){lastLocation={chapter:ch,topic:0,view:'quote'};try{localStorage.setItem('constitution_location',JSON.stringify(lastLocation));}catch(_){}}
+    renderHome();
+    $('.chapterEntry[data-chapter="'+ch+'"],.introChapter[data-chapter="'+ch+'"]')?.focus({preventScroll:true});
+    toast('Прогресс раздела сброшен');
+  };
   function restoreRoute() {
     routeLock=true;
     const m=location.hash.match(/^#chapter\/(\d+)\/(\d+)\/([a-z]+)$/);

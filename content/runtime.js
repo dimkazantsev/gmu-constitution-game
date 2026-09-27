@@ -58,6 +58,18 @@ const saveBeforeRevision=save;
 save=function(){saveBeforeRevision();localStorage.setItem('constitution_content_v11',JSON.stringify(learningRevision));};
 const resetBeforeRevision=resetAllProgress;
 resetAllProgress=function(){learningRevision=emptyRevision();localStorage.removeItem('constitution_content_v11');resetBeforeRevision();};
+function resetChapterProgress(ch){
+ if(!chapters.some(c=>c.id===ch))return;
+ targets.filter(t=>t.chapter===ch).forEach(t=>state.viewed.delete(t.id));
+ delete state.doneTasks[ch];delete state.doneCases[ch];delete state.scores[ch];
+ state.bosses.delete(ch);delete state.coachSeen[ch];
+ const answers=Object.values(learningRevision.coach[ch]?.answers||{});
+ state.coachSolved=Math.max(0,(state.coachSolved||0)-answers.length);
+ state.coachPoints=Math.max(0,(state.coachPoints||0)-answers.reduce((sum,a)=>sum+(Number(a.score)||0),0));
+ delete learningRevision.coach[ch];
+ learningRevision.schemes=learningRevision.schemes.filter(id=>id!==ch);
+ save();
+}
 function coachRecord(ch=currentModule){
  if(!learningRevision.coach[ch])learningRevision.coach[ch]={currentId:null,seen:[],answers:{},drafts:{},ended:false};
  return learningRevision.coach[ch];

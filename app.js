@@ -346,22 +346,36 @@ let currentModule=null,currentTab='learn',blockIndex=0,learnMode='quote',current
 let mobileLearnMode="quote",mobileCaseStep="situation",mobileCoachStep="situation";
 
 function save(){localStorage.setItem('gmu_const_v7',JSON.stringify({viewed:[...state.viewed],doneTasks:state.doneTasks,doneCases:state.doneCases,scores:state.scores,bosses:[...state.bosses],coachSeen:state.coachSeen,coachSolved:state.coachSolved,coachPoints:state.coachPoints,sound:state.sound,lastModule:state.lastModule}))}
-function requestProgressReset(){
+let pendingProgressReset=null,progressResetReturnFocus=null;
+function requestProgressReset(chapter=null){
+  if(chapter!==null&&!chapters.some(c=>c.id===chapter))return;
   const overlay=document.getElementById("resetOverlay");
-  if(!overlay){resetAllProgress();return}
+  if(!overlay)return;
+  pendingProgressReset=chapter;
+  progressResetReturnFocus=document.activeElement;
+  const section=chapters.find(c=>c.id===chapter);
+  document.getElementById("resetTitle").textContent=section?"Сбросить этот раздел?":"Сбросить весь прогресс?";
+  document.getElementById("resetDescription").textContent=section?
+    'Будут очищены чтение, схема, кейсы, задания и ответы тренеру в разделе «'+section.name+'». Прогресс других разделов сохранится.':
+    "Будут очищены чтение, схемы, кейсы, задания, ответы тренеру и игровой рейтинг во всём курсе. Настройка звука сохранится.";
+  overlay.querySelector(".resetDanger").textContent=section?"Сбросить раздел":"Сбросить всё";
   overlay.setAttribute("aria-hidden","false");
   document.body.classList.add("modalOpen");
-  setTimeout(()=>overlay.querySelector(".resetDialogActions .ghost")?.focus(),30)
+  setTimeout(()=>{if(overlay.getAttribute("aria-hidden")==="false")overlay.querySelector(".resetDialogActions .ghost")?.focus()},30)
 }
 function closeProgressReset(){
   const overlay=document.getElementById("resetOverlay");
   if(overlay)overlay.setAttribute("aria-hidden","true");
   document.body.classList.remove("modalOpen");
-  document.getElementById("resetProgressBtn")?.focus()
+  pendingProgressReset=null;
+  if(progressResetReturnFocus?.isConnected)progressResetReturnFocus.focus({preventScroll:true});
+  else document.getElementById("startCourse")?.focus({preventScroll:true})
 }
 function confirmProgressReset(){
+  if(document.getElementById("resetOverlay")?.getAttribute("aria-hidden")!=="false")return;
+  const chapter=pendingProgressReset;
   closeProgressReset();
-  resetAllProgress()
+  if(chapter===null)resetAllProgress();else resetChapterProgress(chapter)
 }
 function resetAllProgress(){
   const soundValue=state.sound;
@@ -989,7 +1003,7 @@ function schemeShuffle(items){
   return items.map((x,i)=>({x,r:(i+1)*7919%9973})).sort((a,b)=>a.r-b.r).map(v=>v.x);
 }
 function schemeChipHTML(chip){
-  return '<button class="schemeChip rippleHost" draggable="true" data-chip="'+chip.id+'"><span class="schemeChipIcon">'+chip.icon+'</span><span>'+capUi(chip.text)+'</span></button>';
+  return '<button class="schemeChip rippleHost" draggable="true" data-chip="'+chip.id+'"><span class="schemeChipIcon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="3" r="1.3"/><circle cx="11" cy="3" r="1.3"/><circle cx="5" cy="8" r="1.3"/><circle cx="11" cy="8" r="1.3"/><circle cx="5" cy="13" r="1.3"/><circle cx="11" cy="13" r="1.3"/></svg></span><span>'+capUi(chip.text)+'</span></button>';
 }
 function schemeTargetHTML(target,kind){
   const hint=kind==="flow"?"Перетащите сюда смысл элемента":"Перетащите сюда подходящие элементы";
@@ -1309,4 +1323,3 @@ document.getElementById("resetOverlay")?.addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"&&document.getElementById("resetOverlay")?.getAttribute("aria-hidden")==="false")closeProgressReset()
 });
-
