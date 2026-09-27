@@ -110,6 +110,7 @@
       d.addEventListener('close', () => document.body.classList.remove('dialogOpen'));
     });
     $('#globalSearch').addEventListener('input', runSearch);
+    $('#globalSearch').name='constitution-search';
     $('#globalSearch').addEventListener('keydown', e => {
       if(e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
@@ -174,11 +175,32 @@
     originalCoachRenderer();
     const orb=$('.aiOrb');if(orb)orb.innerHTML=icons.coach;
     $('#coachAnswer')?.setAttribute('aria-label','Ваш ответ на ситуацию');
+    if($('#coachAnswer')){$('#coachAnswer').name='coach-answer';$('#coachAnswer').autocomplete='off';}
+    $('#coachResult')?.setAttribute('aria-live','polite');
     const result=$('#coachResult');
     if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Тренер ищет ключевые элементы ответа. Оценка ориентировочная: сравните свою аргументацию с разбором.</p>');
   };
   const originalCaseRenderer=renderCases;
-  renderCases=function(){originalCaseRenderer();$('#caseHypothesis')?.setAttribute('aria-label','Ваша гипотеза о ситуации');};
+  renderCases=function(){
+    originalCaseRenderer();
+    $('#caseHypothesis')?.setAttribute('aria-label','Ваша гипотеза о ситуации');
+    if($('#caseHypothesis')){$('#caseHypothesis').name='case-hypothesis';$('#caseHypothesis').autocomplete='off';}
+    $('#caseExplain')?.setAttribute('aria-live','polite');
+  };
+  const originalTaskInput=renderTaskInput;
+  renderTaskInput=function(task){
+    originalTaskInput(task);
+    $$('.matchSelect').forEach((el,i)=>{el.setAttribute('aria-label',$('.matchLeft',el.closest('.matchRow'))?.textContent||'Соответствие '+(i+1));el.name='match-'+i;});
+    $$('.orderItem').forEach(row=>$$('.move',row).forEach((b,i)=>b.setAttribute('aria-label',(i===0?'Переместить выше: ':'Переместить ниже: ')+$('span',row).textContent)));
+    if(task.type==='multi')$$('#answerZone .ans').forEach(b=>{b.setAttribute('aria-pressed','false');b.addEventListener('click',()=>b.setAttribute('aria-pressed',String(b.classList.contains('selected'))));});
+    $('#feedback')?.setAttribute('aria-live','polite');
+  };
+  const originalSchemeRenderer=renderScheme;
+  renderScheme=function(){
+    originalSchemeRenderer();
+    $$('.schemeTarget').forEach(t=>{t.tabIndex=0;t.setAttribute('role','button');t.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}};});
+    $('#schemeFeedback')?.setAttribute('aria-live','polite');
+  };
   setTopHeaderMode=function(){};
   updateProgress=function(){
     if(currentModule!==null) {const p=modulePct(currentModule);$('#coursePct').textContent=p+'% главы';$('#courseBar').style.width=p+'%';}
@@ -218,7 +240,7 @@
     syncTopic();
     $$('.courseTab').forEach(b=>{const active=b.dataset.view===view;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;});
     if(currentTab==='learn')renderLearn();
-    else if(view==='scheme'){renderScheme();$$('.schemeTarget').forEach(t=>{t.tabIndex=0;t.setAttribute('role','button');t.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}};});}
+    else if(view==='scheme')renderScheme();
     else if(view==='cases')renderCases();
     else if(view==='practice')renderPractice();
     else renderCoach();
@@ -285,6 +307,7 @@
     $('#feedback').classList.add('successFeedback');
     $('#feedback').innerHTML='<b>Верно.</b><p>'+currentTask.why+'</p><span class="refs">Основание: '+currentTask.refs+'</span><button class="btn primary" id="nextTask">Следующее задание'+icons.arrow+'</button>';
     $('#nextTask').onclick=()=>{currentTask=null;renderPractice();};
+    $('#nextTask').focus({preventScroll:true});
   };
   const originalReset=resetAllProgress;
   resetAllProgress=function(){lastLocation=null;try{localStorage.removeItem('constitution_location');}catch(_){}originalReset();};
