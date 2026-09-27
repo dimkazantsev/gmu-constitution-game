@@ -181,7 +181,7 @@
     if($('#coachAnswer')){$('#coachAnswer').name='coach-answer';$('#coachAnswer').autocomplete='off';}
     $('#coachResult')?.setAttribute('aria-live','polite');
     const result=$('#coachResult');
-    if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Тренер ищет ключевые элементы ответа. Он не оценивает логику и юридическую точность: сравните свою аргументацию с разбором.</p>');
+    if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Автоматическая проверка помогает заметить слишком краткий ответ и отсутствие связи с ситуацией. Правильность аргументации проверяйте по разбору.</p>');
   };
   const originalCaseRenderer=renderCases;
   renderCases=function(){

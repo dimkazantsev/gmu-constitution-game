@@ -102,14 +102,33 @@ function restartCoachSet(onlyUnanswered=false){
  const record=coachRecord();record.seen=onlyUnanswered?coachTemplates[currentModule].filter(c=>record.answers[c.id]).map(c=>c.id):[];record.currentId=null;record.ended=false;
  coachState.scenario=null;newCoachScenario();
 }
+// This checks whether a draft can be discussed; it does not grade legal correctness.
+function assessCoachDraft(text,scenario){
+ const normalized=normalizeAnswer(text),words=normalized.match(/[а-яa-z]+/g)||[];
+ const hints=[...scenario.labels,...scenario.keys.flat()].flatMap(s=>(normalizeAnswer(s).match(/[а-яa-z]+/g)||[])).filter(w=>w.length>2);
+ const distinct=new Set(words.filter(w=>w.length>2));
+ const own=new Set(words.filter(w=>w.length>2&&!hints.some(h=>w.startsWith(h))));
+ const developed=words.length>=12&&distinct.size>=9&&own.size>=7;
+ const explained=/(?:^|\s)(?:потому|поскольку|поэтому|следовательно|значит|так как|но\s|однако|только|нельзя|недопуст|недостаточ|долж|нуж|необходим|требу|обязан|вправе|запрещ|разреш|допуска|установ|определ|предусмат|закреп|огранич|завис|относ|гарантир|защищ|связан|сочет|сохраня|разгранич|различ|примен|исключ|означ|явля|дает|замен|носител|учредит|получа|не может|не дает|без\s)/.test(normalized);
+ const context=(scenario.text+' '+scenario.question).toLowerCase().replace(/ё/g,'е').match(/[а-яa-z]{5,}/g)||[];
+ const ignored=new Set(['ситуация','который','которая','которые','которого','почему','утверждает','предлагает','считает','достаточно']);
+ const roots=new Set(context.filter(w=>!ignored.has(w)).map(w=>w.slice(0,5)));
+ const relevant=scenario.keys.some(group=>group.some(k=>k.length>2&&normalized.includes(normalizeAnswer(k))))||new Set(words.filter(w=>w.length>=5&&roots.has(w.slice(0,5)))).size>=2;
+ const copied=[scenario.text,scenario.question].some(s=>normalizeAnswer(s)===normalized);
+ const message=!developed?'Добавьте собственный вывод и его обоснование. Перечня терминов из подсказки недостаточно: объясните, что допустимо в этой ситуации и почему.':
+   copied?'Вы повторили условие или вопрос. Сформулируйте собственный вывод и объясните его основания.':
+   !explained?'Объясните, почему вы пришли к этому выводу: какая норма или связь между обстоятельствами его обосновывает?':
+   !relevant?'Свяжите рассуждение с этой ситуацией: укажите, какое действие, право или полномочие вы оцениваете и почему.':'';
+ return {ready:!message,message};
+}
 function showCoachReview(){
  const c=coachState.scenario,record=coachRecord(),answer=record.answers[c.id];if(!answer)return;
- const res=evaluateCoach(answer.text,c),box=document.getElementById('coachResult');
+ const box=document.getElementById('coachResult');
  box.classList.add('show');box.closest('.coachResponse').classList.add('reviewed');
- box.innerHTML='<div class="coachResultLabel">Разбор ответа</div><div class="coachResultHead"><div class="coachScore">'+res.hits.filter(Boolean).length+'/'+res.hits.length+'</div><div><h4>Опорные понятия в вашем ответе</h4><p>Отметки показывают совпадения по ключевым словам. Сопоставьте ход своего рассуждения с примером ниже.</p></div></div><div class="detected">'+c.labels.map((label,i)=>'<span class="'+(res.hits[i]?'':'miss')+'">'+(res.hits[i]?'✓ ':'○ ')+escHtml(label)+'</span>').join('')+'</div><div class="modelAnswer"><b>Возможный вариант ответа</b><p>'+escHtml(c.model)+'</p><div class="legalBase"><span>Правовое основание</span><b>'+escHtml(c.refs)+'</b></div></div><div class="coachButtons"><button class="btn ghost" id="coachRevise">Уточнить ответ</button><button class="btn primary" onclick="newCoachScenario()">'+(record.seen.length<coachTemplates[currentModule].length?'Следующая ситуация →':'Завершить набор')+'</button></div>';
+ box.innerHTML='<div class="coachResultLabel">Разбор ответа</div><h4>Сравните ход рассуждения</h4><p>Проверьте свой вывод, его правовое основание и то, как оно связано с обстоятельствами ситуации. Другие формулировки допустимы, если они обоснованы.</p><div class="modelAnswer"><b>Возможный вариант ответа</b><p>'+escHtml(c.model)+'</p><div class="legalBase"><span>Правовое основание</span><b>'+escHtml(c.refs)+'</b></div></div><div class="coachButtons"><button class="btn ghost" id="coachRevise">Уточнить ответ</button><button class="btn primary" onclick="newCoachScenario()">'+(record.seen.length<coachTemplates[currentModule].length?'Следующая ситуация →':'Завершить набор')+'</button></div>';
  document.getElementById('coachAnswer').disabled=true;
  document.getElementById('coachSubmit').disabled=true;
- document.getElementById('coachRevise').onclick=()=>{coachState.answered=false;document.getElementById('coachAnswer').disabled=false;document.getElementById('coachSubmit').disabled=false;setMobileCoachStep('answer');document.getElementById('coachAnswer').focus();};
+ document.getElementById('coachRevise').onclick=()=>{coachState.answered=false;document.getElementById('coachAnswer').disabled=false;document.getElementById('coachSubmit').disabled=false;box.classList.remove('show');box.closest('.coachResponse').classList.remove('reviewed');box.innerHTML='<div class="coachResultPlaceholder"><b>Уточните ответ и снова откройте разбор.</b></div>';setMobileCoachStep('answer');document.getElementById('coachAnswer').focus();};
 }
 renderCoach=function(){
  const panel=document.getElementById('panel'),bank=coachTemplates[currentModule],record=coachRecord();
@@ -119,22 +138,24 @@ renderCoach=function(){
  }
  if(!coachState.scenario){const scenario=bank.find(c=>c.id===record.currentId)||bank.find(c=>!record.seen.includes(c.id));if(!scenario){record.ended=true;save();renderCoach();return;}selectCoachScenario(scenario);}
  const c=coachState.scenario;
- panel.innerHTML='<div class="coachWorkbench" data-mobile-step="'+mobileCoachStep+'"><div class="coachMobileSteps"><button class="coachMobileStep" data-step="situation">1 · Ситуация</button><button class="coachMobileStep" data-step="answer">2 · Ответ</button><button class="coachMobileStep" data-step="review">3 · Разбор</button></div><div class="coachTopbar"><div class="coachIdentity"><div class="aiOrb">§</div><div><h3>Ситуационный тренер</h3><p>Учебная ситуация · свободный ответ · разбор</p></div></div><div class="coachCounter">Ситуация '+coachState.number+' из '+bank.length+'</div></div><div class="coachGrid"><section class="coachSituation"><div class="scenarioLabel">'+escHtml(c.topic)+'</div><div class="scenarioText">'+escHtml(c.text)+'</div><div class="scenarioScene">'+c.actors.map(a=>'<div class="miniActor"><i>'+escHtml(a[0])+'</i>'+escHtml(a[1])+'</div>').join('<span class="arrow">→</span>')+'</div><div class="coachQuestionBox"><span>Вопрос</span><h4>'+escHtml(c.question)+'</h4></div><div class="coachChecklist"><b>Опоры для ответа</b>'+c.labels.map((label,i)=>'<div><span>'+(i+1)+'</span>'+escHtml(label)+'</div>').join('')+'</div><button class="btn primary coachToAnswer" id="coachToAnswerBtn">Перейти к ответу →</button></section><section class="coachResponse"><div class="coachResponseHead"><div><span class="eyebrow">Ваш ответ</span><h4>Объясните ситуацию своими словами</h4></div><span class="coachNoArticle">Номер статьи не нужен</span></div><textarea class="freeAnswer" id="coachAnswer" placeholder="Сформулируйте вывод и объясните, какими нормами и обстоятельствами он обоснован."></textarea><div class="coachActions">'+(bank.length>1?'<button class="btn ghost" onclick="newCoachScenario()">'+(record.seen.length<bank.length?'Другая ситуация':'Завершить набор')+'</button>':'')+'<button class="btn primary" id="coachSubmit" onclick="submitCoach()">Разобрать ответ →</button></div><div class="coachResult" id="coachResult"><div class="coachResultPlaceholder"><b>После ответа здесь появится разбор.</b><span>Сравните свой вывод с возможным вариантом ответа и правовым основанием.</span></div></div></section></div></div>';
+ panel.innerHTML='<div class="coachWorkbench" data-mobile-step="'+mobileCoachStep+'"><div class="coachMobileSteps"><button class="coachMobileStep" data-step="situation">1 · Ситуация</button><button class="coachMobileStep" data-step="answer">2 · Ответ</button><button class="coachMobileStep" data-step="review">3 · Разбор</button></div><div class="coachTopbar"><div class="coachIdentity"><div class="aiOrb">§</div><div><h3>Ситуационный тренер</h3><p>Учебная ситуация · свободный ответ · разбор</p></div></div><div class="coachCounter">Ситуация '+coachState.number+' из '+bank.length+'</div></div><div class="coachGrid"><section class="coachSituation"><div class="scenarioLabel">'+escHtml(c.topic)+'</div><div class="scenarioText">'+escHtml(c.text)+'</div><div class="scenarioScene">'+c.actors.map(a=>'<div class="miniActor"><i>'+escHtml(a[0])+'</i>'+escHtml(a[1])+'</div>').join('<span class="arrow">→</span>')+'</div><div class="coachQuestionBox"><span>Вопрос</span><h4>'+escHtml(c.question)+'</h4></div><div class="coachChecklist"><b>Опоры для ответа</b>'+c.labels.map((label,i)=>'<div><span>'+(i+1)+'</span>'+escHtml(label)+'</div>').join('')+'</div><button class="btn primary coachToAnswer" id="coachToAnswerBtn">Перейти к ответу →</button></section><section class="coachResponse"><div class="coachResponseHead"><div><span class="eyebrow">Ваш ответ</span><h4>Объясните ситуацию своими словами</h4></div><span class="coachNoArticle">Номер статьи не нужен</span></div><textarea class="freeAnswer" id="coachAnswer" aria-describedby="coachValidation" placeholder="Дайте вывод, объясните почему и свяжите его с обстоятельствами ситуации. Перечня терминов недостаточно."></textarea><p class="coachValidation" id="coachValidation" role="alert" hidden></p><div class="coachActions">'+(bank.length>1?'<button class="btn ghost" onclick="newCoachScenario()">'+(record.seen.length<bank.length?'Другая ситуация':'Завершить набор')+'</button>':'')+'<button class="btn primary" id="coachSubmit" onclick="submitCoach()">Разобрать ответ →</button></div><div class="coachResult" id="coachResult"><div class="coachResultPlaceholder"><b>После ответа здесь появится разбор.</b><span>Сравните свой вывод с возможным вариантом ответа и правовым основанием.</span></div></div></section></div></div>';
  document.querySelectorAll('.coachMobileStep').forEach(b=>b.onclick=()=>setMobileCoachStep(b.dataset.step));
  document.getElementById('coachToAnswerBtn').onclick=()=>{setMobileCoachStep('answer');document.getElementById('coachAnswer').focus();};
  const ta=document.getElementById('coachAnswer');ta.value=record.drafts[c.id]??record.answers[c.id]?.text??'';
- ta.oninput=()=>{record.drafts[c.id]=ta.value;save();};
- if(record.answers[c.id])showCoachReview();
+ ta.oninput=()=>{record.drafts[c.id]=ta.value;document.getElementById('coachValidation').hidden=true;ta.removeAttribute('aria-invalid');save();};
+ if(record.answers[c.id]&&(record.drafts[c.id]===undefined||record.drafts[c.id]===record.answers[c.id].text))showCoachReview();else coachState.answered=false;
  setMobileCoachStep(mobileCoachStep);bindRipple();
 };
 submitCoach=function(){
  if(coachState.answered)return;
  const ta=document.getElementById('coachAnswer'),answer=ta?.value.trim()||'';
- if(answer.length<20){toast('Напишите хотя бы одно содержательное предложение');ta.focus();return;}
- const c=coachState.scenario,record=coachRecord(),res=evaluateCoach(answer,c),previous=record.answers[c.id];
- record.answers[c.id]={text:answer,score:res.score};record.drafts[c.id]=answer;
+ const c=coachState.scenario,record=coachRecord(),assessment=assessCoachDraft(answer,c),validation=document.getElementById('coachValidation');
+ record.drafts[c.id]=answer;save();
+ if(!assessment.ready){validation.textContent=assessment.message;validation.hidden=false;ta.setAttribute('aria-invalid','true');setMobileCoachStep('answer');ta.focus();return;}
+ validation.hidden=true;ta.removeAttribute('aria-invalid');
+ const previous=record.answers[c.id];
+ record.answers[c.id]={text:answer,score:previous?.score||0};
  if(!previous)state.coachSolved=(state.coachSolved||0)+1;
- state.coachPoints=(state.coachPoints||0)+res.score-(previous?.score||0);
- coachState.answered=true;coachState.score=res.score;save();showCoachReview();setMobileCoachStep('review');updateProgress();
+ coachState.answered=true;coachState.score=record.answers[c.id].score;save();showCoachReview();setMobileCoachStep('review');updateProgress();
 };
 save();

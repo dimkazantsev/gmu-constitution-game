@@ -1289,18 +1289,19 @@ function renderCases(){
 
   panel.innerHTML='<div class="caseWorkbench" data-mobile-step="'+mobileCaseStep+'">'+
     '<div class="caseMobileSteps"><button class="caseMobileStep" data-step="situation">1 · Ситуация</button><button class="caseMobileStep" data-step="answer">2 · Ответ</button><button class="caseMobileStep" data-step="review">3 · Разбор</button></div>'+
-    '<div class="caseTopbar"><div><div class="eyebrow">Учебный кейс</div><h3>Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
+    '<div class="caseTopbar"><div><div class="eyebrow">Учебный кейс</div><h3 tabindex="-1">Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
     '<div class="caseGrid">'+
       '<section class="caseBrief">'+
         '<div class="caseStoryLabel">Ситуация</div>'+
         '<div class="caseStory">'+c.story+'</div>'+
         '<div class="caseQuestionCard"><span>Вопрос</span><h4>'+c.question+'</h4></div>'+
-        '<div class="caseNavRow"><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button><button class="btn ghost" id="nextCaseBtn">Следующий кейс →</button><button class="btn primary caseToAnswer" id="caseToAnswerBtn">К ответу →</button></div>'+
+        '<button class="btn primary caseToAnswer" id="caseToAnswerBtn">К ответу →</button>'+
       '</section>'+
       '<section class="caseAnalysis" id="caseAnalysis">'+
         '<div class="caseAnalysisHead"><div><span class="eyebrow">Ваш анализ</span><h4>Сначала сформулируйте проблему, затем выберите вывод</h4></div><span class="caseStatus">'+(already?'Пройден':'Не разобран')+'</span></div>'+
         '<textarea id="caseHypothesis" class="caseHypothesis" placeholder="Что здесь произошло? Какое право, принцип или полномочие затронуты? Что нужно проверить?"></textarea>'+
         '<div class="caseChoiceBlock"><b>Выберите юридический вывод</b><div class="answers" id="caseAnswers"></div></div>'+
+        '<nav class="caseNavRow" aria-label="Навигация по кейсам"><button class="btn ghost" id="prevCaseBtn">← Предыдущий кейс</button><button class="btn primary" id="nextCaseBtn">Следующий кейс →</button></nav>'+
         '<div class="caseActions"><button class="btn ghost" id="revealCaseBtn">Показать полный разбор</button></div>'+
         '<div class="caseResult" id="caseExplain"><div class="caseResultPlaceholder"><b>Разбор появится здесь.</b><span>После выбора или кнопки «Показать полный разбор» вы увидите объяснение и правовое основание.</span></div></div>'+
       '</section>'+
@@ -1350,8 +1351,14 @@ function renderCases(){
 
   const prev=document.getElementById("prevCaseBtn"),next=document.getElementById("nextCaseBtn");
   prev.disabled=caseIndex===0;next.disabled=caseIndex>=bank.length-1;
-  prev.onclick=()=>{if(caseIndex>0){caseIndex--;renderCases()}};
-  next.onclick=()=>{if(caseIndex<bank.length-1){caseIndex++;renderCases()}};
+  function moveCase(index){
+    if(index<0||index>=bank.length)return;
+    caseIndex=index;mobileCaseStep='situation';renderCases();
+    document.querySelector('.caseTopbar')?.scrollIntoView({block:'start',behavior:'instant'});
+    document.querySelector('.caseTopbar h3')?.focus({preventScroll:true});
+  }
+  prev.onclick=()=>moveCase(caseIndex-1);
+  next.onclick=()=>moveCase(caseIndex+1);
 
   if(already){
     showCaseReview('<h4>Этот кейс уже пройден.</h4><p>Можно решить его повторно или сразу открыть полный разбор.</p>')
