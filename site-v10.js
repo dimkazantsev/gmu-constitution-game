@@ -10,6 +10,7 @@
     down: svg('<path d="m6 9 6 6 6-6"/>'),
     search: svg('<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>'),
     menu: svg('<path d="M4 7h16M4 12h16M4 17h10"/>'),
+    erase: svg('<path d="m16 3 5 5-11 13H5l-3-4L16 3Zm-9 9 7 7m-4 2h11"/>'),
     close: svg('<path d="m6 6 12 12M6 18 18 6"/>'),
     book: svg('<path d="M12 5c-3-2-7-2-9-1v15c3-1 6 0 9 1 3-1 6-2 9-1V4c-2-1-6-1-9 1Zm0 0v15"/>'),
     meaning: svg('<path d="M9 18h6m-5 3h4M9 15c0-2-3-3-3-7a6 6 0 0 1 12 0c0 4-3 5-3 7Z"/>'),
@@ -25,11 +26,11 @@
     reset: svg('<path d="M3 10a9 9 0 1 1 1 7M3 4v6h6"/>')
   };
   const views = [
-    ['meaning', 'Понять', 'meaning'], ['quote', 'Текст статей', 'book'],
+    ['quote', 'Текст статей', 'book'], ['meaning', 'Понять', 'meaning'],
     ['official', 'Практика КС', 'court'], ['scheme', 'Схема', 'scheme'],
     ['cases', 'Кейсы', 'cases'], ['practice', 'Задания', 'tasks'], ['coach', 'Тренер', 'coach']
   ];
-  let view = 'meaning';
+  let view = 'quote';
   let routeLock = false;
   let searchItems = [];
   let searchIndex = -1;
@@ -97,10 +98,11 @@
   function buildDialogs() {
     const host = document.createElement('div');
     host.innerHTML = '<dialog id="chapterDrawer" class="drawer"><div class="drawerHead"><div><span class="quietLabel">Ваш учебник</span><h2>Оглавление</h2></div><button class="iconButton" id="drawerClose" aria-label="Закрыть оглавление">' + icons.close + '</button></div><div class="drawerList" id="drawerList"></div><div class="drawerFooter"><div class="drawerProgress"><span>Прогресс курса</span><b id="drawerOverall"></b></div><div class="bar"><span id="drawerBar"></span></div><div class="drawerSettings"><button class="textButton" id="drawerSound"></button><button class="textButton" id="resetBtn">' + icons.reset + 'Сбросить прогресс</button></div><a class="sourceLink" href="' + officialConstUrl + '" target="_blank" rel="noopener">Официальный текст Конституции ' + icons.external + '</a></div></dialog>' +
-      '<dialog id="searchDialog" class="searchDialog"><div class="searchInputRow">' + icons.search + '<input id="globalSearch" type="search" placeholder="Номер статьи, право или тема…" aria-label="Поиск по Конституции" role="combobox" aria-expanded="false" aria-controls="searchResults" autocomplete="off"><button class="iconButton" id="searchClose" aria-label="Закрыть поиск">' + icons.close + '</button></div><div class="searchResults" id="searchResults" role="listbox" aria-label="Результаты поиска"></div><div class="searchFooter">↑ ↓ выбрать <span>Enter открыть</span><span>Esc закрыть</span></div></dialog>';
+      '<dialog id="searchDialog" class="searchDialog"><div class="searchInputRow">' + icons.search + '<input id="globalSearch" type="text" placeholder="Номер статьи, право или тема…" aria-label="Поиск по Конституции" role="combobox" aria-expanded="false" aria-controls="searchResults" autocomplete="off"><button class="iconButton" id="searchClear" aria-label="Очистить запрос" title="Очистить запрос" hidden>' + icons.erase + '</button><button class="iconButton" id="searchClose" aria-label="Закрыть поиск">' + icons.close + '</button></div><div class="searchResults" id="searchResults" role="listbox" aria-label="Результаты поиска"></div><div class="searchFooter">↑ ↓ выбрать <span>Enter открыть</span><span>Esc закрыть</span></div></dialog>';
     document.body.appendChild(host);
     $('#drawerClose').onclick = () => $('#chapterDrawer').close();
     $('#searchClose').onclick = () => $('#searchDialog').close();
+    $('#searchClear').onclick = () => {$('#globalSearch').value='';runSearch();$('#globalSearch').focus();};
     $('#drawerSound').onclick = toggleSound;
     $('#resetBtn').onclick = () => {$('#chapterDrawer').close(); requestProgressReset();};
     ['chapterDrawer', 'searchDialog'].forEach(id => {
@@ -132,12 +134,13 @@
     $('#sideNav').innerHTML = markup(true);
     $('#drawerList').innerHTML = markup(true);
     $$('.navChapter').forEach(b=>b.onclick=()=>{if($('#chapterDrawer').open)$('#chapterDrawer').close();openModule(+b.dataset.chapter);});
-    $$('.navTopic').forEach(b=>b.onclick=()=>{if($('#chapterDrawer').open)$('#chapterDrawer').close();blockIndex=+b.dataset.topic;currentTask=null;renderCurrent();});
+    $$('.navTopic').forEach(b=>b.onclick=()=>{if($('#chapterDrawer').open)$('#chapterDrawer').close();blockIndex=+b.dataset.topic;view='quote';currentTask=null;renderCurrent();});
     const pct=overall();
     $('#sidebarPct').textContent=pct+'%'; $('#sidebarBar').style.width=pct+'%';
     $('#drawerOverall').textContent=pct+'%'; $('#drawerBar').style.width=pct+'%';
   }
   function runSearch() {
+    $('#searchClear').hidden=!$('#globalSearch').value;
     const q=$('#globalSearch').value.trim().toLowerCase().replace(/ё/g,'е');
     searchIndex=-1; searchItems=[];
     $('#globalSearch').removeAttribute('aria-activedescendant');
@@ -149,9 +152,9 @@
           searchItems.push({tag:'Статья '+n,label:capUi(t),ch,topic:blockForArticle(ch,'a'+n),view:'quote',article:'a'+n});
         }
       });
-      chapters.forEach(c=>{if((title(c)+' '+mLabel(c.id)).toLowerCase().includes(q))searchItems.push({tag:mLabel(c.id),label:title(c),ch:c.id,topic:0,view:'meaning'});});
+      chapters.forEach(c=>{if((title(c)+' '+mLabel(c.id)).toLowerCase().includes(q))searchItems.push({tag:mLabel(c.id),label:title(c),ch:c.id,topic:0,view:'quote'});});
     } else {
-      [1,2,7].forEach(id=>searchItems.push({tag:mLabel(id),label:title(chapters[id]),ch:id,topic:0,view:'meaning'}));
+      [1,2,7].forEach(id=>searchItems.push({tag:mLabel(id),label:title(chapters[id]),ch:id,topic:0,view:'quote'}));
     }
     searchItems=searchItems.slice(0,40);
     $('#globalSearch').setAttribute('aria-expanded',String(searchItems.length>0));
@@ -178,7 +181,7 @@
     if($('#coachAnswer')){$('#coachAnswer').name='coach-answer';$('#coachAnswer').autocomplete='off';}
     $('#coachResult')?.setAttribute('aria-live','polite');
     const result=$('#coachResult');
-    if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Тренер ищет ключевые элементы ответа. Оценка ориентировочная: сравните свою аргументацию с разбором.</p>');
+    if(result&&!$('.coachScoringNote'))result.insertAdjacentHTML('afterend','<p class="coachScoringNote">Тренер ищет ключевые элементы ответа. Он не оценивает логику и юридическую точность: сравните свою аргументацию с разбором.</p>');
   };
   const originalCaseRenderer=renderCases;
   renderCases=function(){
@@ -203,7 +206,7 @@
   };
   setTopHeaderMode=function(){};
   updateProgress=function(){
-    if(currentModule!==null) {const p=modulePct(currentModule);$('#coursePct').textContent=p+'% главы';$('#courseBar').style.width=p+'%';}
+    if(currentModule!==null) {const p=modulePct(currentModule);$('#coursePct').textContent=p+'% главы';$('#coursePct').title=progressDescription(currentModule);$('#coursePct').setAttribute('aria-label',p+'% главы. '+progressDescription(currentModule));$('#courseBar').style.width=p+'%';}
     renderNavigation();
   };
   function syncChapter() {
@@ -224,16 +227,32 @@
     $('#prevTopic').onclick=()=>{if(blockIndex>0){blockIndex--;renderCurrent();}};
     $('#nextTopic').onclick=()=>{if(blockIndex<blocks.length-1){blockIndex++;renderCurrent();}};
     $('#topicSelect').onchange=e=>{blockIndex=+e.target.value;renderCurrent();};
-    $('#nextStep').innerHTML=(blockIndex<blocks.length-1?'Следующая тема':'Следующая глава')+icons.arrow;
-    $('#nextStep').disabled=currentModule===10&&blockIndex===blocks.length-1;
-    $('#nextStep').onclick=()=>{if(blockIndex<blocks.length-1){blockIndex++;view='meaning';renderCurrent();}else{const i=chapters.findIndex(c=>c.id===currentModule);if(i<chapters.length-1)openModule(chapters[i+1].id);}};
+    const nextAction=()=>{
+      if(view==='quote')return {label:'Понять смысл',next:'meaning'};
+      if(view==='meaning')return {label:'Перейти к практике КС',next:'official'};
+      if(view==='official')return blockIndex<blocks.length-1?{label:'Следующая тема',topic:blockIndex+1,next:'quote'}:{label:'Собрать схему',next:'scheme'};
+      if(view==='scheme')return {label:'Разобрать кейсы',next:'cases'};
+      if(view==='cases')return {label:'Решить задания',next:'practice'};
+      if(view==='practice')return {label:'Перейти к тренеру',next:'coach'};
+      const i=chapters.findIndex(c=>c.id===currentModule);
+      return i<chapters.length-1?{label:'Следующая глава',chapter:chapters[i+1].id}:{label:'К оглавлению',home:true};
+    };
+    const action=nextAction();
+    $('#nextStep').innerHTML=action.label+icons.arrow;
+    $('#nextStep').disabled=false;
+    $('#nextStep').onclick=()=>{
+      if(action.home){renderHome();return;}
+      if(action.chapter!==undefined){openModule(action.chapter);return;}
+      if(action.topic!==undefined)blockIndex=action.topic;
+      view=action.next;renderCurrent();
+    };
   }
   function switchView(next) {
-    if(!views.some(v=>v[0]===next))next='meaning';
+    if(!views.some(v=>v[0]===next))next='quote';
     if(next===view)return;
     view=next;renderCurrent();
   }
-  activateCourseTab=tab=>switchView(tab==='learn'?'meaning':tab);
+  activateCourseTab=tab=>switchView(tab==='learn'?'quote':tab);
   function renderCurrent() {
     currentTab=['meaning','quote','official'].includes(view)?'learn':view;
     const panel=$('#panel');panel.dataset.view=view;panel.setAttribute('aria-labelledby','tab-'+view);
@@ -257,8 +276,7 @@
     let html;
     if(view==='quote')html='<div class="readerPaneIntro"><div><span class="quietLabel">Первоисточник</span><h2>'+escHtml(b[2])+'</h2></div><span class="readingNote">Полный текст, без сокращений</span></div><div class="fullArticles">'+fullArticleCards(ids)+'</div>';
     else if(view==='official') {
-      const links=[...(meta.links||[])];(officialPracticeDetails[currentModule+'-'+blockIndex]?.links||[]).forEach(x=>{if(!links.some(y=>y[1]===x[1]))links.push(x);});
-      html='<div class="learnContent">'+expandedOfficial(meta,b,ids)+'</div><div class="sourceRow">'+links.map(x=>'<a class="sourceChip" target="_blank" rel="noopener" href="'+x[1]+'">'+x[0]+icons.external+'</a>').join('')+'<a class="sourceChip" target="_blank" rel="noopener" href="https://www.ksrf.ru/">Сайт КС РФ '+icons.external+'</a></div>';
+      html='<div class="learnContent">'+expandedOfficial(meta,b,ids)+'</div>';
     } else html='<div class="learnContent">'+expandedMeaning(meta,b,ids)+'</div><details class="inlineSource"><summary>'+icons.book+'Прочитать полный текст статей'+icons.down+'</summary><div class="fullArticles">'+fullArticleCards(ids)+'</div></details>';
     $('#panel').innerHTML='<div class="learnPane" tabindex="0" role="region" aria-label="'+(view==='quote'?'Текст статей':view==='official'?'Практика Конституционного Суда':'Объяснение темы')+'"><div class="readingInner">'+html+'</div></div>';
   };
@@ -276,7 +294,7 @@
       '<button class="introChapter outroChapter" data-chapter="10"><span class="introSymbol">II</span><span><b>Заключительные и переходные положения</b><small>Раздел второй · пункты 1–9</small></span>'+icons.arrow+'</button></section>'+
       '<section class="continueCard"><div class="continueIcon">'+icons.book+'</div><div><span class="quietLabel">Ваш маршрут</span><h2>'+(resume?'Продолжим с того же места?':'Первый шаг — понять основы.')+'</h2><p>'+(resume?title(c):'Начните с первой главы. Остальные можно открыть в любой момент.')+'</p></div><div class="continueAction"><span>'+pct+'% курса пройдено</span><button class="btn primary" id="resumeBottom">'+(resume?'Продолжить':'Открыть главу 1')+icons.arrow+'</button></div></section>'+
       '<footer class="siteFooter"><div><b>§ Конституция РФ</b><span>Учебный курс</span></div><a href="'+officialConstUrl+'" target="_blank" rel="noopener">Официальный текст'+icons.external+'</a><span>9 глав · '+allTopics()+' тем</span></footer>';
-    const start=()=>resume?openModule(c.id,lastLocation?.chapter===c.id?lastLocation.topic:0,lastLocation?.chapter===c.id?lastLocation.view:'meaning'):openModule(1);
+    const start=()=>resume?openModule(c.id,lastLocation?.chapter===c.id?lastLocation.topic:0,lastLocation?.chapter===c.id?lastLocation.view:'quote'):openModule(1);
     $('#startCourse').onclick=start;$('#resumeBottom').onclick=start;$('#bookOpen').onclick=start;
     $('#allChapters').onclick=()=>$('#chaptersSection').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
     $$('.chapterEntry,.introChapter').forEach(b=>b.onclick=()=>openModule(+b.dataset.chapter));
@@ -288,11 +306,11 @@
     }
     showPage('home');renderNavigation();syncSoundButton();setRoute();window.scrollTo({top:0,behavior:'instant'});
   };
-  openModule=function(id,topic=0,nextView='meaning') {
+  openModule=function(id,topic=0,nextView='quote') {
     const c=chapters.find(c=>c.id===id);if(!c)return;
     currentModule=id;state.lastModule=id;save();
     blockIndex=Math.max(0,Math.min(Number(topic)||0,moduleInfo[id].blocks.length-1));
-    view=views.some(v=>v[0]===nextView)?nextView:'meaning';
+    view=views.some(v=>v[0]===nextView)?nextView:'quote';
     currentTask=null;caseIndex=0;checkState=null;mobileCaseStep='situation';mobileCoachStep='situation';coachState={scenario:null,number:0,answered:false,score:0};
     document.body.classList.add('inCourse');showPage('course');syncChapter();renderCurrent();syncSoundButton();window.scrollTo({top:0,behavior:'instant'});
   };

@@ -1059,6 +1059,7 @@ function bindSchemeInteractions(model){
     feedback.innerHTML='<b>Верно.</b> '+capUi(chip.text)+' связано с «'+capUi(targetMap[target.dataset.target].title)+'».';
     updateSchemeConnectors(model);
     if(schemeSession.matched===schemeSession.total){
+      recordSchemeComplete();
       document.getElementById("schemeCanvas").classList.add("complete");
       feedback.innerHTML='<b>Схема собрана.</b> Теперь связи видны целиком — можно перейти к жизненным кейсам.';
       confetti(document.getElementById("schemeCanvas"));xpPop(60,document.getElementById("schemeCanvas"));
@@ -1113,9 +1114,9 @@ function renderPractice(){
   const rem=remainingTasks(),panel=document.getElementById('panel');
   if(!currentTask&&rem.length)currentTask=rem[0];
   if(!currentTask){
-    panel.innerHTML='<div class="finish"><div><div class="score">✓</div><h3>Все уникальные задания пройдены</h3><p>Автоматических повторов нет. Второй круг запускается только вручную.</p><div class="row"><button class="btn ghost" onclick="restartPractice()">Начать второй круг</button><button class="btn primary" onclick="switchTab(\'coach\')">К ИИ‑тренеру →</button></div></div></div>';return
+    panel.innerHTML='<div class="finish"><div><div class="score">✓</div><h3>Все уникальные задания пройдены</h3><p>Автоматических повторов нет. Второй круг запускается только вручную.</p><div class="row"><button class="btn ghost" onclick="restartPractice()">Начать второй круг</button><button class="btn primary" onclick="switchTab(\'coach\')">К тренеру →</button></div></div></div>';return
   }
-  const total=taskBank[currentModule].length,done=state.doneTasks[currentModule]?.length||0;
+  const total=taskBank[currentModule].length,done=activeTaskDone(currentModule);
   panel.innerHTML='<div class="practice"><div class="taskArea"><div class="taskMeta"><span class="tag">'+currentTask.label+'</span><span class="count">'+(done+1)+' / '+total+'</span></div>'+
     '<div class="taskPrompt">'+currentTask.prompt+'</div><div class="taskSub">Номер нормы вспоминать не нужно: после решения вы увидите правовое основание.</div><div class="answerZone" id="answerZone"></div>'+
     '<div class="feedback" id="feedback">Решите задачу. Ошибка не закрывает попытку.</div></div>'+
@@ -1134,19 +1135,19 @@ function renderTaskInput(t){
     z.appendChild(a);return
   }
   if(t.type==='match'){
-    const g=document.createElement('div');g.className='matchGrid';const rights=t.pairs.map(p=>p[1]);
+    const g=document.createElement('div');g.className='matchGrid';const rights=shuffleCopy(t.pairs.map(p=>p[1]));
     t.pairs.forEach((p,i)=>{const r=document.createElement('div');r.className='matchRow';r.innerHTML='<div class="matchLeft">'+p[0]+'</div><div class="matchArrow">→</div><select class="matchSelect" data-i="'+i+'"><option value="">Выберите…</option>'+rights.map(x=>'<option value="'+encodeURIComponent(x)+'">'+x+'</option>').join('')+'</select>';g.appendChild(r)});
     const c=document.createElement('button');c.className='btn primary check';c.textContent='Проверить сопоставление';c.onclick=answerMatch;g.appendChild(c);z.appendChild(g);return
   }
   if(t.type==='order'){
-    const order=t.steps.map((x,i)=>({id:String(i),text:x})).sort(()=>Math.random()-.5);if(order.every((x,i)=>x.id===String(i)))order.reverse();
+    const order=shuffleCopy(t.steps.map((x,i)=>({id:String(i),text:x})));if(order.every((x,i)=>x.id===String(i)))order.reverse();
     const g=document.createElement('div');g.className='orderList';g.id='orderList';
     order.forEach(x=>{const r=document.createElement('div');r.className='orderItem';r.dataset.id=x.id;r.innerHTML='<div class="orderNum">•</div><span>'+x.text+'</span><div><button class="move" onclick="moveOrder(\''+x.id+'\',-1)">↑</button> <button class="move" onclick="moveOrder(\''+x.id+'\',1)">↓</button></div>';g.appendChild(r)});
     const c=document.createElement('button');c.className='btn primary check';c.textContent='Проверить порядок';c.onclick=answerOrder;g.appendChild(c);z.appendChild(g);renumberOrder();return
   }
   if(t.type==='classify'){
     const g=document.createElement('div');g.className='matchGrid';
-    t.items.forEach((it,i)=>{const r=document.createElement('div');r.className='matchRow';r.innerHTML='<div class="matchLeft">'+it[0]+'</div><div class="matchArrow">→</div><select class="matchSelect" data-i="'+i+'"><option value="">Выберите…</option>'+t.groups.map(gr=>'<option value="'+gr[0]+'">'+gr[1]+'</option>').join('')+'</select>';g.appendChild(r)});
+    t.items.forEach((it,i)=>{const r=document.createElement('div');r.className='matchRow';r.innerHTML='<div class="matchLeft">'+it[0]+'</div><div class="matchArrow">→</div><select class="matchSelect" data-i="'+i+'"><option value="">Выберите…</option>'+shuffleCopy(t.groups).map(gr=>'<option value="'+gr[0]+'">'+gr[1]+'</option>').join('')+'</select>';g.appendChild(r)});
     const c=document.createElement('button');c.className='btn primary check';c.textContent='Проверить распределение';c.onclick=answerClassify;g.appendChild(c);z.appendChild(g)
   }
 }
@@ -1193,12 +1194,12 @@ function setMobileCaseStep(step){
   document.querySelectorAll(".caseMobileStep").forEach(b=>b.classList.toggle("active",b.dataset.step===step));
 }
 function renderCases(){
-  const bank=caseBank[currentModule]||[],c=bank[caseIndex%bank.length],panel=document.getElementById("panel");
-  const already=(state.doneCases[currentModule]||[]).includes(caseIndex);
+  const bank=caseBank[currentModule]||[],c=prepareChoice(bank[caseIndex%bank.length]),panel=document.getElementById("panel");
+  const already=(state.doneCases[currentModule]||[]).includes(c.id);
 
   panel.innerHTML='<div class="caseWorkbench" data-mobile-step="'+mobileCaseStep+'">'+
     '<div class="caseMobileSteps"><button class="caseMobileStep" data-step="situation">1 · Ситуация</button><button class="caseMobileStep" data-step="answer">2 · Ответ</button><button class="caseMobileStep" data-step="review">3 · Разбор</button></div>'+
-    '<div class="caseTopbar"><div><div class="eyebrow">Жизненный кейс</div><h3>Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
+    '<div class="caseTopbar"><div><div class="eyebrow">Учебный кейс</div><h3>Кейс '+(caseIndex+1)+' из '+bank.length+'</h3></div><div class="caseRef">'+c.refs+'</div></div>'+
     '<div class="caseGrid">'+
       '<section class="caseBrief">'+
         '<div class="caseStoryLabel">Ситуация</div>'+
@@ -1240,12 +1241,12 @@ function renderCases(){
         showCaseReview('<h4>Юридический вывод выбран верно.</h4><p>Теперь сравните свою формулировку с полным разбором.</p><button class="btn primary" id="openFullCaseReview">Открыть полный разбор →</button>');
         setTimeout(()=>{const q=document.getElementById("openFullCaseReview");if(q)q.onclick=()=>document.getElementById("revealCaseBtn").click()},0);
         if(!state.doneCases[currentModule])state.doneCases[currentModule]=[];
-        if(!state.doneCases[currentModule].includes(caseIndex))state.doneCases[currentModule].push(caseIndex);
+        if(!state.doneCases[currentModule].includes(c.id))state.doneCases[currentModule].push(c.id);
         save();updateProgress()
       }else{
         errorSound();b.disabled=true;b.classList.add("wrong","shake");
         setTimeout(()=>b.classList.remove("shake"),350);
-        showCaseReview('<h4>Этот вывод не раскрывает главный конституционный конфликт.</h4><p>Попробуйте другой вариант: обратите внимание на участников, полномочия и правовое основание действия.</p>')
+        showCaseReview('<h4>Этот вывод не раскрывает главный конституционный конфликт.</h4><p>Обратите внимание на правовое основание: '+escHtml(c.refs)+'. Сопоставьте вывод с содержанием этих норм или откройте полный разбор.</p>')
       }
     };
     a.appendChild(b)
